@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: carlosharo/social_balance:latest
+    env_file:
+      - .env
+    volumes:
+      - ./social_balance:/var/www/html
+    ports:
+      - '8000:8000'
+    command: python manage.py runserver 0.0.0.0:8000

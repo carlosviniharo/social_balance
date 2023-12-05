@@ -265,7 +265,7 @@ class Jusuarios(AbstractUser):
         blank=True,
         null=True
     )
-    identificacion = models.CharField(max_length=100)
+    identificacion = models.CharField(max_length=100, unique=True)
 
     ipmodificacion = models.CharField(max_length=50, blank=True, null=True)
     email = models.EmailField(max_length=100, blank=True, unique=True)
@@ -292,4 +292,4 @@ class Jusuarios(AbstractUser):
         db_table = "jusuarios"
 
     def __str__(self):
-        return self.email
+        return self.first_name + self.last_name - self.email
