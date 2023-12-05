@@ -6,9 +6,12 @@
 # Node artifact files
 node_modules/
 dist/
-
+migrations/
 # Compiled Java class files
 *.class
+
+#Python enviroment
+venv
 
 # Compiled Python bytecode
 *.py[cod]
@@ -25,6 +28,9 @@ dist/
 
 # JetBrains IDE
 .idea/
+
+#Enviromental variables
+.env
 
 # Unit test reports
 TEST*.xml
