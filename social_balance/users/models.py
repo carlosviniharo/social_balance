@@ -290,6 +290,7 @@ class Jusuarios(AbstractUser):
 
     class Meta:
         db_table = "jusuarios"
+        ordering = ['-date_joined']
 
     def __str__(self):
         return self.first_name + self.last_name - self.email
