@@ -13,21 +13,6 @@ from .utils.helper import get_public_ip_address, get_mac_address
 # }
 
 
-class Jcargos(models.Model):
-    idcargo = models.AutoField(primary_key=True)
-    codigocargo = models.CharField(max_length=10, blank=True, null=True)
-    descripcioncargo = models.CharField(max_length=200, blank=True, null=True)
-    fecharegistro = models.DateTimeField(auto_now=True, null=True)
-
-    class Meta:
-        db_table = "jcargos"
-
-    objects = models.Manager()
-
-    def __str__(self):
-        return self.descripcioncargo
-
-
 class Jcorporaciones(models.Model):
     idcorporacion = models.AutoField(primary_key=True)
     idpais = models.ForeignKey(
@@ -133,6 +118,9 @@ class Jroles(models.Model):
         max_length=50, default=get_public_ip_address, null=True
     )
     ipmodificacion = models.CharField(max_length=50, blank=True, null=True)
+    iddepartamento = models.ForeignKey(
+        Jdepartamentos, models.DO_NOTHING, db_column="iddepartamento", blank=True, null=True
+    )
     
     class Meta:
         db_table = "jroles"
@@ -146,7 +134,7 @@ class Jroles(models.Model):
 class Jsucursales(models.Model):
     idsucursal = models.AutoField(primary_key=True)
     idpais = models.ForeignKey(
-        Jgeografia, models.DO_NOTHING, db_column="idpais", blank=True, null=True
+        Jgeografia, models.DO_NOTHING, db_column="idgeografia", blank=True, null=True
     )
     idcorporacion = models.ForeignKey(
         Jcorporaciones,
@@ -195,9 +183,41 @@ class Jtiposidentificaciones(models.Model):
         return self.descripciontipoidentificacion
 
 
+class Jpaginas(models.Model):
+    idpagina = models.AutoField(primary_key=True)
+    codigopagina = models.CharField(max_length=50, blank=True, null=True)
+    descripcionpagina = models.CharField(max_length=500, blank=True, null=True)
+
+    class Meta:
+        db_table = "jpaginas"
+
+    objects = models.Manager()
+
+    def __str__(self):
+        return self.codigopagina
+
+
+class Jprivilegios(models.Model):
+    idprivilegio = models.AutoField(primary_key=True)
+    idrol = models.ForeignKey(
+        Jroles, models.DO_NOTHING, db_column="idrol", blank=True, null=True
+    )
+    idpagina = models.ForeignKey(
+        Jpaginas, models.DO_NOTHING, db_column="idpagina", blank=True, null=True
+    )
+    
+    class Meta:
+        db_table = "jprivilegios"
+
+    objects = models.Manager()
+
+    def __str__(self):
+        return f"{self.idrol} - {self.idpagina}"
+
+
 class JusuariosManager(BaseUserManager):
     use_in_migration = True
-
+    
     def _create_user(self, email, password=None, **extra_fields):
         if not email:
             raise ValueError("Email is Required")
@@ -213,11 +233,13 @@ class JusuariosManager(BaseUserManager):
     def create_superuser(self, email, password, **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
-
+        # extra_fields.setdefault("idrol", 1)
         if extra_fields.get("is_staff") is not True:
             raise ValueError("Superuser must have is_staff = True")
         if extra_fields.get("is_superuser") is not True:
             raise ValueError("Superuser must have is_superuser = True")
+        # if extra_fields.get("idrol") != 1:
+        #     raise ValueError("Superuser must have idrol == 1")
 
         # idrol = extra_fields.pop("idrol", None)
         #
@@ -247,16 +269,6 @@ class Jusuarios(AbstractUser):
         Jgeneros, models.DO_NOTHING,
         db_column="idgenero",
         blank=True, null=True
-    )
-    iddepartamento = models.ForeignKey(
-        Jdepartamentos,
-        models.DO_NOTHING,
-        db_column="iddepartamento",
-        blank=True,
-        null=True,
-    )
-    idcargo = models.ForeignKey(
-        Jcargos, models.DO_NOTHING, db_column="idcargo", blank=True, null=True
     )
     idtipoidentificacion = models.ForeignKey(
         "Jtiposidentificaciones",
