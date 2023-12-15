@@ -15,21 +15,20 @@ from .utils.helper import get_public_ip_address, get_mac_address
 
 class Jcorporaciones(models.Model):
     idcorporacion = models.AutoField(primary_key=True)
-    idpais = models.ForeignKey(
-        "Jgeografia", models.DO_NOTHING, db_column="idpais", blank=True, null=True
+    idgeografia = models.ForeignKey(
+        "Jgeografia", models.DO_NOTHING, db_column="idgeografia", blank=True, null=True
     )
-    nombrecorporacion = models.CharField(max_length=200, blank=True, null=True)
+    nombrecorporacion = models.CharField(max_length=200)
     descripcioncorporacion = models.CharField(max_length=500, blank=True, null=True)
-    representantelegal = models.CharField(max_length=200, blank=True, null=True)
-    ruc = models.CharField(blank=True, null=True)
+    representantelegal = models.CharField(max_length=200)
+    ruc = models.CharField(max_length=14)
     direccioncorporacion = models.CharField(max_length=200, blank=True, null=True)
     telefonocorporacion = models.CharField(blank=True, null=True)
-    status = models.BooleanField(blank=True, null=True)
-    fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
-    fechamodificacion = models.DateTimeField(auto_now=True, null=True)
+    status = models.BooleanField(default=True)
+    fechacreacion = models.DateTimeField(auto_now_add=True)
+    fechamodificacion = models.DateTimeField(auto_now=True)
     ipcreacion = models.CharField(
-        max_length=50, default=get_public_ip_address, null=True
-    )
+        max_length=50, default=get_public_ip_address)
     ipmodificacion = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
@@ -44,17 +43,16 @@ class Jcorporaciones(models.Model):
 class Jdepartamentos(models.Model):
     iddepartamento = models.AutoField(primary_key=True)
     idsucursal = models.ForeignKey(
-        "Jsucursales", models.DO_NOTHING, db_column="idsucursal", blank=True, null=True
+        "Jsucursales", models.DO_NOTHING, db_column="idsucursal",
     )
     codigodepartamento = models.CharField(max_length=2, blank=True, null=True)
-    nombredepartamento = models.CharField(max_length=200, blank=True, null=True)
-    status = models.BooleanField(blank=True, null=True)
+    nombredepartamento = models.CharField(max_length=200)
+    status = models.BooleanField(default=True)
     descripciondepartamento = models.CharField(max_length=500, blank=True, null=True)
     fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
     fechamodificacion = models.DateTimeField(auto_now=True, null=True)
     ipcreacion = models.CharField(
-        max_length=50, default=get_public_ip_address, null=True
-    )
+        max_length=50, default=get_public_ip_address)
     ipmodificacion = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
@@ -69,9 +67,10 @@ class Jdepartamentos(models.Model):
 class Jgeneros(models.Model):
     idgenero = models.AutoField(primary_key=True)
     codigogenero = models.CharField(max_length=2, blank=True, null=True)
-    descripciongenero = models.CharField(max_length=50, blank=True, null=True)
+    descripciongenero = models.CharField(max_length=50)
+    status = models.BooleanField(default=True)
     fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
-    fechamodificacion = models.DateTimeField(blank=True, null=True)
+    fechamodificacion = models.DateTimeField(auto_now=True, null=True)
 
     class Meta:
         db_table = "jgeneros"
@@ -88,9 +87,9 @@ class Jgeografia(models.Model):
         "self", models.DO_NOTHING, db_column="fkidgeografia", blank=True, null=True
     )
     codigogeografia = models.CharField(max_length=2, blank=True, null=True)
-    nombre = models.CharField(max_length=100, blank=True, null=True)
-    nivel = models.BigIntegerField(blank=True, null=True)
-    status = models.BooleanField(blank=True, null=True)
+    nombre = models.CharField(max_length=100)
+    nivel = models.BigIntegerField()
+    status = models.BooleanField(default=True)
     fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
     fechamodificacion = models.DateTimeField(auto_now=True, null=True)
     ipcreacion = models.CharField(
@@ -109,9 +108,9 @@ class Jgeografia(models.Model):
 
 class Jroles(models.Model):
     idrol = models.AutoField(primary_key=True)
-    nombrerol = models.CharField(max_length=100, blank=True, null=True)
+    nombrerol = models.CharField(max_length=100)
     descripcionrol = models.CharField(max_length=100, blank=True, null=True)
-    status = models.BooleanField(blank=True, null=True)
+    status = models.BooleanField(default=True)
     fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
     fechamodificacion = models.DateTimeField(auto_now=True, null=True)
     ipcreacion = models.CharField(
@@ -119,7 +118,7 @@ class Jroles(models.Model):
     )
     ipmodificacion = models.CharField(max_length=50, blank=True, null=True)
     iddepartamento = models.ForeignKey(
-        Jdepartamentos, models.DO_NOTHING, db_column="iddepartamento", blank=True, null=True
+        Jdepartamentos, models.DO_NOTHING, db_column="iddepartamento"
     )
     
     class Meta:
@@ -148,7 +147,7 @@ class Jsucursales(models.Model):
     descripcionsucursal = models.CharField(max_length=500, blank=True, null=True)
     direccionsucursal = models.CharField(max_length=200, blank=True, null=True)
     telefonosucursal = models.CharField(blank=True, null=True)
-    status = models.BooleanField(blank=True, null=True)
+    status = models.BooleanField(default=True)
     fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
     fechamodificacion = models.DateTimeField(blank=True, null=True)
     ipcreacion = models.CharField(
@@ -284,16 +283,17 @@ class Jusuarios(AbstractUser):
     telefono = models.CharField(max_length=9, blank=True, null=True)
     direccion = models.CharField(max_length=500, null=False)
     password = models.CharField(max_length=100)
-    is_active = models.BooleanField(blank=True, null=True, default=True)
-    is_staff = models.BooleanField(blank=True, null=True, default=True)
-    is_superuser = models.BooleanField(blank=True, null=True, default=False)
-    date_joined = models.DateTimeField(auto_now_add=True, null=True)
+    is_active = models.BooleanField(blank=True, default=True)
+    is_staff = models.BooleanField(blank=True, default=True)
+    is_superuser = models.BooleanField(blank=True, default=False)
+    date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(blank=True, null=True)
     ipcreacion = models.CharField(
-        max_length=50, default=get_public_ip_address, null=True
+        max_length=50, default=get_public_ip_address
     )
-    direccionmac = models.CharField(max_length=100, default=get_mac_address, null=True)
-    fechamodificacion = models.DateTimeField(auto_now=True, null=True)
+    direccionmac = models.CharField(max_length=100, default=get_mac_address
+                                    )
+    fechamodificacion = models.DateTimeField(auto_now=True)
 
     objects = JusuariosManager()
 

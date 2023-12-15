@@ -1,6 +1,7 @@
 import uuid
 import socket
 import requests
+from django.contrib.postgres.search import SearchQuery, SearchVector
 
 
 def get_mac_address():
@@ -32,3 +33,19 @@ def get_public_ip_address():
         pass
 
     return None
+
+
+def get_query(search_string, model):
+    """
+    This function search a specific string through the entire table/object
+    using a SearchVector.
+    :param search_string: str
+    :param model: ORM object
+    :return: query object
+    """
+    if search_string is not None:
+        fields = [field.name for field in model._meta.fields]
+        query = SearchQuery(search_string)
+        vector = SearchVector(*fields)
+        return model.objects.annotate(search=vector).filter(search=query)
+    return model.objects.all()

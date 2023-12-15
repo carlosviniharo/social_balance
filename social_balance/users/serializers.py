@@ -1,6 +1,15 @@
 from rest_framework import serializers
 
-from .models import Jusuarios
+from .models import (
+    Jusuarios,
+    Jcorporaciones,
+    Jdepartamentos,
+    Jgeneros,
+    Jgeografia,
+    Jroles,
+    Jsucursales,
+    Jtiposidentificaciones, Jpaginas, Jprivilegios,
+)
 
 
 def model_serializers(model_):
@@ -17,4 +26,49 @@ def model_serializers(model_):
 
 @model_serializers(Jusuarios)
 class JusuariosSerializer(serializers.ModelSerializer):
+    pass
+
+
+@model_serializers(Jcorporaciones)
+class JcorporacionesSerializer(serializers.ModelSerializer):
+    pass
+
+
+@model_serializers(Jdepartamentos)
+class JdepartamentosSerializer(serializers.ModelSerializer):
+    pass
+
+
+@model_serializers(Jgeneros)
+class JgenerosSerializer(serializers.ModelSerializer):
+    pass
+
+
+@model_serializers(Jgeografia)
+class JgeografiaSerializer(serializers.ModelSerializer):
+    pass
+
+
+@model_serializers(Jroles)
+class JrolesSerializer(serializers.ModelSerializer):
+    pass
+
+
+@model_serializers(Jsucursales)
+class JsucursalesSerializer(serializers.ModelSerializer):
+    pass
+
+
+@model_serializers(Jtiposidentificaciones)
+class JtiposidentificacionesSerializer(serializers.ModelSerializer):
+    pass
+
+
+@model_serializers(Jpaginas)
+class JpaginasSerializers(serializers.ModelSerializer):
+    pass
+
+
+@model_serializers(Jprivilegios)
+class JprivilegiosSerizalizers(serializers.ModelSerializer):
     pass
