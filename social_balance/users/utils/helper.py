@@ -43,7 +43,7 @@ def get_query(search_string, model):
     :param model: ORM object
     :return: query object
     """
-    if search_string is not None:
+    if search_string is not None and search_string != '':
         fields = [field.name for field in model._meta.fields]
         query = SearchQuery(search_string)
         vector = SearchVector(*fields)

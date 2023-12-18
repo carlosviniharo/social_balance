@@ -133,23 +133,21 @@ class Jroles(models.Model):
 class Jsucursales(models.Model):
     idsucursal = models.AutoField(primary_key=True)
     idpais = models.ForeignKey(
-        Jgeografia, models.DO_NOTHING, db_column="idgeografia", blank=True, null=True
+        Jgeografia, models.DO_NOTHING, db_column="idgeografia",
     )
     idcorporacion = models.ForeignKey(
         Jcorporaciones,
         models.DO_NOTHING,
-        db_column="idcorporacion",
-        blank=True,
-        null=True,
+        db_column="idcorporacion"
     )
     codigosucursal = models.CharField(max_length=2, blank=True, null=True)
-    nombresucursal = models.CharField(max_length=200, blank=True, null=True)
+    nombresucursal = models.CharField(max_length=200)
     descripcionsucursal = models.CharField(max_length=500, blank=True, null=True)
     direccionsucursal = models.CharField(max_length=200, blank=True, null=True)
-    telefonosucursal = models.CharField(blank=True, null=True)
+    telefonosucursal = models.CharField()
     status = models.BooleanField(default=True)
-    fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
-    fechamodificacion = models.DateTimeField(blank=True, null=True)
+    fechacreacion = models.DateTimeField(auto_now_add=True)
+    fechamodificacion = models.DateTimeField(auto_now=True)
     ipcreacion = models.CharField(
         max_length=50, default=get_public_ip_address, null=True
     )

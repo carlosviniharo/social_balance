@@ -1,6 +1,7 @@
 from django.utils import timezone
 from rest_framework import status
-from rest_framework.generics import ListCreateAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView, ListAPIView
+from rest_framework.generics import ListCreateAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView, ListAPIView, \
+    RetrieveAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -9,9 +10,9 @@ from rest_framework.exceptions import AuthenticationFailed
 
 from .utils.helper import get_query
 
-from .models import Jusuarios, Jcorporaciones, Jdepartamentos, Jgeneros, Jgeografia, Jroles
+from .models import Jusuarios, Jcorporaciones, Jdepartamentos, Jgeneros, Jgeografia, Jroles, Jsucursales
 from .serializers import JusuariosSerializer, JcorporacionesSerializer, JdepartamentosSerializer, JgenerosSerializer, \
-    JgeografiaSerializer, JrolesSerializer
+    JgeografiaSerializer, JrolesSerializer, JsucursalesSerializer
 
 
 # Customize pagination output style class
@@ -101,16 +102,22 @@ class JusuariosActiveView(ListCreateAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
+class JusuariosIdView(RetrieveAPIView):
+    serializer_class = JusuariosSerializer
+    queryset = Jusuarios.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+
 class JusuariosUpdateView(UpdateAPIView):
     serializer_class = JusuariosSerializer
     queryset = Jusuarios.objects.all()
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
 
 class JusuariosDeactivateView(DestroyAPIView):
     serializer_class = JusuariosSerializer
     queryset = Jusuarios.objects.all()
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def delete(self, request, *args, **kwargs):
         user = self.get_object()
@@ -178,6 +185,12 @@ class JcorporacionesActiveView(ListCreateAPIView):
         return Response({
             "message": f"No active records were found",
         }, status=status.HTTP_404_NOT_FOUND)
+
+
+class JcorporacionesIdView(RetrieveAPIView):
+    serializer_class = JcorporacionesSerializer
+    queryset = Jcorporaciones.objects.all()
+    permission_classes = (IsAuthenticated,)
 
 
 class JcorporacionesUpdateView(UpdateAPIView):
@@ -258,6 +271,12 @@ class JdepartamentosActiveView(ListCreateAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
+class JdepartamentosIdView(RetrieveAPIView):
+    serializer_class = JdepartamentosSerializer
+    queryset = Jdepartamentos.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+
 class JdepartamentosUpdateView(UpdateAPIView):
     serializer_class = JdepartamentosSerializer
     queryset = Jdepartamentos.objects.all()
@@ -270,13 +289,13 @@ class JdepartamentosDeactivateView(DestroyAPIView):
     permission_classes = (IsAuthenticated,)
     
     def delete(self, request, *args, **kwargs):
-        branch = self.get_object()
-        branch.status = False
-        branch.save()
-        branch_data = JdepartamentosSerializer(branch)
+        depa = self.get_object()
+        depa.status = False
+        depa.save()
+        depa_data = JdepartamentosSerializer(depa)
         return Response({
             "message": f"success",
-            "data": branch_data.data
+            "data": depa_data.data
         }, status=status.HTTP_202_ACCEPTED)
 
 
@@ -334,6 +353,12 @@ class JgenerosActiveView(ListCreateAPIView):
         return Response({
             "message": f"No active records were found",
         }, status=status.HTTP_404_NOT_FOUND)
+
+
+class JgenerosIdView(RetrieveAPIView):
+    serializer_class = JgenerosSerializer
+    queryset = Jgeneros.objects.all()
+    permission_classes = (IsAuthenticated,)
 
 
 class JgenerosUpdateView(UpdateAPIView):
@@ -414,6 +439,12 @@ class JgeografiaActiveView(ListCreateAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
+class JgeografiaIdView(RetrieveAPIView):
+    serializer_class = JgeografiaSerializer
+    queryset = Jgeografia.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+
 class JgeografiaUpdateView(UpdateAPIView):
     serializer_class = JgeografiaSerializer
     queryset = Jgeografia.objects.all()
@@ -492,6 +523,12 @@ class JrolesActiveView(ListCreateAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
+class JrolesIdView(RetrieveAPIView):
+    serializer_class = JrolesSerializer
+    queryset = Jroles.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+
 class JrolesUpdateView(UpdateAPIView):
     serializer_class = JrolesSerializer
     queryset = Jroles.objects.all()
@@ -512,6 +549,62 @@ class JrolesDeactivateView(DestroyAPIView):
             "message": f"success",
             "data": role_data.data
         }, status=status.HTTP_202_ACCEPTED)
+
+
+# CRUD services branches
+
+class JsucursalesCreateView(CreateAPIView):
+    serializer_class = JsucursalesSerializer
+    queryset = Jsucursales.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+
+class JsucursalesReadView(ListAPIView):
+    serializer_class = JsucursalesSerializer
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticated,)
+    search_string = None
+
+    def get_queryset(self):
+        self.search_string = self.request.query_params.get("search_string", None)
+        return get_query(self.search_string, Jsucursales)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        # Check if the queryset is empty and Jsucursales is not provided
+        if not queryset.exists() and self.search_string is None:
+            return Response({
+                "message": "Jsucursales does not have any records",
+            }, status=status.HTTP_404_NOT_FOUND)
+
+        # Apply pagination to the queryset
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            branch_data = self.get_serializer(page, many=True)
+            return self.get_paginated_response(branch_data.data)
+
+        return Response({
+            "message": f"The string {self.search_string} was not found in "
+                       f"any field of Jsucursales",
+        }, status=status.HTTP_404_NOT_FOUND)
+
+
+class JsucursalesActiveView(ListCreateAPIView):
+    serializer_class = JsucursalesSerializer
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticated,)
+
+    def list(self, request, *args, **kwargs):
+        queryset = Jsucursales.objects.filter(status="True")
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            role_data = self.get_serializer(page, many=True)
+            return self.get_paginated_response(role_data.data)
+
+        return Response({
+            "message": f"No active records were found",
+        }, status=status.HTTP_404_NOT_FOUND)
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
