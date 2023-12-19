@@ -152,6 +152,7 @@ class Jsucursales(models.Model):
         max_length=50, default=get_public_ip_address, null=True
     )
     ipmodificacion = models.CharField(max_length=50, blank=True, null=True)
+
     class Meta:
         db_table = "jsucursales"
 
@@ -280,6 +281,7 @@ class Jusuarios(AbstractUser):
     ipmodificacion = models.CharField(max_length=50, blank=True, null=True)
     email = models.EmailField(max_length=100, blank=True, unique=True)
     telefono = models.CharField(max_length=9, blank=True, null=True)
+    celular = models.CharField(max_length=10, blank=True, null=True)
     direccion = models.CharField(max_length=500, null=False)
     password = models.CharField(max_length=100)
     is_active = models.BooleanField(blank=True, default=True)
@@ -305,3 +307,28 @@ class Jusuarios(AbstractUser):
 
     def __str__(self):
         return self.first_name + self.last_name - self.email
+
+
+# Database Views for the user application
+
+class Vusuarios(models.Model):
+    idusuario = models.IntegerField(primary_key=True)
+    nombrerol = models.CharField(max_length=255)
+    genero = models.CharField(max_length=255)
+    tipoidentificacion = models.CharField(max_length=255)
+    identificacion = models.CharField(max_length=255)
+    email = models.EmailField()
+    telefono = models.CharField(max_length=255)
+    celular = models.CharField(max_length=255)
+    direccion = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    nombresucursal = models.CharField(max_length=255)
+    nombredepartamento = models.CharField(max_length=255)
+    nombrecorporacion = models.CharField(max_length=255)
+
+    objects = models.Manager()
+
+    class Meta:
+        managed = False  # This is important to prevent Django from trying to create a table for this model
+        db_table = 'vusers'  # Set this to the name of your view

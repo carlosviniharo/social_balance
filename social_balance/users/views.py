@@ -22,7 +22,11 @@ from .models import (
     Jgeneros,
     Jgeografia,
     Jroles,
-    Jsucursales, Jtiposidentificaciones, Jpaginas, Jprivilegios,
+    Jsucursales,
+    Jtiposidentificaciones,
+    Jpaginas,
+    Jprivilegios,
+    Vusuarios,
 )
 from .serializers import (
     JusuariosSerializer,
@@ -33,7 +37,9 @@ from .serializers import (
     JrolesSerializer,
     JsucursalesSerializer,
     JtiposidentificacionesSerializer,
-    JpaginasSerializer, JprivilegiosSerializer
+    JpaginasSerializer,
+    JprivilegiosSerializer,
+    VusuariosSerializer
 )
 
 
@@ -52,6 +58,38 @@ class CustomPagination(PageNumberPagination):
             'totalCount': self.page.paginator.count,
             'data': data
         })
+
+
+# Retrieve view with customized Response
+class BaseRetrieveView(RetrieveAPIView):
+    """
+    Base class for retrieval views.
+    """
+    def retrieve(self, request, *args, **kwargs):
+        response = super().retrieve(request, *args, **kwargs)
+        return Response(
+            {
+                "message": "success",
+                "data": response.data
+            },
+            status=status.HTTP_200_OK
+        )
+
+
+# Update view with customized Response
+class BaseUpdateView(UpdateAPIView):
+    """
+    Base class for update views.
+    """
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        return Response(
+            {
+                "message": "success",
+                "data": response.data
+            },
+            status=status.HTTP_200_OK
+            )
 
 
 # CRUD services Corporation
@@ -124,13 +162,13 @@ class JusuariosActiveView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JusuariosIdView(RetrieveAPIView):
-    serializer_class = JusuariosSerializer
-    queryset = Jusuarios.objects.all()
+class JusuariosIdView(BaseRetrieveView):
+    serializer_class = VusuariosSerializer
+    queryset = Vusuarios.objects.all()
     permission_classes = (IsAuthenticated,)
 
 
-class JusuariosUpdateView(UpdateAPIView):
+class JusuariosUpdateView(BaseUpdateView):
     serializer_class = JusuariosSerializer
     queryset = Jusuarios.objects.all()
     permission_classes = (IsAuthenticated,)
@@ -149,7 +187,6 @@ class JusuariosDeactivateView(DestroyAPIView):
         serializer = JusuariosSerializer(user)
         return Response({
             "message": f"success",
-            "data": serializer.data
         }, status=status.HTTP_202_ACCEPTED)
 
 
@@ -209,13 +246,13 @@ class JcorporacionesActiveView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JcorporacionesIdView(RetrieveAPIView):
+class JcorporacionesIdView(BaseRetrieveView):
     serializer_class = JcorporacionesSerializer
     queryset = Jcorporaciones.objects.all()
     permission_classes = (IsAuthenticated,)
 
 
-class JcorporacionesUpdateView(UpdateAPIView):
+class JcorporacionesUpdateView(BaseUpdateView):
     serializer_class = JcorporacionesSerializer
     queryset = Jcorporaciones.objects.all()
     permission_classes = (IsAuthenticated,)
@@ -293,13 +330,13 @@ class JdepartamentosActiveView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JdepartamentosIdView(RetrieveAPIView):
+class JdepartamentosIdView(BaseRetrieveView):
     serializer_class = JdepartamentosSerializer
     queryset = Jdepartamentos.objects.all()
     permission_classes = (IsAuthenticated,)
 
 
-class JdepartamentosUpdateView(UpdateAPIView):
+class JdepartamentosUpdateView(BaseUpdateView):
     serializer_class = JdepartamentosSerializer
     queryset = Jdepartamentos.objects.all()
     permission_classes = (IsAuthenticated,)
@@ -377,13 +414,13 @@ class JgenerosActiveView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JgenerosIdView(RetrieveAPIView):
+class JgenerosIdView(BaseRetrieveView):
     serializer_class = JgenerosSerializer
     queryset = Jgeneros.objects.all()
     permission_classes = (IsAuthenticated,)
 
 
-class JgenerosUpdateView(UpdateAPIView):
+class JgenerosUpdateView(BaseUpdateView):
     serializer_class = JgenerosSerializer
     queryset = Jgeneros.objects.all()
     permission_classes = (IsAuthenticated,)
@@ -461,13 +498,13 @@ class JgeografiaActiveView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JgeografiaIdView(RetrieveAPIView):
+class JgeografiaIdView(BaseRetrieveView):
     serializer_class = JgeografiaSerializer
     queryset = Jgeografia.objects.all()
     permission_classes = (IsAuthenticated,)
 
 
-class JgeografiaUpdateView(UpdateAPIView):
+class JgeografiaUpdateView(BaseUpdateView):
     serializer_class = JgeografiaSerializer
     queryset = Jgeografia.objects.all()
     permission_classes = (IsAuthenticated,)
@@ -545,7 +582,7 @@ class JrolesActiveView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JrolesIdView(RetrieveAPIView):
+class JrolesIdView(BaseRetrieveView):
     serializer_class = JrolesSerializer
     queryset = Jroles.objects.all()
     permission_classes = (IsAuthenticated,)
@@ -629,13 +666,13 @@ class JsucursalesActiveView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JsucursalesIdView(RetrieveAPIView):
+class JsucursalesIdView(BaseRetrieveView):
     serializer_class = JsucursalesSerializer
     queryset = Jsucursales.objects.all()
     permission_classes = (IsAuthenticated,)
 
 
-class JsucursalesUpdateView(UpdateAPIView):
+class JsucursalesUpdateView(BaseUpdateView):
     serializer_class = JsucursalesSerializer
     queryset = Jsucursales.objects.all()
     permission_classes = (IsAuthenticated,)
@@ -713,13 +750,13 @@ class JtiposidentificacionesActiveView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JtiposidentificacionesIdView(RetrieveAPIView):
+class JtiposidentificacionesIdView(BaseRetrieveView):
     serializer_class = JtiposidentificacionesSerializer
     queryset = Jtiposidentificaciones.objects.all()
     permission_classes = (IsAuthenticated,)
 
 
-class JtiposidentificacionesUpdateView(UpdateAPIView):
+class JtiposidentificacionesUpdateView(BaseUpdateView):
     serializer_class = JtiposidentificacionesSerializer
     queryset = Jtiposidentificaciones.objects.all()
     permission_classes = (IsAuthenticated,)
@@ -797,13 +834,13 @@ class JpaginasActiveView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JpaginasIdView(RetrieveAPIView):
+class JpaginasIdView(BaseRetrieveView):
     serializer_class = JpaginasSerializer
     queryset = Jpaginas.objects.all()
     permission_classes = (IsAuthenticated,)
 
 
-class JpaginasUpdateView(UpdateAPIView):
+class JpaginasUpdateView(BaseUpdateView):
     serializer_class = JpaginasSerializer
     queryset = Jpaginas.objects.all()
     permission_classes = (IsAuthenticated,)
@@ -890,23 +927,13 @@ class JprivilegiosActiveView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JprivilegiosIdView(RetrieveAPIView):
+class JprivilegiosIdView(BaseRetrieveView):
     serializer_class = JprivilegiosSerializer
     queryset = Jprivilegios.objects.all()
     permission_classes = (IsAuthenticated,)
 
-    def retrieve(self, request, *args, **kwargs):
-        response = super().retrieve(request, *args, **kwargs)
-        return Response(
-            {
-                "message": "success",
-                "data": response.data
-            },
-            status=status.HTTP_200_OK
-        )
 
-
-class JprivilegiosUpdateView(UpdateAPIView):
+class JprivilegiosUpdateView(BaseUpdateView):
     serializer_class = JprivilegiosSerializer
     queryset = Jprivilegios.objects.all()
     permission_classes = (IsAuthenticated,)

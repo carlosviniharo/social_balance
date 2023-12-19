@@ -81,3 +81,27 @@ INSERT INTO public.jusuarios (username,first_name,last_name,identificacion,ipmod
 	 ('six','six','Number','6',NULL,'six@real.com','1','Real Number','pbkdf2_sha256$720000$oVItbLG5zPuH1X0UzOIAU3$GZoce9ENojGzh5oT28K4n+RpwOq+VI0uu4q4i6IWKKA=',true,true,false,'2023-12-15 10:25:56.27937-05',NULL,'186.101.60.82','91:37:bd:f4:9d:08','2023-12-15 10:25:56.27937-05',NULL,NULL,NULL),
 	 ('gisselvanessa','gissel','cabas','1716247943',NULL,'gisselvanessaa@gmail.com','1','Real Number','pbkdf2_sha256$720000$oCTYfyaHypUUeIh87ECxx7$V+gQbWxwbkjRAIozr0vx9Wn0jyYao7wB+F8+4M42NhE=',true,true,false,'2023-12-15 11:36:06.870184-05',NULL,'186.101.60.82','02:00:14:ac:42:02','2023-12-15 11:36:06.870237-05',NULL,NULL,NULL),
 	 ('gessa','gissel','cabascango','1716247944',NULL,'gisselvanessa@hotmail.com','062926535','otavalo','pbkdf2_sha256$720000$7qhKL2CzN7VFrXeWNYRR0N$K+tcANYXIN3pgoek+PT+O+YxBnprcdlFym1fNgkThtI=',true,true,false,'2023-12-15 11:45:03.526974-05',NULL,'186.101.60.82','02:00:14:ac:42:02','2023-12-15 11:45:03.527006-05',NULL,NULL,NULL);
+
+
+create view vusers as
+ SELECT users.idusuario,
+    rol.nombrerol,
+    gen.descripciongenero AS genero,
+    ide.descripciontipoidentificacion AS tipoidentificacion,
+    users.identificacion,
+    users.email,
+    users.telefono,
+    users.celular,
+    users.direccion,
+    users.first_name,
+    users.last_name,
+    sucr.nombresucursal,
+    dep.nombredepartamento,
+    corp.nombrecorporacion
+   FROM jusuarios users
+     LEFT JOIN jroles rol ON rol.idrol = users.idrol
+     LEFT JOIN jdepartamentos dep ON dep.iddepartamento = rol.iddepartamento
+     LEFT JOIN jsucursales sucr ON sucr.idsucursal = dep.idsucursal
+     LEFT JOIN jcorporaciones corp ON corp.idcorporacion = sucr.idcorporacion
+     LEFT JOIN jgeneros gen ON gen.idgenero = users.idgenero
+     LEFT JOIN jtiposidentificaciones ide ON ide.idtipoidentificacion = users.idtipoidentificacion;

@@ -8,7 +8,7 @@ from .models import (
     Jgeografia,
     Jroles,
     Jsucursales,
-    Jtiposidentificaciones, Jpaginas, Jprivilegios,
+    Jtiposidentificaciones, Jpaginas, Jprivilegios, Vusuarios,
 )
 
 
@@ -71,4 +71,11 @@ class JpaginasSerializer(serializers.ModelSerializer):
 
 @model_serializers(Jprivilegios)
 class JprivilegiosSerializer(serializers.ModelSerializer):
+    pass
+
+
+# Serializers for database views
+
+@model_serializers(Vusuarios)
+class VusuariosSerializer(serializers.ModelSerializer):
     pass
