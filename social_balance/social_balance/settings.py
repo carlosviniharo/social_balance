@@ -78,7 +78,7 @@ ROOT_URLCONF = 'social_balance.urls'
 AUTH_USER_MODEL = "users.Jusuarios"
 
 JWT_AUTH = {
-    "JWT_EXPIRATION_DELTA": timedelta(minutes=30),  # Access token expiration time
+    "JWT_EXPIRATION_DELTA": timedelta(hours=2),  # Access token expiration time
     "JWT_REFRESH_EXPIRATION_DELTA": timedelta(days=1),  # Refresh token expiration time
     # Other JWT settings...
 }

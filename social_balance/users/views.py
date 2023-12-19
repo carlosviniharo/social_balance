@@ -1,7 +1,12 @@
 from django.utils import timezone
 from rest_framework import status
-from rest_framework.generics import ListCreateAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView, ListAPIView, \
-    RetrieveAPIView
+from rest_framework.generics import (
+    ListAPIView,
+    CreateAPIView,
+    UpdateAPIView,
+    DestroyAPIView,
+    RetrieveAPIView,
+)
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -10,9 +15,26 @@ from rest_framework.exceptions import AuthenticationFailed
 
 from .utils.helper import get_query
 
-from .models import Jusuarios, Jcorporaciones, Jdepartamentos, Jgeneros, Jgeografia, Jroles, Jsucursales
-from .serializers import JusuariosSerializer, JcorporacionesSerializer, JdepartamentosSerializer, JgenerosSerializer, \
-    JgeografiaSerializer, JrolesSerializer, JsucursalesSerializer
+from .models import (
+    Jusuarios,
+    Jcorporaciones,
+    Jdepartamentos,
+    Jgeneros,
+    Jgeografia,
+    Jroles,
+    Jsucursales, Jtiposidentificaciones, Jpaginas, Jprivilegios,
+)
+from .serializers import (
+    JusuariosSerializer,
+    JcorporacionesSerializer,
+    JdepartamentosSerializer,
+    JgenerosSerializer,
+    JgeografiaSerializer,
+    JrolesSerializer,
+    JsucursalesSerializer,
+    JtiposidentificacionesSerializer,
+    JpaginasSerializer, JprivilegiosSerializer
+)
 
 
 # Customize pagination output style class
@@ -85,7 +107,7 @@ class JusuariosReadView(ListAPIView):
         )
 
 
-class JusuariosActiveView(ListCreateAPIView):
+class JusuariosActiveView(ListAPIView):
     serializer_class = JusuariosSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
@@ -139,7 +161,7 @@ class JcorporacionesCreateView(CreateAPIView):
     permission_classes = (IsAuthenticated,)
 
 
-class JcorporacionesReadView(ListCreateAPIView):
+class JcorporacionesReadView(ListAPIView):
     serializer_class = JcorporacionesSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
@@ -170,7 +192,7 @@ class JcorporacionesReadView(ListCreateAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JcorporacionesActiveView(ListCreateAPIView):
+class JcorporacionesActiveView(ListAPIView):
     serializer_class = JcorporacionesSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
@@ -254,7 +276,7 @@ class JdepartamentosReadView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JdepartamentosActiveView(ListCreateAPIView):
+class JdepartamentosActiveView(ListAPIView):
     serializer_class = JdepartamentosSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
@@ -338,7 +360,7 @@ class JgenerosReadView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JgenerosActiveView(ListCreateAPIView):
+class JgenerosActiveView(ListAPIView):
     serializer_class = JgenerosSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
@@ -422,7 +444,7 @@ class JgeografiaReadView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JgeografiaActiveView(ListCreateAPIView):
+class JgeografiaActiveView(ListAPIView):
     serializer_class = JgeografiaSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
@@ -506,7 +528,7 @@ class JrolesReadView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JrolesActiveView(ListCreateAPIView):
+class JrolesActiveView(ListAPIView):
     serializer_class = JrolesSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
@@ -590,7 +612,7 @@ class JsucursalesReadView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JsucursalesActiveView(ListCreateAPIView):
+class JsucursalesActiveView(ListAPIView):
     serializer_class = JsucursalesSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
@@ -599,12 +621,321 @@ class JsucursalesActiveView(ListCreateAPIView):
         queryset = Jsucursales.objects.filter(status="True")
         page = self.paginate_queryset(queryset)
         if page is not None:
-            role_data = self.get_serializer(page, many=True)
-            return self.get_paginated_response(role_data.data)
+            branch_data = self.get_serializer(page, many=True)
+            return self.get_paginated_response(branch_data.data)
 
         return Response({
             "message": f"No active records were found",
         }, status=status.HTTP_404_NOT_FOUND)
+
+
+class JsucursalesIdView(RetrieveAPIView):
+    serializer_class = JsucursalesSerializer
+    queryset = Jsucursales.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+
+class JsucursalesUpdateView(UpdateAPIView):
+    serializer_class = JsucursalesSerializer
+    queryset = Jsucursales.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+
+class JsucursalesDeactivateView(DestroyAPIView):
+    serializer_class = JsucursalesSerializer
+    queryset = Jsucursales.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+    def delete(self, request, *args, **kwargs):
+        brach = self.get_object()
+        brach.status = False
+        brach.save()
+        brach_data = self.get_serializer(brach)
+        return Response({
+            "message": f"success",
+            "data": brach_data.data
+        }, status=status.HTTP_202_ACCEPTED)
+
+
+# CRUD services types of ID
+
+class JtiposidentificacionesCreateView(CreateAPIView):
+    serializer_class = JtiposidentificacionesSerializer
+    queryset = Jtiposidentificaciones.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+
+class JtiposidentificacionesReadView(ListAPIView):
+    serializer_class = JtiposidentificacionesSerializer
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticated,)
+    search_string = None
+
+    def get_queryset(self):
+        self.search_string = self.request.query_params.get("search_string", None)
+        return get_query(self.search_string, Jtiposidentificaciones)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        # Check if the queryset is empty and Jtiposidentificaciones is not provided
+        if not queryset.exists() and self.search_string is None:
+            return Response({
+                "message": "Jtiposidentificaciones does not have any records",
+            }, status=status.HTTP_404_NOT_FOUND)
+
+        # Apply pagination to the queryset
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            typeid_data = self.get_serializer(page, many=True)
+            return self.get_paginated_response(typeid_data.data)
+
+        return Response({
+            "message": f"The string {self.search_string} was not found in "
+                       f"any field of c",
+        }, status=status.HTTP_404_NOT_FOUND)
+
+
+class JtiposidentificacionesActiveView(ListAPIView):
+    serializer_class = JtiposidentificacionesSerializer
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticated,)
+
+    def list(self, request, *args, **kwargs):
+        queryset = Jtiposidentificaciones.objects.filter(status="True")
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            typeid_data = self.get_serializer(page, many=True)
+            return self.get_paginated_response(typeid_data.data)
+
+        return Response({
+            "message": f"No active records were found",
+        }, status=status.HTTP_404_NOT_FOUND)
+
+
+class JtiposidentificacionesIdView(RetrieveAPIView):
+    serializer_class = JtiposidentificacionesSerializer
+    queryset = Jtiposidentificaciones.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+
+class JtiposidentificacionesUpdateView(UpdateAPIView):
+    serializer_class = JtiposidentificacionesSerializer
+    queryset = Jtiposidentificaciones.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+
+class JtiposidentificacionesDeactivateView(DestroyAPIView):
+    serializer_class = JtiposidentificacionesSerializer
+    queryset = Jtiposidentificaciones.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+    def delete(self, request, *args, **kwargs):
+        typeid = self.get_object()
+        typeid.status = False
+        typeid.save()
+        typeid_data = self.get_serializer(typeid)
+        return Response({
+            "message": f"success",
+            "data": typeid_data.data
+        }, status=status.HTTP_202_ACCEPTED)
+
+
+# CRUD services pages
+
+class JpaginasCreateView(CreateAPIView):
+    serializer_class = JpaginasSerializer
+    queryset = Jpaginas.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+
+class JpaginasReadView(ListAPIView):
+    serializer_class = JpaginasSerializer
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticated,)
+    search_string = None
+
+    def get_queryset(self):
+        self.search_string = self.request.query_params.get("search_string", None)
+        return get_query(self.search_string, Jpaginas)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        # Check if the queryset is empty and Jpaginas is not provided
+        if not queryset.exists() and self.search_string is None:
+            return Response({
+                "message": "Jpaginas does not have any records",
+            }, status=status.HTTP_404_NOT_FOUND)
+
+        # Apply pagination to the queryset
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            page_data = self.get_serializer(page, many=True)
+            return self.get_paginated_response(page_data.data)
+
+        return Response({
+            "message": f"The string {self.search_string} was not found in "
+                       f"any field of Jpaginas",
+        }, status=status.HTTP_404_NOT_FOUND)
+
+
+class JpaginasActiveView(ListAPIView):
+    serializer_class = JpaginasSerializer
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticated,)
+
+    def list(self, request, *args, **kwargs):
+        queryset = Jpaginas.objects.filter(status="True")
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            page_data = self.get_serializer(page, many=True)
+            return self.get_paginated_response(page_data.data)
+
+        return Response({
+            "message": f"No active records were found",
+        }, status=status.HTTP_404_NOT_FOUND)
+
+
+class JpaginasIdView(RetrieveAPIView):
+    serializer_class = JpaginasSerializer
+    queryset = Jpaginas.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+
+class JpaginasUpdateView(UpdateAPIView):
+    serializer_class = JpaginasSerializer
+    queryset = Jpaginas.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+
+class JpaginasDeactivateView(DestroyAPIView):
+    serializer_class = JpaginasSerializer
+    queryset = Jpaginas.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+    def delete(self, request, *args, **kwargs):
+        page = self.get_object()
+        page.status = False
+        page.save()
+        page_data = self.get_serializer(page)
+        return Response({
+            "message": f"success",
+            "data": page_data.data
+        }, status=status.HTTP_202_ACCEPTED)
+
+
+# CRUD services privileges
+
+class JprivilegiosCreateView(CreateAPIView):
+    serializer_class = JprivilegiosSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        return Response(
+            {
+                "message": "success",
+                "data": response.data
+            },
+            status=status.HTTP_201_CREATED
+        )
+
+
+class JprivilegiosReadView(ListAPIView):
+    serializer_class = JprivilegiosSerializer
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticated,)
+    search_string = None
+
+    def get_queryset(self):
+        self.search_string = self.request.query_params.get("search_string", None)
+        return get_query(self.search_string, Jprivilegios)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        # Check if the queryset is empty and Jprivilegios is not provided
+        if not queryset.exists() and self.search_string is None:
+            return Response({
+                "message": "Jprivilegios does not have any records",
+            }, status=status.HTTP_404_NOT_FOUND)
+
+        # Apply pagination to the queryset
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            priv_data = self.get_serializer(page, many=True)
+            return self.get_paginated_response(priv_data.data)
+
+        return Response({
+            "message": f"The string {self.search_string} was not found in "
+                       f"any field of Jprivilegios",
+        }, status=status.HTTP_404_NOT_FOUND)
+
+
+class JprivilegiosActiveView(ListAPIView):
+    serializer_class = JprivilegiosSerializer
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticated,)
+
+    def list(self, request, *args, **kwargs):
+        queryset = Jprivilegios.objects.filter(status="True")
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            priv_data = self.get_serializer(page, many=True)
+            return self.get_paginated_response(priv_data.data)
+
+        return Response({
+            "message": f"No active records were found",
+        }, status=status.HTTP_404_NOT_FOUND)
+
+
+class JprivilegiosIdView(RetrieveAPIView):
+    serializer_class = JprivilegiosSerializer
+    queryset = Jprivilegios.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+    def retrieve(self, request, *args, **kwargs):
+        response = super().retrieve(request, *args, **kwargs)
+        return Response(
+            {
+                "message": "success",
+                "data": response.data
+            },
+            status=status.HTTP_200_OK
+        )
+
+
+class JprivilegiosUpdateView(UpdateAPIView):
+    serializer_class = JprivilegiosSerializer
+    queryset = Jprivilegios.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        return Response(
+            {
+                "message": "success",
+                "data": response.data
+            },
+            status=status.HTTP_200_OK
+        )
+
+
+class JprivilegiosDeactivateView(DestroyAPIView):
+    serializer_class = JprivilegiosSerializer
+    queryset = Jprivilegios.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+    def delete(self, request, *args, **kwargs):
+        page = self.get_object()
+        page.status = False
+        page.save()
+        page_data = self.get_serializer(page)
+        return Response({
+            "message": f"success",
+            "data": page_data.data
+        }, status=status.HTTP_202_ACCEPTED)
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):

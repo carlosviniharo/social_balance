@@ -39,6 +39,13 @@ from .views import (
     JrolesIdView,
     JrolesUpdateView,
     JrolesDeactivateView,
+    JsucursalesCreateView,
+    JsucursalesReadView,
+    JsucursalesActiveView, JsucursalesIdView, JsucursalesUpdateView, JsucursalesDeactivateView,
+    JtiposidentificacionesCreateView, JtiposidentificacionesReadView, JtiposidentificacionesActiveView,
+    JtiposidentificacionesIdView, JtiposidentificacionesUpdateView, JtiposidentificacionesDeactivateView,
+    JpaginasCreateView, JprivilegiosCreateView, JprivilegiosReadView, JprivilegiosActiveView, JprivilegiosIdView,
+    JprivilegiosUpdateView, JprivilegiosDeactivateView,
 )
 
 
@@ -87,4 +94,32 @@ urlpatterns = [
     path("idRoles/<int:pk>/", JrolesIdView.as_view(), name="id-roles"),
     path("updateRoles/<int:pk>/", JrolesUpdateView.as_view(), name="update-roles"),
     path("deleteRoles/<int:pk>/", JrolesDeactivateView.as_view(), name="delete-roles"),
+    # CRUD services Branches
+    path("createBranches/", JsucursalesCreateView.as_view(), name="create-branches"),
+    path("allBranches/", JsucursalesReadView.as_view(), name="list-branches"),
+    path("activeBranches/", JsucursalesActiveView.as_view(), name="list-activebranches"),
+    path("idBranches/<int:pk>/", JsucursalesIdView.as_view(), name="id-branches"),
+    path("updateBranches/<int:pk>/", JsucursalesUpdateView.as_view(), name="update-branches"),
+    path("deleteBranches/<int:pk>/", JsucursalesDeactivateView.as_view(), name="delete-branches"),
+    # CRUD services TypeId
+    path("createtTypeId/", JtiposidentificacionesCreateView.as_view(), name="create-typeId"),
+    path("allTypeId/", JtiposidentificacionesReadView.as_view(), name="list-typeId"),
+    path("activeTypeId/", JtiposidentificacionesActiveView.as_view(), name="list-activetypeId"),
+    path("idTypeId/<int:pk>/", JtiposidentificacionesIdView.as_view(), name="id-typeId"),
+    path("updateTypeId/<int:pk>/", JtiposidentificacionesUpdateView.as_view(), name="update-typeId"),
+    path("deleteTypeId/<int:pk>/", JtiposidentificacionesDeactivateView.as_view(), name="delete-typeId"),
+    # CRUD service Pages
+    path("createtPages/", JpaginasCreateView.as_view(), name="create-typeId"),
+    path("allPages/", JtiposidentificacionesReadView.as_view(), name="list-typeId"),
+    path("activeTypeId/", JtiposidentificacionesActiveView.as_view(), name="list-activetypeId"),
+    path("idTypeId/<int:pk>/", JtiposidentificacionesIdView.as_view(), name="id-typeId"),
+    path("updateTypeId/<int:pk>/", JtiposidentificacionesUpdateView.as_view(), name="update-typeId"),
+    path("deleteTypeId/<int:pk>/", JtiposidentificacionesDeactivateView.as_view(), name="delete-typeId"),
+    # CRUD service Privileges
+    path("createtPrivileges/", JprivilegiosCreateView.as_view(), name="create-privileges"),
+    path("allPrivileges/", JprivilegiosReadView.as_view(), name="list-privileges"),
+    path("activePrivileges/", JprivilegiosActiveView.as_view(), name="list-activeprivileges"),
+    path("idPrivileges/<int:pk>/", JprivilegiosIdView.as_view(), name="id-privileges"),
+    path("updatePrivileges/<int:pk>/", JprivilegiosUpdateView.as_view(), name="update-privileges"),
+    path("deletePrivileges/<int:pk>/", JprivilegiosDeactivateView.as_view(), name="delete-privileges"),
 ]

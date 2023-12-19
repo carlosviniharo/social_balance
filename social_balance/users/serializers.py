@@ -65,10 +65,10 @@ class JtiposidentificacionesSerializer(serializers.ModelSerializer):
 
 
 @model_serializers(Jpaginas)
-class JpaginasSerializers(serializers.ModelSerializer):
+class JpaginasSerializer(serializers.ModelSerializer):
     pass
 
 
 @model_serializers(Jprivilegios)
-class JprivilegiosSerizalizers(serializers.ModelSerializer):
+class JprivilegiosSerializer(serializers.ModelSerializer):
     pass

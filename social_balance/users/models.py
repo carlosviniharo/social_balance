@@ -25,10 +25,10 @@ class Jcorporaciones(models.Model):
     direccioncorporacion = models.CharField(max_length=200, blank=True, null=True)
     telefonocorporacion = models.CharField(blank=True, null=True)
     status = models.BooleanField(default=True)
-    fechacreacion = models.DateTimeField(auto_now_add=True)
-    fechamodificacion = models.DateTimeField(auto_now=True)
+    fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
+    fechamodificacion = models.DateTimeField(auto_now=True, null=True)
     ipcreacion = models.CharField(
-        max_length=50, default=get_public_ip_address)
+        max_length=50, default=get_public_ip_address, null=True)
     ipmodificacion = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
@@ -52,7 +52,7 @@ class Jdepartamentos(models.Model):
     fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
     fechamodificacion = models.DateTimeField(auto_now=True, null=True)
     ipcreacion = models.CharField(
-        max_length=50, default=get_public_ip_address)
+        max_length=50, default=get_public_ip_address, null=True)
     ipmodificacion = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
@@ -132,7 +132,7 @@ class Jroles(models.Model):
 
 class Jsucursales(models.Model):
     idsucursal = models.AutoField(primary_key=True)
-    idpais = models.ForeignKey(
+    idgeografia = models.ForeignKey(
         Jgeografia, models.DO_NOTHING, db_column="idgeografia",
     )
     idcorporacion = models.ForeignKey(
@@ -143,17 +143,15 @@ class Jsucursales(models.Model):
     codigosucursal = models.CharField(max_length=2, blank=True, null=True)
     nombresucursal = models.CharField(max_length=200)
     descripcionsucursal = models.CharField(max_length=500, blank=True, null=True)
-    direccionsucursal = models.CharField(max_length=200, blank=True, null=True)
+    direccionsucursal = models.CharField(max_length=200)
     telefonosucursal = models.CharField()
     status = models.BooleanField(default=True)
-    fechacreacion = models.DateTimeField(auto_now_add=True)
-    fechamodificacion = models.DateTimeField(auto_now=True)
+    fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
+    fechamodificacion = models.DateTimeField(auto_now=True, null=True)
     ipcreacion = models.CharField(
         max_length=50, default=get_public_ip_address, null=True
     )
     ipmodificacion = models.CharField(max_length=50, blank=True, null=True)
-    fecharegistro = models.DateTimeField(blank=True, null=True)
-
     class Meta:
         db_table = "jsucursales"
 
@@ -169,6 +167,7 @@ class Jtiposidentificaciones(models.Model):
     descripciontipoidentificacion = models.CharField(
         max_length=50, blank=True, null=True
     )
+    status = models.BooleanField(default=True)
     fecharegistro = models.DateTimeField(blank=True, null=True)
 
     class Meta:
@@ -184,6 +183,7 @@ class Jpaginas(models.Model):
     idpagina = models.AutoField(primary_key=True)
     codigopagina = models.CharField(max_length=50, blank=True, null=True)
     descripcionpagina = models.CharField(max_length=500, blank=True, null=True)
+    status = models.BooleanField(default=True)
 
     class Meta:
         db_table = "jpaginas"
@@ -202,7 +202,8 @@ class Jprivilegios(models.Model):
     idpagina = models.ForeignKey(
         Jpaginas, models.DO_NOTHING, db_column="idpagina", blank=True, null=True
     )
-    
+    status = models.BooleanField(default=True)
+
     class Meta:
         db_table = "jprivilegios"
 
