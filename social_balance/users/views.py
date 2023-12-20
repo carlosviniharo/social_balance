@@ -96,15 +96,15 @@ class BaseUpdateView(UpdateAPIView):
 
 class JusuariosCreateView(CreateAPIView):
     serializer_class = JusuariosSerializer
+    queryset = Jusuarios.objects.all()
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
-    idusuario = None
     
     def create(self, request, *args, **kwargs):
-        
         usuario_serializer = JusuariosSerializer(data=request.data)
         usuario_serializer.is_valid(raise_exception=True)
-        Jusuarios.objects.create_user(**usuario_serializer.data)
+        Jusuarios.objects.create_user(**usuario_serializer.validated_data)
+
         return Response({
             "message": "success",
             "data": usuario_serializer.data
