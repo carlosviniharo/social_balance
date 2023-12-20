@@ -11,9 +11,9 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.exceptions import AuthenticationFailed, APIException
 
-from .utils.helper import get_query
+from .utils.helper import get_query, get_query_by_id
 
 from .models import (
     Jusuarios,
@@ -60,6 +60,22 @@ class CustomPagination(PageNumberPagination):
         })
 
 
+# Update view with customized Create
+class BaseCreateView(CreateAPIView):
+    """
+    Base class for update views.
+    """
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        return Response(
+            {
+                "message": "success",
+                "data": response.data
+            },
+            status=status.HTTP_200_OK
+            )
+
+
 # Retrieve view with customized Response
 class BaseRetrieveView(RetrieveAPIView):
     """
@@ -92,7 +108,7 @@ class BaseUpdateView(UpdateAPIView):
             )
 
 
-# CRUD services Corporation
+# CRUD services Users
 
 class JusuariosCreateView(CreateAPIView):
     serializer_class = JusuariosSerializer
@@ -192,7 +208,7 @@ class JusuariosDeactivateView(DestroyAPIView):
 
 # CRUD services Corporation
 
-class JcorporacionesCreateView(CreateAPIView):
+class JcorporacionesCreateView(BaseCreateView):
     serializer_class = JcorporacionesSerializer
     queryset = Jcorporaciones.objects.all()
     permission_classes = (IsAuthenticated,)
@@ -276,7 +292,7 @@ class JcorporacionesDeactivateView(DestroyAPIView):
 
 # CRUD services Departments
 
-class JdepartamentosCreateView(CreateAPIView):
+class JdepartamentosCreateView(BaseCreateView):
     serializer_class = JdepartamentosSerializer
     queryset = Jdepartamentos.objects.all()
     permission_classes = (IsAuthenticated,)
@@ -358,9 +374,19 @@ class JdepartamentosDeactivateView(DestroyAPIView):
         }, status=status.HTTP_202_ACCEPTED)
 
 
+class JdepartamentosByBranchesView(ListAPIView):
+    serializer_class = JdepartamentosSerializer
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        idsucursal = self.request.query_params.get("idsucursal", None)
+        return get_query_by_id("idsucursal", idsucursal, Jdepartamentos)
+
+
 # CRUD services Genders
 
-class JgenerosCreateView(CreateAPIView):
+class JgenerosCreateView(BaseCreateView):
     serializer_class = JgenerosSerializer
     queryset = Jgeneros.objects.all()
     permission_classes = (IsAuthenticated,)
@@ -444,7 +470,7 @@ class JgenerosDeactivateView(DestroyAPIView):
 
 # CRUD services geography
 
-class JgeografiaCreateView(CreateAPIView):
+class JgeografiaCreateView(BaseCreateView):
     serializer_class = JgeografiaSerializer
     queryset = Jgeografia.objects.all()
     permission_classes = (IsAuthenticated,)
@@ -528,7 +554,7 @@ class JgeografiaDeactivateView(DestroyAPIView):
 
 # CRUD services roles
 
-class JrolesCreateView(CreateAPIView):
+class JrolesCreateView(BaseCreateView):
     serializer_class = JrolesSerializer
     queryset = Jroles.objects.all()
     permission_classes = (IsAuthenticated,)
@@ -610,9 +636,19 @@ class JrolesDeactivateView(DestroyAPIView):
         }, status=status.HTTP_202_ACCEPTED)
 
 
+class JrolesByDepartmentsView(ListAPIView):
+    serializer_class = JrolesSerializer
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        iddepartamento = self.request.query_params.get("iddepartamento", None)
+        return get_query_by_id("iddepartamento", iddepartamento, Jroles)
+
+
 # CRUD services branches
 
-class JsucursalesCreateView(CreateAPIView):
+class JsucursalesCreateView(BaseCreateView):
     serializer_class = JsucursalesSerializer
     queryset = Jsucursales.objects.all()
     permission_classes = (IsAuthenticated,)
@@ -689,14 +725,23 @@ class JsucursalesDeactivateView(DestroyAPIView):
         brach.save()
         brach_data = self.get_serializer(brach)
         return Response({
-            "message": f"success",
+            "message": "success",
             "data": brach_data.data
         }, status=status.HTTP_202_ACCEPTED)
 
 
-# CRUD services types of ID
+class JsucursalesByCorporationView(ListAPIView):
+    serializer_class = JsucursalesSerializer
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticated,)
 
-class JtiposidentificacionesCreateView(CreateAPIView):
+    def get_queryset(self):
+        idcorporacion = self.request.query_params.get("idcorporacion")
+        return get_query_by_id("idcorporacion", idcorporacion, Jsucursales)
+
+
+# CRUD services types of ID
+class JtiposidentificacionesCreateView(BaseCreateView):
     serializer_class = JtiposidentificacionesSerializer
     queryset = Jtiposidentificaciones.objects.all()
     permission_classes = (IsAuthenticated,)
@@ -780,7 +825,7 @@ class JtiposidentificacionesDeactivateView(DestroyAPIView):
 
 # CRUD services pages
 
-class JpaginasCreateView(CreateAPIView):
+class JpaginasCreateView(BaseCreateView):
     serializer_class = JpaginasSerializer
     queryset = Jpaginas.objects.all()
     permission_classes = (IsAuthenticated,)
@@ -864,7 +909,7 @@ class JpaginasDeactivateView(DestroyAPIView):
 
 # CRUD services privileges
 
-class JprivilegiosCreateView(CreateAPIView):
+class JprivilegiosCreateView(BaseCreateView):
     serializer_class = JprivilegiosSerializer
     permission_classes = (IsAuthenticated,)
 
@@ -963,6 +1008,16 @@ class JprivilegiosDeactivateView(DestroyAPIView):
             "message": f"success",
             "data": page_data.data
         }, status=status.HTTP_202_ACCEPTED)
+
+
+class JprivilegiosByRolesView(ListAPIView):
+    serializer_class = JprivilegiosSerializer
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        idrol = self.request.query_params.get("idrol", None)
+        return get_query_by_id("idrol", idrol, Jprivilegios)
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):

@@ -2,6 +2,7 @@ import uuid
 import socket
 import requests
 from django.contrib.postgres.search import SearchQuery, SearchVector
+from rest_framework.exceptions import APIException
 
 
 def get_mac_address():
@@ -49,3 +50,16 @@ def get_query(search_string, model):
         vector = SearchVector(*fields)
         return model.objects.annotate(search=vector).filter(search=query)
     return model.objects.all()
+
+
+def get_query_by_id(id, string, model):
+    """
+    Gets the query that matches a specific id in the model.
+    :param id: str
+    :param string: str
+    :param model: ORM object
+    :return: query object
+    """
+    if string is None or string == "":
+        raise APIException(f"{id} not provided")
+    return model.objects.filter(**{id: string})

@@ -21,6 +21,7 @@ from .views import (
     JdepartamentosIdView,
     JdepartamentosUpdateView,
     JdepartamentosDeactivateView,
+    JdepartamentosByBranchesView,
     JgenerosCreateView,
     JgenerosReadView,
     JgenerosActiveView,
@@ -39,13 +40,18 @@ from .views import (
     JrolesIdView,
     JrolesUpdateView,
     JrolesDeactivateView,
+    JrolesByDepartmentsView,
     JsucursalesCreateView,
     JsucursalesReadView,
-    JsucursalesActiveView, JsucursalesIdView, JsucursalesUpdateView, JsucursalesDeactivateView,
+    JsucursalesActiveView,
+    JsucursalesIdView,
+    JsucursalesUpdateView,
+    JsucursalesDeactivateView,
+    JsucursalesByCorporationView,
     JtiposidentificacionesCreateView, JtiposidentificacionesReadView, JtiposidentificacionesActiveView,
     JtiposidentificacionesIdView, JtiposidentificacionesUpdateView, JtiposidentificacionesDeactivateView,
     JpaginasCreateView, JprivilegiosCreateView, JprivilegiosReadView, JprivilegiosActiveView, JprivilegiosIdView,
-    JprivilegiosUpdateView, JprivilegiosDeactivateView,
+    JprivilegiosUpdateView, JprivilegiosDeactivateView, JprivilegiosByRolesView,
 )
 
 
@@ -73,6 +79,7 @@ urlpatterns = [
     path("idDepartments/<int:pk>/", JdepartamentosIdView.as_view(), name="id-departments"),
     path("updateDepartments/<int:pk>/", JdepartamentosUpdateView.as_view(), name="update-departments"),
     path("deleteDepartments/<int:pk>/", JdepartamentosDeactivateView.as_view(), name="delete-departments"),
+    path("departmentsByBranches/", JdepartamentosByBranchesView.as_view(), name="list-departmentsbybranches"),
     # CRUD services Gender
     path("createGenders/", JgenerosCreateView.as_view(), name="create-genders"),
     path("allGenders/", JgenerosReadView.as_view(), name="list-genders"),
@@ -94,6 +101,7 @@ urlpatterns = [
     path("idRoles/<int:pk>/", JrolesIdView.as_view(), name="id-roles"),
     path("updateRoles/<int:pk>/", JrolesUpdateView.as_view(), name="update-roles"),
     path("deleteRoles/<int:pk>/", JrolesDeactivateView.as_view(), name="delete-roles"),
+    path("rolesByDepartments/", JrolesByDepartmentsView.as_view(), name="list-rolesbydepartments"),
     # CRUD services Branches
     path("createBranches/", JsucursalesCreateView.as_view(), name="create-branches"),
     path("allBranches/", JsucursalesReadView.as_view(), name="list-branches"),
@@ -101,6 +109,7 @@ urlpatterns = [
     path("idBranches/<int:pk>/", JsucursalesIdView.as_view(), name="id-branches"),
     path("updateBranches/<int:pk>/", JsucursalesUpdateView.as_view(), name="update-branches"),
     path("deleteBranches/<int:pk>/", JsucursalesDeactivateView.as_view(), name="delete-branches"),
+    path("branchesByCorporations/", JsucursalesByCorporationView.as_view(), name="list-brachesbycorporations"),
     # CRUD services TypeId
     path("createtTypeId/", JtiposidentificacionesCreateView.as_view(), name="create-typeId"),
     path("allTypeId/", JtiposidentificacionesReadView.as_view(), name="list-typeId"),
@@ -122,4 +131,5 @@ urlpatterns = [
     path("idPrivileges/<int:pk>/", JprivilegiosIdView.as_view(), name="id-privileges"),
     path("updatePrivileges/<int:pk>/", JprivilegiosUpdateView.as_view(), name="update-privileges"),
     path("deletePrivileges/<int:pk>/", JprivilegiosDeactivateView.as_view(), name="delete-privileges"),
+    path("privilegesByRoles/", JprivilegiosByRolesView.as_view(), name="list-privilegesbyroles"),
 ]

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "corsheaders",
     "rest_framework",
+    'rest_framework_simplejwt',
     "rest_framework_simplejwt.token_blacklist",
     "users"
     
@@ -77,10 +78,11 @@ ROOT_URLCONF = 'social_balance.urls'
 
 AUTH_USER_MODEL = "users.Jusuarios"
 
-JWT_AUTH = {
-    "JWT_EXPIRATION_DELTA": timedelta(hours=2),  # Access token expiration time
-    "JWT_REFRESH_EXPIRATION_DELTA": timedelta(days=1),  # Refresh token expiration time
-    # Other JWT settings...
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    "USER_ID_FIELD": "idusuario",
+    # Other configuration options...
 }
 
 REST_FRAMEWORK = {

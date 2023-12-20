@@ -86,8 +86,10 @@ INSERT INTO public.jusuarios (username,first_name,last_name,identificacion,ipmod
 create view vusers as
  SELECT users.idusuario,
     rol.nombrerol,
+    gen.idgenero,
     gen.descripciongenero AS genero,
     ide.descripciontipoidentificacion AS tipoidentificacion,
+    ide.idtipoidentificacion,
     users.identificacion,
     users.email,
     users.telefono,
@@ -95,9 +97,13 @@ create view vusers as
     users.direccion,
     users.first_name,
     users.last_name,
+    users.username,
+    users.password,
     sucr.nombresucursal,
     dep.nombredepartamento,
-    corp.nombrecorporacion
+    corp.nombrecorporacion,
+    users.date_joined AS fechacreacion,
+    users.fechamodificacion
    FROM jusuarios users
      LEFT JOIN jroles rol ON rol.idrol = users.idrol
      LEFT JOIN jdepartamentos dep ON dep.iddepartamento = rol.iddepartamento

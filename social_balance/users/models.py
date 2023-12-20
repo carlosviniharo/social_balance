@@ -21,7 +21,7 @@ class Jcorporaciones(models.Model):
     nombrecorporacion = models.CharField(max_length=200)
     descripcioncorporacion = models.CharField(max_length=500, blank=True, null=True)
     representantelegal = models.CharField(max_length=200)
-    ruc = models.CharField(max_length=14)
+    ruc = models.CharField(max_length=14, unique=True)
     direccioncorporacion = models.CharField(max_length=200, blank=True, null=True)
     telefonocorporacion = models.CharField(blank=True, null=True)
     status = models.BooleanField(default=True)
@@ -314,8 +314,10 @@ class Jusuarios(AbstractUser):
 class Vusuarios(models.Model):
     idusuario = models.IntegerField(primary_key=True)
     nombrerol = models.CharField(max_length=255)
+    idgenero = models.IntegerField()
     genero = models.CharField(max_length=255)
     tipoidentificacion = models.CharField(max_length=255)
+    idtipoidentificacion = models.IntegerField()
     identificacion = models.CharField(max_length=255)
     email = models.EmailField()
     telefono = models.CharField(max_length=255)
@@ -323,9 +325,13 @@ class Vusuarios(models.Model):
     direccion = models.CharField(max_length=255)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
+    username = models.CharField(max_length=255)
+    password = models.CharField(max_length=255)
     nombresucursal = models.CharField(max_length=255)
     nombredepartamento = models.CharField(max_length=255)
     nombrecorporacion = models.CharField(max_length=255)
+    fechacreacion = models.DateTimeField()
+    fechamodificacion = models.DateTimeField()
 
     objects = models.Manager()
 
