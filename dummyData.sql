@@ -331,7 +331,7 @@ CREATE VIEW vusers AS
      LEFT JOIN jsucursales sucr ON sucr.idsucursal = dep.idsucursal
      LEFT JOIN jcorporaciones corp ON corp.idcorporacion = sucr.idcorporacion
      LEFT JOIN jgeneros gen ON gen.idgenero = users.idgenero
-     LEFT JOIN jtiposidentificaciones ide ON ide.idtipoidentifica;
+     LEFT JOIN jtiposidentificaciones ide ON ide.idtipoidentificacion = users.idtipoidentificacion;
 
 --view vgeography
 
