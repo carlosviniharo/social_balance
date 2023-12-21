@@ -333,8 +333,49 @@ class Vusuarios(models.Model):
     fechacreacion = models.DateTimeField()
     fechamodificacion = models.DateTimeField()
 
+    class Meta:
+        managed = False
+        db_table = 'vusers'
+
     objects = models.Manager()
 
+
+class Vgeografia(models.Model):
+    idgeografia = models.IntegerField(primary_key=True)
+    codigogeografia = models.CharField(max_length=255)
+    nombre = models.CharField(max_length=255)
+    nivel = models.IntegerField()
+    status = models.BooleanField()
+    fechacreacion = models.DateTimeField()
+    fechamodificacion = models.DateTimeField()
+    ipcreacion = models.CharField(max_length=50)
+    fkidgeografia = models.IntegerField()
+    belong_name = models.CharField(max_length=255)
+
     class Meta:
-        managed = False  # This is important to prevent Django from trying to create a table for this model
-        db_table = 'vusers'  # Set this to the name of your view
+        managed = False  # To indicate that it's a database view and not a table
+        db_table = 'vgeography'
+
+    objects = models.Manager()
+
+
+class Vcorporations(models.Model):
+    idcorporacion = models.IntegerField(primary_key=True)
+    idgeografia = models.IntegerField()
+    belong_name = models.CharField(max_length=255)
+    nombrecorporacion = models.CharField(max_length=255)
+    descripcioncorporacion = models.TextField()
+    representantelegal = models.CharField(max_length=255)
+    ruc = models.CharField(max_length=20)
+    direccioncorporacion = models.CharField(max_length=500)
+    telefonocorporacion = models.CharField(max_length=20)
+    status = models.BooleanField()
+    fechacreacion = models.DateTimeField()
+    fechamodificacion = models.DateTimeField()
+    ipcreacion = models.CharField(max_length=50)
+
+    class Meta:
+        managed = False  # To indicate that it's a database view and not a table
+        db_table = 'vcorporations'
+
+    objects = models.Manager()

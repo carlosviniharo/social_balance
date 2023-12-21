@@ -26,7 +26,7 @@ from .models import (
     Jtiposidentificaciones,
     Jpaginas,
     Jprivilegios,
-    Vusuarios,
+    Vusuarios, Vgeografia, Vcorporations,
 )
 from .serializers import (
     JusuariosSerializer,
@@ -39,7 +39,7 @@ from .serializers import (
     JtiposidentificacionesSerializer,
     JpaginasSerializer,
     JprivilegiosSerializer,
-    VusuariosSerializer
+    VusuariosSerializer, VgeografiaSerializer, VcorporationsSerializer
 )
 
 
@@ -214,15 +214,15 @@ class JcorporacionesCreateView(BaseCreateView):
     permission_classes = (IsAuthenticated,)
 
 
-class JcorporacionesReadView(ListAPIView):
-    serializer_class = JcorporacionesSerializer
+class VcorporationsReadView(ListAPIView):
+    serializer_class = VcorporationsSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
     search_string = None
     
     def get_queryset(self):
         self.search_string = self.request.query_params.get("search_string", None)
-        return get_query(self.search_string, Jcorporaciones)
+        return get_query(self.search_string, Vcorporations)
     
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
@@ -236,12 +236,12 @@ class JcorporacionesReadView(ListAPIView):
         page = self.paginate_queryset(queryset)
         
         if page is not None:
-            corporaciones = JcorporacionesSerializer(page, many=True)
+            corporaciones = self.get_serializer(page, many=True)
             return self.get_paginated_response(corporaciones.data)
         
         return Response({
             "message": f"The string {self.search_string} was not found in "
-                       f"any field of Corporations",
+                       f"any field of Vcorporations",
         }, status=status.HTTP_404_NOT_FOUND)
 
 
@@ -262,9 +262,9 @@ class JcorporacionesActiveView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JcorporacionesIdView(BaseRetrieveView):
-    serializer_class = JcorporacionesSerializer
-    queryset = Jcorporaciones.objects.all()
+class VcorporationsIdView(BaseRetrieveView):
+    serializer_class = VcorporationsSerializer
+    queryset = Vcorporations.objects.all()
     permission_classes = (IsAuthenticated,)
 
 
@@ -476,34 +476,34 @@ class JgeografiaCreateView(BaseCreateView):
     permission_classes = (IsAuthenticated,)
 
 
-class JgeografiaReadView(ListAPIView):
-    serializer_class = Jgeografia
+class VgeografiaReadView(ListAPIView):
+    serializer_class = VgeografiaSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
     search_string = None
 
     def get_queryset(self):
         self.search_string = self.request.query_params.get("search_string", None)
-        return get_query(self.search_string, Jgeografia)
+        return get_query(self.search_string, Vgeografia)
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        # Check if the queryset is empty and Jgeneros is not provided
+        # Check if the queryset is empty and Vgeneros is not provided
         if not queryset.exists() and self.search_string is None:
             return Response({
-                "message": "Jgeografia does not have any records",
+                "message": "Vgeografia does not have any records",
             }, status=status.HTTP_404_NOT_FOUND)
 
         # Apply pagination to the queryset
         page = self.paginate_queryset(queryset)
 
         if page is not None:
-            geografia_data = JgeografiaSerializer(page, many=True)
+            geografia_data = self.get_serializer(page, many=True)
             return self.get_paginated_response(geografia_data.data)
 
         return Response({
             "message": f"The string {self.search_string} was not found in "
-                       f"any field of Jgeografia",
+                       f"any field of Vgeografia",
         }, status=status.HTTP_404_NOT_FOUND)
 
 
@@ -524,9 +524,9 @@ class JgeografiaActiveView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JgeografiaIdView(BaseRetrieveView):
-    serializer_class = JgeografiaSerializer
-    queryset = Jgeografia.objects.all()
+class VgeografiaIdView(BaseRetrieveView):
+    serializer_class = VgeografiaSerializer
+    queryset = Vgeografia.objects.all()
     permission_classes = (IsAuthenticated,)
 
 
