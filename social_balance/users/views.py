@@ -26,7 +26,7 @@ from .models import (
     Jtiposidentificaciones,
     Jpaginas,
     Jprivilegios,
-    Vusuarios, Vgeografia, Vcorporations,
+    Vusers, Vgeography, Vcorporations, Vbranches, Vdepartments, Vroles,
 )
 from .serializers import (
     JusuariosSerializer,
@@ -39,7 +39,8 @@ from .serializers import (
     JtiposidentificacionesSerializer,
     JpaginasSerializer,
     JprivilegiosSerializer,
-    VusuariosSerializer, VgeografiaSerializer, VcorporationsSerializer
+    VusersSerializer, VgeographySerializer, VcorporationsSerializer, VbranchesSerializer, VdepartmentsSerializer,
+    VrolesSerializer
 )
 
 
@@ -170,7 +171,7 @@ class JusuariosActiveView(ListAPIView):
         queryset = Jusuarios.objects.filter(is_active=True)
         page = self.paginate_queryset(queryset)
         if page is not None:
-            users = JusuariosSerializer(page, many=True)
+            users = self.get_serializer(page, many=True)
             return self.get_paginated_response(users.data)
 
         return Response({
@@ -178,9 +179,9 @@ class JusuariosActiveView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JusuariosIdView(BaseRetrieveView):
-    serializer_class = VusuariosSerializer
-    queryset = Vusuarios.objects.all()
+class VusersIdView(BaseRetrieveView):
+    serializer_class = VusersSerializer
+    queryset = Vusers.objects.all()
     permission_classes = (IsAuthenticated,)
 
 
@@ -298,34 +299,34 @@ class JdepartamentosCreateView(BaseCreateView):
     permission_classes = (IsAuthenticated,)
 
 
-class JdepartamentosReadView(ListAPIView):
-    serializer_class = JdepartamentosSerializer
+class VdepartmentsReadView(ListAPIView):
+    serializer_class = VdepartmentsSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
     search_string = None
 
     def get_queryset(self):
         self.search_string = self.request.query_params.get("search_string", None)
-        return get_query(self.search_string, Jdepartamentos)
+        return get_query(self.search_string, Vdepartments)
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         # Check if the queryset is empty and departamentos is not provided
         if not queryset.exists() and self.search_string is None:
             return Response({
-                "message": "Jdepartmentos does not have any records",
+                "message": "Vdepartments does not have any records",
             }, status=status.HTTP_404_NOT_FOUND)
 
         # Apply pagination to the queryset
         page = self.paginate_queryset(queryset)
 
         if page is not None:
-            departments = JdepartamentosSerializer(page, many=True)
+            departments = self.get_serializer(page, many=True)
             return self.get_paginated_response(departments.data)
 
         return Response({
             "message": f"The string {self.search_string} was not found in "
-                       f"any field of Jdepartamentos",
+                       f"any field of Vdepartments",
         }, status=status.HTTP_404_NOT_FOUND)
 
 
@@ -346,9 +347,9 @@ class JdepartamentosActiveView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JdepartamentosIdView(BaseRetrieveView):
-    serializer_class = JdepartamentosSerializer
-    queryset = Jdepartamentos.objects.all()
+class VdepartmentsIdView(BaseRetrieveView):
+    serializer_class = VdepartmentsSerializer
+    queryset = Vdepartments.objects.all()
     permission_classes = (IsAuthenticated,)
 
 
@@ -476,22 +477,22 @@ class JgeografiaCreateView(BaseCreateView):
     permission_classes = (IsAuthenticated,)
 
 
-class VgeografiaReadView(ListAPIView):
-    serializer_class = VgeografiaSerializer
+class VgeographyReadView(ListAPIView):
+    serializer_class = VgeographySerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
     search_string = None
 
     def get_queryset(self):
         self.search_string = self.request.query_params.get("search_string", None)
-        return get_query(self.search_string, Vgeografia)
+        return get_query(self.search_string, Vgeography)
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         # Check if the queryset is empty and Vgeneros is not provided
         if not queryset.exists() and self.search_string is None:
             return Response({
-                "message": "Vgeografia does not have any records",
+                "message": "Vgeography does not have any records",
             }, status=status.HTTP_404_NOT_FOUND)
 
         # Apply pagination to the queryset
@@ -503,7 +504,7 @@ class VgeografiaReadView(ListAPIView):
 
         return Response({
             "message": f"The string {self.search_string} was not found in "
-                       f"any field of Vgeografia",
+                       f"any field of Vgeography",
         }, status=status.HTTP_404_NOT_FOUND)
 
 
@@ -524,9 +525,9 @@ class JgeografiaActiveView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class VgeografiaIdView(BaseRetrieveView):
-    serializer_class = VgeografiaSerializer
-    queryset = Vgeografia.objects.all()
+class VgeographyIdView(BaseRetrieveView):
+    serializer_class = VgeographySerializer
+    queryset = Vgeography.objects.all()
     permission_classes = (IsAuthenticated,)
 
 
@@ -560,22 +561,22 @@ class JrolesCreateView(BaseCreateView):
     permission_classes = (IsAuthenticated,)
 
 
-class JrolesReadView(ListAPIView):
-    serializer_class = JrolesSerializer
+class VrolesReadView(ListAPIView):
+    serializer_class = VrolesSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
     search_string = None
 
     def get_queryset(self):
         self.search_string = self.request.query_params.get("search_string", None)
-        return get_query(self.search_string, Jroles)
+        return get_query(self.search_string, Vroles)
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        # Check if the queryset is empty and Jroles is not provided
+        # Check if the queryset is empty and Vroles is not provided
         if not queryset.exists() and self.search_string is None:
             return Response({
-                "message": "Jroles does not have any records",
+                "message": "Vroles does not have any records",
             }, status=status.HTTP_404_NOT_FOUND)
 
         # Apply pagination to the queryset
@@ -587,7 +588,7 @@ class JrolesReadView(ListAPIView):
 
         return Response({
             "message": f"The string {self.search_string} was not found in "
-                       f"any field of Jroles",
+                       f"any field of Vroles",
         }, status=status.HTTP_404_NOT_FOUND)
 
 
@@ -608,9 +609,9 @@ class JrolesActiveView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JrolesIdView(BaseRetrieveView):
-    serializer_class = JrolesSerializer
-    queryset = Jroles.objects.all()
+class VrolesIdView(BaseRetrieveView):
+    serializer_class = VrolesSerializer
+    queryset = Vroles.objects.all()
     permission_classes = (IsAuthenticated,)
 
 
@@ -654,22 +655,22 @@ class JsucursalesCreateView(BaseCreateView):
     permission_classes = (IsAuthenticated,)
 
 
-class JsucursalesReadView(ListAPIView):
-    serializer_class = JsucursalesSerializer
+class VbranchesReadView(ListAPIView):
+    serializer_class = VbranchesSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
     search_string = None
 
     def get_queryset(self):
         self.search_string = self.request.query_params.get("search_string", None)
-        return get_query(self.search_string, Jsucursales)
+        return get_query(self.search_string, Vbranches)
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        # Check if the queryset is empty and Jsucursales is not provided
+        # Check if the queryset is empty and Vbranches is not provided
         if not queryset.exists() and self.search_string is None:
             return Response({
-                "message": "Jsucursales does not have any records",
+                "message": "Vbranches does not have any records",
             }, status=status.HTTP_404_NOT_FOUND)
 
         # Apply pagination to the queryset
@@ -681,7 +682,7 @@ class JsucursalesReadView(ListAPIView):
 
         return Response({
             "message": f"The string {self.search_string} was not found in "
-                       f"any field of Jsucursales",
+                       f"any field of Vbranches",
         }, status=status.HTTP_404_NOT_FOUND)
 
 
@@ -702,9 +703,9 @@ class JsucursalesActiveView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JsucursalesIdView(BaseRetrieveView):
-    serializer_class = JsucursalesSerializer
-    queryset = Jsucursales.objects.all()
+class VbranchesIdView(BaseRetrieveView):
+    serializer_class = VbranchesSerializer
+    queryset = Vbranches.objects.all()
     permission_classes = (IsAuthenticated,)
 
 

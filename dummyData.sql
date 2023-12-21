@@ -297,6 +297,7 @@ VALUES
     NULL
   );
 
+--view vusers
 CREATE VIEW vusers AS
 SELECT
   users.idusuario,
@@ -328,6 +329,8 @@ FROM
   LEFT JOIN jgeneros AS gen ON gen.idgenero = users.idgenero
   LEFT JOIN jtiposidentificaciones AS ide ON ide.idtipoidentificacion = users.idtipoidentificacion;
 
+--view vgeography
+
 CREATE VIEW vgeography AS
 SELECT
   geo.idgeografia,
@@ -344,19 +347,91 @@ FROM
   jgeografia geo
   LEFT JOIN jgeografia frk ON frk.idgeografia = geo.fkidgeografia;
 
+  --view vcorporations
+
 CREATE VIEW vcorporations AS
- SELECT corp.idcorporacion,
- corp.idgeografia,
- geo.nombre AS belong_name,
- corp.nombrecorporacion,
- corp.descripcioncorporacion,
- corp.representantelegal,
- corp.ruc,
- corp.direccioncorporacion,
- corp.telefonocorporacion,
- corp.status,
- corp.fechacreacion,
- corp.fechamodificacion,
- corp.ipcreacion
- FROM jcorporaciones corp
+SELECT
+  corp.idcorporacion,
+  corp.idgeografia,
+  geo.nombre AS belong_name,
+  corp.nombrecorporacion,
+  corp.descripcioncorporacion,
+  corp.representantelegal,
+  corp.ruc,
+  corp.direccioncorporacion,
+  corp.telefonocorporacion,
+  corp.status,
+  corp.fechacreacion,
+  corp.fechamodificacion,
+  corp.ipcreacion
+FROM
+  jcorporaciones corp
   LEFT JOIN jgeografia geo ON geo.idgeografia = corp.idgeografia;
+
+  --view vbranches
+
+CREATE VIEW vbranches AS
+SELECT
+  suc.idsucursal,
+  suc.idgeografia,
+  geo.nombre AS belong_name,
+  suc.idcorporacion,
+  corp.nombrecorporacion,
+  suc.codigosucursal,
+  suc.nombresucursal,
+  suc.descripcionsucursal,
+  suc.direccionsucursal,
+  suc.telefonosucursal,
+  suc.status,
+  suc.fechacreacion,
+  suc.fechamodificacion,
+  suc.ipcreacion
+FROM
+  jsucursales suc
+  LEFT JOIN jgeografia geo ON geo.idgeografia = suc.idgeografia
+  LEFT JOIN jcorporaciones corp ON corp.idcorporacion = suc.idcorporacion;
+
+--view vdepartments
+
+CREATE VIEW vdepartments AS
+ SELECT dep.iddepartamento,
+    suc.idgeografia,
+    geo.nombre AS belong_name,
+    suc.idcorporacion,
+    corp.nombrecorporacion,
+    dep.idsucursal,
+    suc.nombresucursal,
+    dep.codigodepartamento,
+    dep.nombredepartamento,
+    dep.status,
+    dep.fechacreacion,
+    dep.fechamodificacion,
+    dep.ipcreacion
+   FROM jdepartamentos dep
+     LEFT JOIN jsucursales suc ON suc.idsucursal = dep.idsucursal
+     LEFT JOIN jcorporaciones corp ON corp.idcorporacion = suc.idcorporacion
+     LEFT JOIN jgeografia geo ON geo.idgeografia = suc.idgeografia;
+
+--view vroles
+
+CREATE VIEW vroles AS
+ SELECT rol.idrol,
+    rol.nombrerol,
+    rol.descripcionrol,
+    rol.status,
+    rol.fechacreacion,
+    rol.fechamodificacion,
+    rol.ipcreacion,
+    rol.iddepartamento,
+    dep.nombredepartamento,
+    dep.idsucursal,
+    suc.nombresucursal,
+    suc.idcorporacion,
+    corp.nombrecorporacion,
+    suc.idgeografia,
+    geo.nombre AS belong_name
+   FROM jroles rol
+     LEFT JOIN jdepartamentos dep ON dep.iddepartamento = rol.iddepartamento
+     LEFT JOIN jsucursales suc ON suc.idsucursal = dep.idsucursal
+     LEFT JOIN jcorporaciones corp ON corp.idcorporacion = suc.idcorporacion
+     LEFT JOIN jgeografia geo ON geo.idgeografia = suc.idgeografia;

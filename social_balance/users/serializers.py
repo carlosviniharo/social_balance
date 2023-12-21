@@ -8,7 +8,7 @@ from .models import (
     Jgeografia,
     Jroles,
     Jsucursales,
-    Jtiposidentificaciones, Jpaginas, Jprivilegios, Vusuarios, Vgeografia, Vcorporations,
+    Jtiposidentificaciones, Jpaginas, Jprivilegios, Vusers, Vgeography, Vcorporations, Vbranches, Vdepartments, Vroles,
 )
 
 
@@ -76,16 +76,31 @@ class JprivilegiosSerializer(serializers.ModelSerializer):
 
 # Serializers for database views
 
-@model_serializers(Vusuarios)
-class VusuariosSerializer(serializers.ModelSerializer):
+@model_serializers(Vusers)
+class VusersSerializer(serializers.ModelSerializer):
     pass
 
 
-@model_serializers(Vgeografia)
-class VgeografiaSerializer(serializers.ModelSerializer):
+@model_serializers(Vgeography)
+class VgeographySerializer(serializers.ModelSerializer):
     pass
 
 
 @model_serializers(Vcorporations)
 class VcorporationsSerializer(serializers.ModelSerializer):
+    pass
+
+
+@model_serializers(Vbranches)
+class VbranchesSerializer(serializers.ModelSerializer):
+    pass
+
+
+@model_serializers(Vdepartments)
+class VdepartmentsSerializer(serializers.ModelSerializer):
+    pass
+
+
+@model_serializers(Vroles)
+class VrolesSerializer(serializers.ModelSerializer):
     pass

@@ -311,7 +311,7 @@ class Jusuarios(AbstractUser):
 
 # Database Views for the user application
 
-class Vusuarios(models.Model):
+class Vusers(models.Model):
     idusuario = models.IntegerField(primary_key=True)
     nombrerol = models.CharField(max_length=255)
     idgenero = models.IntegerField()
@@ -340,7 +340,7 @@ class Vusuarios(models.Model):
     objects = models.Manager()
 
 
-class Vgeografia(models.Model):
+class Vgeography(models.Model):
     idgeografia = models.IntegerField(primary_key=True)
     codigogeografia = models.CharField(max_length=255)
     nombre = models.CharField(max_length=255)
@@ -353,7 +353,7 @@ class Vgeografia(models.Model):
     belong_name = models.CharField(max_length=255)
 
     class Meta:
-        managed = False  # To indicate that it's a database view and not a table
+        managed = False
         db_table = 'vgeography'
 
     objects = models.Manager()
@@ -375,7 +375,76 @@ class Vcorporations(models.Model):
     ipcreacion = models.CharField(max_length=50)
 
     class Meta:
-        managed = False  # To indicate that it's a database view and not a table
+        managed = False
         db_table = 'vcorporations'
+
+    objects = models.Manager()
+
+
+class Vbranches(models.Model):
+    idsucursal = models.IntegerField(primary_key=True)
+    idgeografia = models.IntegerField()
+    belong_name = models.CharField(max_length=255)
+    idcorporacion = models.IntegerField()
+    nombrecorporacion = models.CharField(max_length=255)
+    codigosucursal = models.CharField(max_length=50)
+    nombresucursal = models.CharField(max_length=255)
+    descripcionsucursal = models.TextField()
+    direccionsucursal = models.CharField(max_length=500)
+    telefonosucursal = models.CharField(max_length=20)
+    status = models.BooleanField(max_length=255)
+    fechacreacion = models.DateTimeField()
+    fechamodificacion = models.DateTimeField()
+    ipcreacion = models.CharField(max_length=50)
+
+    class Meta:
+        managed = False
+        db_table = 'vbranches'
+
+    objects = models.Manager()
+
+
+class Vdepartments(models.Model):
+    iddepartamento = models.IntegerField(primary_key=True)
+    idgeografia = models.IntegerField()
+    belong_name = models.CharField(max_length=255)
+    idcorporacion = models.IntegerField()
+    nombrecorporacion = models.CharField(max_length=255)
+    idsucursal = models.IntegerField()
+    nombresucursal = models.CharField(max_length=255)
+    codigodepartamento = models.CharField(max_length=50)
+    nombredepartamento = models.CharField(max_length=255)
+    status = models.BooleanField()
+    fechacreacion = models.DateTimeField()
+    fechamodificacion = models.DateTimeField()
+    ipcreacion = models.CharField(max_length=50)
+
+    class Meta:
+        managed = False
+        db_table = 'vdepartments'
+
+    objects = models.Manager()
+
+
+class Vroles(models.Model):
+    idrol = models.IntegerField(primary_key=True)
+    nombrerol = models.CharField(max_length=255)
+    descripcionrol = models.TextField()
+    status = models.BooleanField()
+    fechacreacion = models.DateTimeField()
+    fechamodificacion = models.DateTimeField()
+    ipcreacion = models.CharField(max_length=50)
+    iddepartamento = models.IntegerField()
+    nombredepartamento = models.CharField(max_length=255)
+    idsucursal = models.IntegerField()
+    nombresucursal = models.CharField(max_length=255)
+    idcorporacion = models.IntegerField()
+    nombrecorporacion = models.CharField(max_length=255)
+    idgeografia = models.IntegerField()
+    belong_name = models.CharField(max_length=255)
+
+    class Meta:
+        managed = False  # To indicate that it's a database view and not a table
+        db_table = 'vroles'
 
     objects = models.Manager()
