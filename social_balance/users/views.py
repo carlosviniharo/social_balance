@@ -61,13 +61,29 @@ class CustomPagination(PageNumberPagination):
         })
 
 
-# Update view with customized Create
+# Create view with customized Response
 class BaseCreateView(CreateAPIView):
     """
     Base class for update views.
     """
     def create(self, request, *args, **kwargs):
         response = super().create(request, *args, **kwargs)
+        return Response(
+            {
+                "message": "success",
+                "data": response.data
+            },
+            status=status.HTTP_201_CREATED
+            )
+
+
+# List view with customized Response
+class BaseListView(ListAPIView):
+    """
+    Base class for update views.
+    """
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)
         return Response(
             {
                 "message": "success",
@@ -162,21 +178,13 @@ class JusuariosReadView(ListAPIView):
         )
 
 
-class JusuariosActiveView(ListAPIView):
-    serializer_class = JusuariosSerializer
-    pagination_class = CustomPagination
+class VusersActiveView(BaseListView):
+    serializer_class = VusersSerializer
+    pagination_class = None
     permission_classes = (IsAuthenticated,)
 
-    def list(self, request, *args, **kwargs):
-        queryset = Jusuarios.objects.filter(is_active=True)
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            users = self.get_serializer(page, many=True)
-            return self.get_paginated_response(users.data)
-
-        return Response({
-            "message": f"No active records were found",
-        }, status=status.HTTP_404_NOT_FOUND)
+    def get_queryset(self):
+        return Vusers.objects.filter(is_active=True)
 
 
 class VusersIdView(BaseRetrieveView):
@@ -246,21 +254,13 @@ class VcorporationsReadView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JcorporacionesActiveView(ListAPIView):
-    serializer_class = JcorporacionesSerializer
-    pagination_class = CustomPagination
+class VcorporationsActiveView(BaseListView):
+    serializer_class = VcorporationsSerializer
+    pagination_class = None
     permission_classes = (IsAuthenticated,)
 
-    def list(self, request, *args, **kwargs):
-        queryset = Jcorporaciones.objects.filter(status="True")
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            corporaciones = JcorporacionesSerializer(page, many=True)
-            return self.get_paginated_response(corporaciones.data)
-
-        return Response({
-            "message": f"No active records were found",
-        }, status=status.HTTP_404_NOT_FOUND)
+    def get_queryset(self):
+        return Vcorporations.objects.filter(status="True")
 
 
 class VcorporationsIdView(BaseRetrieveView):
@@ -330,21 +330,13 @@ class VdepartmentsReadView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JdepartamentosActiveView(ListAPIView):
-    serializer_class = JdepartamentosSerializer
-    pagination_class = CustomPagination
+class VdepartmentsActiveView(BaseListView):
+    serializer_class = VdepartmentsSerializer
+    pagination_class = None
     permission_classes = (IsAuthenticated,)
 
-    def list(self, request, *args, **kwargs):
-        queryset = Jdepartamentos.objects.filter(status="True")
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            departamentos_data = JcorporacionesSerializer(page, many=True)
-            return self.get_paginated_response(departamentos_data.data)
-
-        return Response({
-            "message": f"No active records were found",
-        }, status=status.HTTP_404_NOT_FOUND)
+    def get_queryset(self):
+        return Vdepartments.objects.filter(status="True")
 
 
 class VdepartmentsIdView(BaseRetrieveView):
@@ -375,14 +367,14 @@ class JdepartamentosDeactivateView(DestroyAPIView):
         }, status=status.HTTP_202_ACCEPTED)
 
 
-class JdepartamentosByBranchesView(ListAPIView):
-    serializer_class = JdepartamentosSerializer
+class VdepartmentsByBranchesView(ListAPIView):
+    serializer_class = VdepartmentsSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         idsucursal = self.request.query_params.get("idsucursal", None)
-        return get_query_by_id("idsucursal", idsucursal, Jdepartamentos)
+        return get_query_by_id("idsucursal", idsucursal, Vdepartments)
 
 
 # CRUD services Genders
@@ -424,21 +416,13 @@ class JgenerosReadView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JgenerosActiveView(ListAPIView):
+class JgenerosActiveView(BaseListView):
     serializer_class = JgenerosSerializer
-    pagination_class = CustomPagination
+    pagination_class = None
     permission_classes = (IsAuthenticated,)
 
-    def list(self, request, *args, **kwargs):
-        queryset = Jgeneros.objects.filter(status="True")
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            generos_data = JgenerosSerializer(page, many=True)
-            return self.get_paginated_response(generos_data.data)
-
-        return Response({
-            "message": f"No active records were found",
-        }, status=status.HTTP_404_NOT_FOUND)
+    def get_queryset(self):
+        return Jgeneros.objects.filter(status="True")
 
 
 class JgenerosIdView(BaseRetrieveView):
@@ -508,21 +492,13 @@ class VgeographyReadView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JgeografiaActiveView(ListAPIView):
-    serializer_class = JgeografiaSerializer
-    pagination_class = CustomPagination
+class VgeographyActiveView(BaseListView):
+    serializer_class = VgeographySerializer
+    pagination_class = None
     permission_classes = (IsAuthenticated,)
 
-    def list(self, request, *args, **kwargs):
-        queryset = Jgeografia.objects.filter(status="True")
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            geografia_data = JgeografiaSerializer(page, many=True)
-            return self.get_paginated_response(geografia_data.data)
-
-        return Response({
-            "message": f"No active records were found",
-        }, status=status.HTTP_404_NOT_FOUND)
+    def get_queryset(self):
+        return Vgeography.objects.filter(status="True")
 
 
 class VgeographyIdView(BaseRetrieveView):
@@ -592,21 +568,13 @@ class VrolesReadView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JrolesActiveView(ListAPIView):
-    serializer_class = JrolesSerializer
-    pagination_class = CustomPagination
+class VrolesActiveView(BaseListView):
+    serializer_class = VrolesSerializer
+    pagination_class = None
     permission_classes = (IsAuthenticated,)
 
-    def list(self, request, *args, **kwargs):
-        queryset = Jroles.objects.filter(status="True")
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            role_data = self.get_serializer(page, many=True)
-            return self.get_paginated_response(role_data.data)
-
-        return Response({
-            "message": f"No active records were found",
-        }, status=status.HTTP_404_NOT_FOUND)
+    def get_queryset(self):
+        return Vroles.objects.filter(status="True")
 
 
 class VrolesIdView(BaseRetrieveView):
@@ -637,14 +605,14 @@ class JrolesDeactivateView(DestroyAPIView):
         }, status=status.HTTP_202_ACCEPTED)
 
 
-class JrolesByDepartmentsView(ListAPIView):
-    serializer_class = JrolesSerializer
+class VrolesByDepartmentsView(ListAPIView):
+    serializer_class = VrolesSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         iddepartamento = self.request.query_params.get("iddepartamento", None)
-        return get_query_by_id("iddepartamento", iddepartamento, Jroles)
+        return get_query_by_id("iddepartamento", iddepartamento, Vroles)
 
 
 # CRUD services branches
@@ -686,21 +654,13 @@ class VbranchesReadView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JsucursalesActiveView(ListAPIView):
-    serializer_class = JsucursalesSerializer
-    pagination_class = CustomPagination
+class VbranchesActiveView(BaseListView):
+    serializer_class = VbranchesSerializer
+    pagination_class = None
     permission_classes = (IsAuthenticated,)
 
-    def list(self, request, *args, **kwargs):
-        queryset = Jsucursales.objects.filter(status="True")
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            branch_data = self.get_serializer(page, many=True)
-            return self.get_paginated_response(branch_data.data)
-
-        return Response({
-            "message": f"No active records were found",
-        }, status=status.HTTP_404_NOT_FOUND)
+    def get_queryset(self):
+        return Vbranches.objects.filter(status="True")
 
 
 class VbranchesIdView(BaseRetrieveView):
@@ -731,14 +691,14 @@ class JsucursalesDeactivateView(DestroyAPIView):
         }, status=status.HTTP_202_ACCEPTED)
 
 
-class JsucursalesByCorporationView(ListAPIView):
-    serializer_class = JsucursalesSerializer
+class VbranchesByCorporationView(ListAPIView):
+    serializer_class = VbranchesSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         idcorporacion = self.request.query_params.get("idcorporacion")
-        return get_query_by_id("idcorporacion", idcorporacion, Jsucursales)
+        return get_query_by_id("idcorporacion", idcorporacion, Vbranches)
 
 
 # CRUD services types of ID
@@ -779,21 +739,13 @@ class JtiposidentificacionesReadView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JtiposidentificacionesActiveView(ListAPIView):
+class JtiposidentificacionesActiveView(BaseListView):
     serializer_class = JtiposidentificacionesSerializer
-    pagination_class = CustomPagination
+    pagination_class = None
     permission_classes = (IsAuthenticated,)
 
-    def list(self, request, *args, **kwargs):
-        queryset = Jtiposidentificaciones.objects.filter(status="True")
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            typeid_data = self.get_serializer(page, many=True)
-            return self.get_paginated_response(typeid_data.data)
-
-        return Response({
-            "message": f"No active records were found",
-        }, status=status.HTTP_404_NOT_FOUND)
+    def get_queryset(self):
+        return Jtiposidentificaciones.objects.filter(status="True")
 
 
 class JtiposidentificacionesIdView(BaseRetrieveView):
@@ -863,21 +815,13 @@ class JpaginasReadView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JpaginasActiveView(ListAPIView):
+class JpaginasActiveView(BaseListView):
     serializer_class = JpaginasSerializer
-    pagination_class = CustomPagination
+    pagination_class = None
     permission_classes = (IsAuthenticated,)
 
-    def list(self, request, *args, **kwargs):
-        queryset = Jpaginas.objects.filter(status="True")
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            page_data = self.get_serializer(page, many=True)
-            return self.get_paginated_response(page_data.data)
-
-        return Response({
-            "message": f"No active records were found",
-        }, status=status.HTTP_404_NOT_FOUND)
+    def get_queryset(self):
+        return Jpaginas.objects.filter(status="True")
 
 
 class JpaginasIdView(BaseRetrieveView):
@@ -956,21 +900,13 @@ class JprivilegiosReadView(ListAPIView):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JprivilegiosActiveView(ListAPIView):
+class JprivilegiosActiveView(BaseListView):
     serializer_class = JprivilegiosSerializer
-    pagination_class = CustomPagination
+    pagination_class = None
     permission_classes = (IsAuthenticated,)
 
-    def list(self, request, *args, **kwargs):
-        queryset = Jprivilegios.objects.filter(status="True")
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            priv_data = self.get_serializer(page, many=True)
-            return self.get_paginated_response(priv_data.data)
-
-        return Response({
-            "message": f"No active records were found",
-        }, status=status.HTTP_404_NOT_FOUND)
+    def get_queryset(self):
+        return Jprivilegios.objects.filter(status="True")
 
 
 class JprivilegiosIdView(BaseRetrieveView):

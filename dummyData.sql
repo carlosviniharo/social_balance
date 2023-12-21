@@ -299,35 +299,39 @@ VALUES
 
 --view vusers
 CREATE VIEW vusers AS
-SELECT
-  users.idusuario,
-  rol.nombrerol,
-  gen.idgenero,
-  gen.descripciongenero AS genero,
-  ide.descripciontipoidentificacion AS tipoidentificacion,
-  ide.idtipoidentificacion,
-  users.identificacion,
-  users.email,
-  users.telefono,
-  users.celular,
-  users.direccion,
-  users.first_name,
-  users.last_name,
-  users.username,
-  users.password,
-  sucr.nombresucursal,
-  dep.nombredepartamento,
-  corp.nombrecorporacion,
-  users.date_joined AS fechacreacion,
-  users.fechamodificacion
-FROM
-  jusuarios AS users
-  LEFT JOIN jroles AS rol ON rol.idrol = users.idrol
-  LEFT JOIN jdepartamentos AS dep ON dep.iddepartamento = rol.iddepartamento
-  LEFT JOIN jsucursales AS sucr ON sucr.idsucursal = dep.idsucursal
-  LEFT JOIN jcorporaciones AS corp ON corp.idcorporacion = sucr.idcorporacion
-  LEFT JOIN jgeneros AS gen ON gen.idgenero = users.idgenero
-  LEFT JOIN jtiposidentificaciones AS ide ON ide.idtipoidentificacion = users.idtipoidentificacion;
+ SELECT
+    users.idusuario,
+    users.idrol,
+    rol.nombrerol,
+    users.idgenero,
+    gen.descripciongenero AS genero,
+    users.idtipoidentificacion,
+    ide.descripciontipoidentificacion AS tipoidentificacion,
+    users.identificacion,
+    users.email,
+    users.telefono,
+    users.celular,
+    users.direccion,
+    users.password,
+    users.is_active,
+    users.first_name,
+    users.last_name,
+    users.username,
+    users.date_joined AS fechacreacion,
+    users.fechamodificacion,
+    rol.iddepartamento,
+    dep.nombredepartamento,
+    dep.idsucursal,
+    sucr.nombresucursal,
+    sucr.idcorporacion,
+    corp.nombrecorporacion
+   FROM jusuarios users
+     LEFT JOIN jroles rol ON rol.idrol = users.idrol
+     LEFT JOIN jdepartamentos dep ON dep.iddepartamento = rol.iddepartamento
+     LEFT JOIN jsucursales sucr ON sucr.idsucursal = dep.idsucursal
+     LEFT JOIN jcorporaciones corp ON corp.idcorporacion = sucr.idcorporacion
+     LEFT JOIN jgeneros gen ON gen.idgenero = users.idgenero
+     LEFT JOIN jtiposidentificaciones ide ON ide.idtipoidentifica;
 
 --view vgeography
 
