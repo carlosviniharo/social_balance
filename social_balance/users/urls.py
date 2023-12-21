@@ -4,7 +4,7 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from .views import (
     CustomTokenObtainPairView,
     JusuariosCreateView,
-    JusuariosReadView,
+    VusersReadView,
     VusersActiveView,
     VusersIdView,
     JusuariosUpdateView,
@@ -56,17 +56,17 @@ from .views import (
     JtiposidentificacionesDeactivateView,
     JpaginasCreateView,
     JpaginasReadView,
-    JprivilegiosCreateView,
-    JprivilegiosReadView,
     JpaginasActiveView,
     JpaginasIdView,
     JpaginasUpdateView,
     JpaginasDeactivateView,
-    JprivilegiosActiveView,
+    JprivilegiosCreateView,
+    VprivilegesReadView,
+    VprivilegesActiveView,
     JprivilegiosIdView,
     JprivilegiosUpdateView,
     JprivilegiosDeactivateView,
-    JprivilegiosByRolesView,
+    VprivilegesByRolesView,
 )
 
 
@@ -75,7 +75,7 @@ urlpatterns = [
     path("login/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     # CRUD services Users
     path("createUsers/", JusuariosCreateView.as_view(), name="create_users"),
-    path("allUsers/", JusuariosReadView.as_view(), name="list_users"),
+    path("allUsers/", VusersReadView.as_view(), name="list_users"),
     path("activeUsers/", VusersActiveView.as_view(), name="list-activeusers"),
     path("idUsers/<int:pk>/", VusersIdView.as_view(), name="id-users"),
     path("updateUsers/<int:pk>/", JusuariosUpdateView.as_view(), name="update-users"),
@@ -141,10 +141,10 @@ urlpatterns = [
     path("deletePages/<int:pk>/", JpaginasDeactivateView.as_view(), name="delete-pages"),
     # CRUD service Privileges
     path("createPrivileges/", JprivilegiosCreateView.as_view(), name="create-privileges"),
-    path("allPrivileges/", JprivilegiosReadView.as_view(), name="list-privileges"),
-    path("activePrivileges/", JprivilegiosActiveView.as_view(), name="list-activeprivileges"),
+    path("allPrivileges/", VprivilegesReadView.as_view(), name="list-privileges"),
+    path("activePrivileges/", VprivilegesActiveView.as_view(), name="list-activeprivileges"),
     path("idPrivileges/<int:pk>/", JprivilegiosIdView.as_view(), name="id-privileges"),
     path("updatePrivileges/<int:pk>/", JprivilegiosUpdateView.as_view(), name="update-privileges"),
     path("deletePrivileges/<int:pk>/", JprivilegiosDeactivateView.as_view(), name="delete-privileges"),
-    path("privilegesByRoles/", JprivilegiosByRolesView.as_view(), name="list-privilegesbyroles"),
+    path("privilegesByRoles/", VprivilegesByRolesView.as_view(), name="list-privilegesbyroles"),
 ]

@@ -9,6 +9,7 @@ from .models import (
     Jroles,
     Jsucursales,
     Jtiposidentificaciones, Jpaginas, Jprivilegios, Vusers, Vgeography, Vcorporations, Vbranches, Vdepartments, Vroles,
+    Vprivileges,
 )
 
 
@@ -103,4 +104,9 @@ class VdepartmentsSerializer(serializers.ModelSerializer):
 
 @model_serializers(Vroles)
 class VrolesSerializer(serializers.ModelSerializer):
+    pass
+
+
+@model_serializers(Vprivileges)
+class VprivilegesSerializer(serializers.ModelSerializer):
     pass

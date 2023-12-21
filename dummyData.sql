@@ -439,3 +439,17 @@ CREATE VIEW vroles AS
      LEFT JOIN jsucursales suc ON suc.idsucursal = dep.idsucursal
      LEFT JOIN jcorporaciones corp ON corp.idcorporacion = suc.idcorporacion
      LEFT JOIN jgeografia geo ON geo.idgeografia = suc.idgeografia;
+
+ --view vprivileges
+
+CREATE VIEW vprivileges AS
+ SELECT priv.idprivilegio,
+    priv.status,
+    rol.idrol,
+    rol.nombrerol,
+    page.idpagina,
+    page.codigopagina,
+    page.descripcionpagina
+   FROM jprivilegios priv
+     LEFT JOIN jroles rol ON rol.idrol = priv.idrol
+     LEFT JOIN jpaginas page ON page.idpagina = priv.idpagina;

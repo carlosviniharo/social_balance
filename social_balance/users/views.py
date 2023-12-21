@@ -26,7 +26,7 @@ from .models import (
     Jtiposidentificaciones,
     Jpaginas,
     Jprivilegios,
-    Vusers, Vgeography, Vcorporations, Vbranches, Vdepartments, Vroles,
+    Vusers, Vgeography, Vcorporations, Vbranches, Vdepartments, Vroles, Vprivileges,
 )
 from .serializers import (
     JusuariosSerializer,
@@ -40,7 +40,7 @@ from .serializers import (
     JpaginasSerializer,
     JprivilegiosSerializer,
     VusersSerializer, VgeographySerializer, VcorporationsSerializer, VbranchesSerializer, VdepartmentsSerializer,
-    VrolesSerializer
+    VrolesSerializer, VprivilegesSerializer
 )
 
 
@@ -146,22 +146,22 @@ class JusuariosCreateView(CreateAPIView):
         )
 
 
-class JusuariosReadView(ListAPIView):
-    serializer_class = JusuariosSerializer
+class VusersReadView(ListAPIView):
+    serializer_class = VusersSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
     search_string = None
 
     def get_queryset(self):
         self.search_string = self.request.query_params.get("search_string", None)
-        return get_query(self.search_string, Jusuarios)
+        return get_query(self.search_string, Vusers)
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         # Check if the queryset is empty and search_string is not provided
         if not queryset.exists() and self.search_string is None:
             return Response({
-                "message": "Corporation does not have any records",
+                "message": "Vusers does not have any records",
             }, status=status.HTTP_404_NOT_FOUND)
 
         # Apply pagination to the queryset
@@ -856,35 +856,26 @@ class JpaginasDeactivateView(DestroyAPIView):
 
 class JprivilegiosCreateView(BaseCreateView):
     serializer_class = JprivilegiosSerializer
+    queryset = Jprivilegios.objects.all()
     permission_classes = (IsAuthenticated,)
 
-    def create(self, request, *args, **kwargs):
-        response = super().create(request, *args, **kwargs)
-        return Response(
-            {
-                "message": "success",
-                "data": response.data
-            },
-            status=status.HTTP_201_CREATED
-        )
 
-
-class JprivilegiosReadView(ListAPIView):
-    serializer_class = JprivilegiosSerializer
+class VprivilegesReadView(ListAPIView):
+    serializer_class = VprivilegesSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
     search_string = None
 
     def get_queryset(self):
         self.search_string = self.request.query_params.get("search_string", None)
-        return get_query(self.search_string, Jprivilegios)
+        return get_query(self.search_string, Vprivileges)
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        # Check if the queryset is empty and Jprivilegios is not provided
+        # Check if the queryset is empty and Vprivileges is not provided
         if not queryset.exists() and self.search_string is None:
             return Response({
-                "message": "Jprivilegios does not have any records",
+                "message": "Vprivileges does not have any records",
             }, status=status.HTTP_404_NOT_FOUND)
 
         # Apply pagination to the queryset
@@ -896,22 +887,22 @@ class JprivilegiosReadView(ListAPIView):
 
         return Response({
             "message": f"The string {self.search_string} was not found in "
-                       f"any field of Jprivilegios",
+                       f"any field of Vprivileges",
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-class JprivilegiosActiveView(BaseListView):
-    serializer_class = JprivilegiosSerializer
+class VprivilegesActiveView(BaseListView):
+    serializer_class = VprivilegesSerializer
     pagination_class = None
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        return Jprivilegios.objects.filter(status="True")
+        return Vprivileges.objects.filter(status="True")
 
 
 class JprivilegiosIdView(BaseRetrieveView):
-    serializer_class = JprivilegiosSerializer
-    queryset = Jprivilegios.objects.all()
+    serializer_class = VprivilegesSerializer
+    queryset = Vprivileges.objects.all()
     permission_classes = (IsAuthenticated,)
 
 
@@ -947,14 +938,14 @@ class JprivilegiosDeactivateView(DestroyAPIView):
         }, status=status.HTTP_202_ACCEPTED)
 
 
-class JprivilegiosByRolesView(ListAPIView):
-    serializer_class = JprivilegiosSerializer
+class VprivilegesByRolesView(ListAPIView):
+    serializer_class = VprivilegesSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         idrol = self.request.query_params.get("idrol", None)
-        return get_query_by_id("idrol", idrol, Jprivilegios)
+        return get_query_by_id("idrol", idrol, Vprivileges)
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):

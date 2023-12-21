@@ -449,7 +449,23 @@ class Vroles(models.Model):
     belong_name = models.CharField(max_length=255)
 
     class Meta:
-        managed = False  # To indicate that it's a database view and not a table
+        managed = False
         db_table = 'vroles'
+
+    objects = models.Manager()
+
+
+class Vprivileges(models.Model):
+    idprivilegio = models.IntegerField(primary_key=True)
+    status = models.BooleanField()
+    idrol = models.IntegerField()
+    nombrerol = models.CharField(max_length=255)
+    idpagina = models.IntegerField()
+    codigopagina = models.CharField(max_length=255)
+    descripcionpagina = models.CharField(max_length=255)
+
+    class Meta:
+        managed = False
+        db_table = 'vprivileges'
 
     objects = models.Manager()
