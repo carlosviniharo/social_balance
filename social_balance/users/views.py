@@ -945,7 +945,7 @@ class VprivilegesByRolesView(ListAPIView):
 
     def list(self, request, *args, **kwargs):
         queryset_active = Vprivileges.objects.filter(status="True")
-        queryset_deactivate = Vprivileges.objects.filter(status="False")
+        queryset_deactivate = Vprivileges.objects.filter(idrol=None)
         active = self.get_serializer(queryset_active, many=True)
         deactivate = self.get_serializer(queryset_deactivate, many=True)
 

@@ -443,7 +443,7 @@ CREATE VIEW vroles AS
  --view vprivileges
 
 CREATE VIEW vprivileges AS
- SELECT priv.idprivilegio,
+SELECT priv.idprivilegio,
     priv.status,
     rol.idrol,
     rol.nombrerol,
@@ -452,4 +452,4 @@ CREATE VIEW vprivileges AS
     page.descripcionpagina
    FROM jprivilegios priv
      LEFT JOIN jroles rol ON rol.idrol = priv.idrol
-     LEFT JOIN jpaginas page ON page.idpagina = priv.idpagina;
+     RIGHT JOIN jpaginas page ON page.idpagina = priv.idpagina;
