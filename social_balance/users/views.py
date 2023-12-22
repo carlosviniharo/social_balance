@@ -943,9 +943,18 @@ class VprivilegesByRolesView(ListAPIView):
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
 
-    def get_queryset(self):
-        idrol = self.request.query_params.get("idrol", None)
-        return get_query_by_id("idrol", idrol, Vprivileges)
+    def list(self, request, *args, **kwargs):
+        queryset_active = Vprivileges.objects.filter(status="True")
+        queryset_deactivate = Vprivileges.objects.filter(status="False")
+        active = self.get_serializer(queryset_active, many=True)
+        deactivate = self.get_serializer(queryset_deactivate, many=True)
+
+        return Response({
+            "message": f"success",
+            "granted": active.data,
+            "denied": deactivate.data
+        }, status=status.HTTP_200_OK
+        )
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
