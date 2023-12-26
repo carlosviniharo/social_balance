@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.generics import (
@@ -533,8 +534,27 @@ class JgeografiaDeactivateView(DestroyAPIView):
 
 class JrolesCreateView(BaseCreateView):
     serializer_class = JrolesSerializer
-    queryset = Jroles.objects.all()
     permission_classes = (IsAuthenticated,)
+
+    def create(self, request, *args, **kwargs):
+        data_role = self.get_serializer(data=request.data)
+        data_role.is_valid(raise_exception=True)
+        object_role = Jroles.objects.create(**data_role.validated_data)
+        pages = Jpaginas.objects.all()
+        for page in pages:
+            active = False
+            if page.codigopagina == "profile":
+                active = True
+            Jprivilegios.objects.create(
+                idrol=object_role,
+                idpagina=page,
+                status=active
+            )
+        return Response(
+            {
+                "message": f"success",
+                "data": data_role.data}
+        )
 
 
 class VrolesReadView(ListAPIView):
@@ -944,15 +964,16 @@ class VprivilegesByRolesView(ListAPIView):
     permission_classes = (IsAuthenticated,)
 
     def list(self, request, *args, **kwargs):
-        queryset_active = Vprivileges.objects.filter(status="True")
-        queryset_deactivate = Vprivileges.objects.filter(idrol=None)
-        active = self.get_serializer(queryset_active, many=True)
-        deactivate = self.get_serializer(queryset_deactivate, many=True)
+        idrol = self.request.query_params.get("idrol", None)
+        queryset_active = get_query_by_id("idrol", idrol, Vprivileges)
+        privileges = self.get_serializer(queryset_active, many=True).data
+        granted_privileges = [p for p in privileges if p["status"]]
+        denied_privileges = [p for p in privileges if not p["status"]]
 
         return Response({
             "message": f"success",
-            "granted": active.data,
-            "denied": deactivate.data
+            "granted": granted_privileges,
+            "denied": denied_privileges
         }, status=status.HTTP_200_OK
         )
 

@@ -148,18 +148,15 @@ Values
   (1, '06', 'Secretaria General', True),
   (1, '07', 'Legal interno', True);
 
-/*jroles */
-INSERT INTO
-  jroles (
-    nombrerol,
-    descripcionrol,
-    status,
-    iddepartamento
-  )
-Values
-  ('Supervisor', 'Asigna', True, 1),
-  ('Asistente', 'Recibe', True, 1),
-  ('Tecnico', 'Soluciona', True, 1);
+/*jpaginas */
+INSERT INTO public.jpaginas (codigopagina,descripcionpagina,status) VALUES
+	 ('profile','Ingreso al perfil de usuario',true),
+	 ('geography','Admin->Geografia: Acceso al modulo de Geografia',true),
+	 ('corporation','Admin->Corporacion: Acceso al modulo de Corporacion',true),
+	 ('privileges','Admin->Roles y Privilegios: Acceso a generar roles y otorgar Provilegios en el sistema',true),
+	 ('department','Admin->Departamentos: Acceso al modulo de departamentos',true),
+	 ('privileges','Admin->Roles y Privilegios: Acceso a generar roles y otorgar Provilegios en el sistema',true),
+	 ('person','Admin->Personas: Acceso al modulo de Personas',true);
 
 /*usuarios*/
 INSERT INTO
@@ -452,4 +449,4 @@ SELECT priv.idprivilegio,
     page.descripcionpagina
    FROM jprivilegios priv
      LEFT JOIN jroles rol ON rol.idrol = priv.idrol
-     RIGHT JOIN jpaginas page ON page.idpagina = priv.idpagina;
+     LEFT JOIN jpaginas page ON page.idpagina = priv.idpagina;

@@ -52,14 +52,14 @@ def get_query(search_string, model):
     return model.objects.all()
 
 
-def get_query_by_id(id, string, model):
+def get_query_by_id(parm_name, param_value, model):
     """
     Gets the query that matches a specific id in the model.
-    :param id: str
+    :param parm_name: str
     :param string: str
-    :param model: ORM object
+    :param param_value: ORM object
     :return: query object
     """
-    if string is None or string == "":
-        raise APIException(f"{id} not provided")
-    return model.objects.filter(**{id: string})
+    if param_value is None or param_value == "":
+        raise APIException(f"{parm_name} not provided")
+    return model.objects.filter(**{parm_name: param_value})

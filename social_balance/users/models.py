@@ -397,7 +397,7 @@ class Vbranches(models.Model):
     descripcionsucursal = models.TextField()
     direccionsucursal = models.CharField(max_length=500)
     telefonosucursal = models.CharField(max_length=20)
-    status = models.BooleanField(max_length=255)
+    status = models.BooleanField()
     fechacreacion = models.DateTimeField()
     fechamodificacion = models.DateTimeField()
     ipcreacion = models.CharField(max_length=50)
