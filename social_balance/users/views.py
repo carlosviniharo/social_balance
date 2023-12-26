@@ -994,6 +994,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                 user.last_login = timezone.now()
                 user.save()
                 response.data["name"] = user.first_name + user.last_name
+                response.data["idrol"] = user.idrol.idrol if user.idrol else None
                 response.data["role"] = user.idrol.nombrerol if user.idrol else None
                 response.data["email"] = user.email
                 response.data["message"] = "success"
