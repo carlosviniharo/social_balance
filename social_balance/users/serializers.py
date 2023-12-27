@@ -8,7 +8,15 @@ from .models import (
     Jgeografia,
     Jroles,
     Jsucursales,
-    Jtiposidentificaciones, Jpaginas, Jprivilegios, Vusers, Vgeography, Vcorporations, Vbranches, Vdepartments, Vroles,
+    Jtiposidentificaciones,
+    Jpaginas,
+    Jprivilegios,
+    Vusers,
+    Vgeography,
+    Vcorporations,
+    Vbranches,
+    Vdepartments,
+    Vroles,
     Vprivileges,
 )
 

@@ -2,7 +2,11 @@ import uuid
 import socket
 import requests
 from django.contrib.postgres.search import SearchQuery, SearchVector
+from rest_framework import status
 from rest_framework.exceptions import APIException
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
 
 
 def get_mac_address():
@@ -56,10 +60,91 @@ def get_query_by_id(parm_name, param_value, model):
     """
     Gets the query that matches a specific id in the model.
     :param parm_name: str
-    :param string: str
-    :param param_value: ORM object
+    :param param_value: str
+    :param model: ORM object
     :return: query object
     """
     if param_value is None or param_value == "":
         raise APIException(f"{parm_name} not provided")
     return model.objects.filter(**{parm_name: param_value})
+
+
+# Customize pagination output style class
+class CustomPagination(PageNumberPagination):
+    def get_paginated_response(self, data):
+        return Response({
+            'message': 'success',
+            'links': {
+                'next': self.get_next_link(),
+                'previous': self.get_previous_link()
+            },
+            'page': self.page.number,
+            'perPage': self.page.paginator.per_page,
+            'totalPages': self.page.paginator.num_pages,
+            'totalCount': self.page.paginator.count,
+            'data': data
+        })
+
+
+# Create view with customized Response
+class BaseCreateView(CreateAPIView):
+    """
+    Base class for update views.
+    """
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        return Response(
+            {
+                "message": "success",
+                "data": response.data
+            },
+            status=status.HTTP_201_CREATED
+            )
+
+
+# List view with customized Response
+class BaseListView(ListAPIView):
+    """
+    Base class for update views.
+    """
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)
+        return Response(
+            {
+                "message": "success",
+                "data": response.data
+            },
+            status=status.HTTP_200_OK
+            )
+
+
+# Retrieve view with customized Response
+class BaseRetrieveView(RetrieveAPIView):
+    """
+    Base class for retrieval views.
+    """
+    def retrieve(self, request, *args, **kwargs):
+        response = super().retrieve(request, *args, **kwargs)
+        return Response(
+            {
+                "message": "success",
+                "data": response.data
+            },
+            status=status.HTTP_200_OK
+        )
+
+
+# Update view with customized Response
+class BaseUpdateView(UpdateAPIView):
+    """
+    Base class for update views.
+    """
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        return Response(
+            {
+                "message": "success",
+                "data": response.data
+            },
+            status=status.HTTP_200_OK
+            )

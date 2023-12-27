@@ -1,4 +1,3 @@
-from django.db.models import Q
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.generics import (
@@ -6,15 +5,21 @@ from rest_framework.generics import (
     CreateAPIView,
     UpdateAPIView,
     DestroyAPIView,
-    RetrieveAPIView,
 )
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.exceptions import AuthenticationFailed, APIException
+from rest_framework.exceptions import AuthenticationFailed
 
-from .utils.helper import get_query, get_query_by_id
+from .utils.helper import (
+    get_query,
+    get_query_by_id,
+    CustomPagination,
+    BaseListView,
+    BaseRetrieveView,
+    BaseUpdateView,
+    BaseCreateView
+)
 
 from .models import (
     Jusuarios,
@@ -27,7 +32,13 @@ from .models import (
     Jtiposidentificaciones,
     Jpaginas,
     Jprivilegios,
-    Vusers, Vgeography, Vcorporations, Vbranches, Vdepartments, Vroles, Vprivileges,
+    Vusers,
+    Vgeography,
+    Vcorporations,
+    Vbranches,
+    Vdepartments,
+    Vroles,
+    Vprivileges,
 )
 from .serializers import (
     JusuariosSerializer,
@@ -40,90 +51,14 @@ from .serializers import (
     JtiposidentificacionesSerializer,
     JpaginasSerializer,
     JprivilegiosSerializer,
-    VusersSerializer, VgeographySerializer, VcorporationsSerializer, VbranchesSerializer, VdepartmentsSerializer,
-    VrolesSerializer, VprivilegesSerializer
+    VusersSerializer,
+    VgeographySerializer,
+    VcorporationsSerializer,
+    VbranchesSerializer,
+    VdepartmentsSerializer,
+    VrolesSerializer,
+    VprivilegesSerializer
 )
-
-
-# Customize pagination output style class
-class CustomPagination(PageNumberPagination):
-    def get_paginated_response(self, data):
-        return Response({
-            'message': 'success',
-            'links': {
-                'next': self.get_next_link(),
-                'previous': self.get_previous_link()
-            },
-            'page': self.page.number,
-            'perPage': self.page.paginator.per_page,
-            'totalPages': self.page.paginator.num_pages,
-            'totalCount': self.page.paginator.count,
-            'data': data
-        })
-
-
-# Create view with customized Response
-class BaseCreateView(CreateAPIView):
-    """
-    Base class for update views.
-    """
-    def create(self, request, *args, **kwargs):
-        response = super().create(request, *args, **kwargs)
-        return Response(
-            {
-                "message": "success",
-                "data": response.data
-            },
-            status=status.HTTP_201_CREATED
-            )
-
-
-# List view with customized Response
-class BaseListView(ListAPIView):
-    """
-    Base class for update views.
-    """
-    def list(self, request, *args, **kwargs):
-        response = super().list(request, *args, **kwargs)
-        return Response(
-            {
-                "message": "success",
-                "data": response.data
-            },
-            status=status.HTTP_200_OK
-            )
-
-
-# Retrieve view with customized Response
-class BaseRetrieveView(RetrieveAPIView):
-    """
-    Base class for retrieval views.
-    """
-    def retrieve(self, request, *args, **kwargs):
-        response = super().retrieve(request, *args, **kwargs)
-        return Response(
-            {
-                "message": "success",
-                "data": response.data
-            },
-            status=status.HTTP_200_OK
-        )
-
-
-# Update view with customized Response
-class BaseUpdateView(UpdateAPIView):
-    """
-    Base class for update views.
-    """
-    def update(self, request, *args, **kwargs):
-        response = super().update(request, *args, **kwargs)
-        return Response(
-            {
-                "message": "success",
-                "data": response.data
-            },
-            status=status.HTTP_200_OK
-            )
 
 
 # CRUD services Users

@@ -293,22 +293,43 @@ VALUES
     NULL
   );
  -- Jprincipios
-
+INSERT INTO public.jprincipios(codigoprincipio,descripcionprincipio,status) VALUES
+    ('Principio 1','Adhesión libre y voluntaria', true),
+    ('Principio 2','Control democrático', true),
+    ('Principio 3','Participación económica', true),
+    ('Principio 4','Autonomía e independencia', true),
+    ('Principio 5','Educación, capacitación e información', true),
+    ('Principio 6','Cooperación e integración del sector económico popular y solidario', true),
+    ('Principio 7','Compromiso con la comunidad', true);
 
 -- jprinciosclasificaciones
+INSERT INTO public.jprinciosclasificaciones(clasificacion, idprincipio, status) VALUES
+('Inclusión de la población vulnerable a los servicios financieros en la entidad', 1, true),
+('Crecimiento de la entidad en coherencia con el aporte al desarrollo local', 1, true),
+('Control democrático', 2, true),
+('Participación económica', 3, true),
+('Autonomía e independencia', 4, true),
+('Crecimiento de la entidad en coherencia con el aporte al desarrollo local', 4, true),
+('Desarrollo integral persona – entidad', 5, true),
+('Fomento e integración del sector económico popular y solidario', 6, true),
+('Reducción de costos y aumento de productividad', 6, true),
+('Integración estructurada con la comunidad', 7, true),
+('Compromiso con el medio ambiente', 7, true),
+('Acuerdos con el Gobierno', 7, true),
+('Interacción con proveedores', 7, true);
 
 
 -- jindicadores
-INSERT INTO public.jindicadores(codigoindicador,descriptionindicator,operacion, status) VALUES
-	 ('P101','Porcentaje de socios activos', 'División', true),
-	 ('P102','Porcentaje del valor de certificados de aportación en relación al SBU', 'División', true),
-	 ('P103','Porcentaje de socias mujeres', 'División', true),
-	 ('P104','Porcentaje de socios que residen en áreas rurales', 'División', true),
-	 ('P105','Porcentaje de socios pertenecientes a minorías étnicas', 'División', true),
-	 ('P106','Porcentaje de socios con ingresos menores o iguales al SBU', 'División', true),
-	 ('P107','Porcentaje de agencias con acceso a personas con discapacidad', 'División',true),
-	 ('P108','Manuales y procesos adecuados a la inclusión de población vulnerable, aprobados y actualizados.', 'Cumplimiento', true),
-	 ('P109','Porcentaje de socios con ingresos menores o iguales al SBU', 'División', true);
+INSERT INTO public.jindicadores(codigoindicador,descriptionindicator,operacion, status, idprincioclasificacione) VALUES
+	 ('P101','Porcentaje de socios activos', 'División', true, 1),
+	 ('P102','Porcentaje del valor de certificados de aportación en relación al SBU', 'División', true, 1),
+	 ('P103','Porcentaje de socias mujeres', 'División', true, 1),
+	 ('P104','Porcentaje de socios que residen en áreas rurales', 'División', true, 1),
+	 ('P105','Porcentaje de socios pertenecientes a minorías étnicas', 'División', true, 1),
+	 ('P106','Porcentaje de socios con ingresos menores o iguales al SBU', 'División', true, 1),
+	 ('P107','Porcentaje de agencias con acceso a personas con discapacidad', 'División',true, 1),
+	 ('P108','Manuales y procesos adecuados a la inclusión de población vulnerable, aprobados y actualizados.', 'Cumplimiento', true, 1),
+	 ('P109','Porcentaje de socios con ingresos menores o iguales al SBU', 'División', true, 1);
 
 --view vusers
 CREATE VIEW vusers AS
