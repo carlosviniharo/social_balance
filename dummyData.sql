@@ -155,7 +155,6 @@ INSERT INTO public.jpaginas (codigopagina,descripcionpagina,status) VALUES
 	 ('corporation','Admin->Corporacion: Acceso al modulo de Corporacion',true),
 	 ('privileges','Admin->Roles y Privilegios: Acceso a generar roles y otorgar Provilegios en el sistema',true),
 	 ('department','Admin->Departamentos: Acceso al modulo de departamentos',true),
-	 ('privileges','Admin->Roles y Privilegios: Acceso a generar roles y otorgar Provilegios en el sistema',true),
 	 ('person','Admin->Personas: Acceso al modulo de Personas',true);
 
 /*usuarios*/
@@ -293,6 +292,18 @@ VALUES
     NULL,
     NULL
   );
+
+-- jindicadores
+INSERT INTO public.jindicadores(codigoindicador,descriptionindicator,status) VALUES
+	 ('P101','Porcentaje de socios activos',true),
+	 ('P102','Porcentaje del valor de certificados de aportación en relación al SBU',true),
+	 ('P103','Porcentaje de socias mujeres',true),
+	 ('P104','Porcentaje de socios que residen en áreas rurales',true),
+	 ('P105','Porcentaje de socios pertenecientes a minorías étnicas',true),
+	 ('P106','Porcentaje de socios con ingresos menores o iguales al SBU',true),
+	 ('P107','Porcentaje de agencias con acceso a personas con discapacidad',true),
+	 ('P108','Manuales y procesos adecuados a la inclusión de población vulnerable, aprobados y actualizados.',true),
+	 ('P109','Porcentaje de socios con ingresos menores o iguales al SBU',true);
 
 --view vusers
 CREATE VIEW vusers AS
