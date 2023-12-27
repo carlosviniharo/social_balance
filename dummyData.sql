@@ -292,18 +292,23 @@ VALUES
     NULL,
     NULL
   );
+ -- Jprincipios
+
+
+-- jprinciosclasificaciones
+
 
 -- jindicadores
-INSERT INTO public.jindicadores(codigoindicador,descriptionindicator,status) VALUES
-	 ('P101','Porcentaje de socios activos',true),
-	 ('P102','Porcentaje del valor de certificados de aportación en relación al SBU',true),
-	 ('P103','Porcentaje de socias mujeres',true),
-	 ('P104','Porcentaje de socios que residen en áreas rurales',true),
-	 ('P105','Porcentaje de socios pertenecientes a minorías étnicas',true),
-	 ('P106','Porcentaje de socios con ingresos menores o iguales al SBU',true),
-	 ('P107','Porcentaje de agencias con acceso a personas con discapacidad',true),
-	 ('P108','Manuales y procesos adecuados a la inclusión de población vulnerable, aprobados y actualizados.',true),
-	 ('P109','Porcentaje de socios con ingresos menores o iguales al SBU',true);
+INSERT INTO public.jindicadores(codigoindicador,descriptionindicator,operacion, status) VALUES
+	 ('P101','Porcentaje de socios activos', 'División', true),
+	 ('P102','Porcentaje del valor de certificados de aportación en relación al SBU', 'División', true),
+	 ('P103','Porcentaje de socias mujeres', 'División', true),
+	 ('P104','Porcentaje de socios que residen en áreas rurales', 'División', true),
+	 ('P105','Porcentaje de socios pertenecientes a minorías étnicas', 'División', true),
+	 ('P106','Porcentaje de socios con ingresos menores o iguales al SBU', 'División', true),
+	 ('P107','Porcentaje de agencias con acceso a personas con discapacidad', 'División',true),
+	 ('P108','Manuales y procesos adecuados a la inclusión de población vulnerable, aprobados y actualizados.', 'Cumplimiento', true),
+	 ('P109','Porcentaje de socios con ingresos menores o iguales al SBU', 'División', true);
 
 --view vusers
 CREATE VIEW vusers AS
