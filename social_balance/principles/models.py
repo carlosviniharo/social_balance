@@ -6,15 +6,15 @@ from users.models import Jusuarios
 # Create your models here.
 class Jindicadores(models.Model):
     idindicador = models.AutoField(primary_key=True)
-    idprincioclasificacione = models.ForeignKey(
-        "Jprinciosclasificaciones",
+    idprinciosubdivision = models.ForeignKey(
+        "Jprinciossubdivisiones",
         models.DO_NOTHING,
-        db_column="idprincioclasificacione",
+        db_column="idprinciosubdivision",
         blank=True,
         null=True,
     )
     codigoindicador = models.CharField(max_length=4)
-    descriptionindicator = models.CharField(max_length=500)
+    descripcionindicador = models.CharField(max_length=500)
     operacion = models.CharField()
     status = models.BooleanField(default=True)
     fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
@@ -139,8 +139,8 @@ class Jprincipios(models.Model):
         return self.codigoprincipio
 
 
-class Jprinciosclasificaciones(models.Model):
-    idprincioclasificacione = models.AutoField(primary_key=True)
+class Jprinciossubdivisiones(models.Model):
+    idprinciosubdivision = models.AutoField(primary_key=True)
     idprincipio = models.ForeignKey(
         Jprincipios,
         models.DO_NOTHING,
@@ -148,7 +148,14 @@ class Jprinciosclasificaciones(models.Model):
         blank=True,
         null=True,
     )
-    clasificacion = models.CharField(max_length=500)
+    fkidprinciosubdivision = models.ForeignKey(
+        "self", models.DO_NOTHING,
+        db_column="fkidprinciosubdivision",
+        blank=True,
+        null=True
+    )
+    nivel = models.IntegerField()
+    descripcion = models.TextField()
     status = models.BooleanField(default=True)
     fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
     fechamodificacion = models.DateTimeField(auto_now=True, null=True)
@@ -156,10 +163,10 @@ class Jprinciosclasificaciones(models.Model):
     validezfin = models.DateTimeField(null=True)
 
     class Meta:
-        db_table = "jprinciosclasificaciones"
+        db_table = "jprinciossubdivisiones"
 
     objects = models.Manager()
 
     def __str__(self):
-        return self.clasificacion
+        return self.descripcion
 

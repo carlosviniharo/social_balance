@@ -302,34 +302,34 @@ INSERT INTO public.jprincipios(codigoprincipio,descripcionprincipio,status) VALU
     ('Principio 6','Cooperación e integración del sector económico popular y solidario', true),
     ('Principio 7','Compromiso con la comunidad', true);
 
--- jprinciosclasificaciones
-INSERT INTO public.jprinciosclasificaciones(clasificacion, idprincipio, status) VALUES
-('Inclusión de la población vulnerable a los servicios financieros en la entidad', 1, true),
-('Crecimiento de la entidad en coherencia con el aporte al desarrollo local', 1, true),
-('Control democrático', 2, true),
-('Participación económica', 3, true),
-('Autonomía e independencia', 4, true),
-('Crecimiento de la entidad en coherencia con el aporte al desarrollo local', 4, true),
-('Desarrollo integral persona – entidad', 5, true),
-('Fomento e integración del sector económico popular y solidario', 6, true),
-('Reducción de costos y aumento de productividad', 6, true),
-('Integración estructurada con la comunidad', 7, true),
-('Compromiso con el medio ambiente', 7, true),
-('Acuerdos con el Gobierno', 7, true),
-('Interacción con proveedores', 7, true);
+-- jprinciossubdivisiones
+INSERT INTO public.jprinciossubdivisiones(nivel, descripcion, status, idprincipio) VALUES
+(1, 'Inclusión de la población vulnerable a los servicios financieros en la entidad', true, 1),
+(1, 'Crecimiento de la entidad en coherencia con el aporte al desarrollo local', true, 1),
+(1, 'Control democrático', true, 2),
+(1, 'Participación económica', true, 3),
+(1, 'Autonomía e independencia', true, 4),
+(1, 'Crecimiento de la entidad en coherencia con el aporte al desarrollo local', true, 4),
+(1, 'Desarrollo integral persona – entidad', true, 5),
+(1, 'Fomento e integración del sector económico popular y solidario', true, 6),
+(1, 'Reducción de costos y aumento de productividad', true, 6),
+(1, 'Integración estructurada con la comunidad', true, 7),
+(1, 'Compromiso con el medio ambiente', true, 7),
+(1, 'Acuerdos con el Gobierno', true, 7),
+(1, 'Interacción con proveedores', true, 7);
 
 
--- jindicadores
-INSERT INTO public.jindicadores(codigoindicador,descriptionindicator,operacion, status, idprincioclasificacione) VALUES
-	 ('P101','Porcentaje de socios activos', 'División', true, 1),
-	 ('P102','Porcentaje del valor de certificados de aportación en relación al SBU', 'División', true, 1),
-	 ('P103','Porcentaje de socias mujeres', 'División', true, 1),
-	 ('P104','Porcentaje de socios que residen en áreas rurales', 'División', true, 1),
-	 ('P105','Porcentaje de socios pertenecientes a minorías étnicas', 'División', true, 1),
-	 ('P106','Porcentaje de socios con ingresos menores o iguales al SBU', 'División', true, 1),
-	 ('P107','Porcentaje de agencias con acceso a personas con discapacidad', 'División',true, 1),
-	 ('P108','Manuales y procesos adecuados a la inclusión de población vulnerable, aprobados y actualizados.', 'Cumplimiento', true, 1),
-	 ('P109','Porcentaje de socios con ingresos menores o iguales al SBU', 'División', true, 1);
+-- jindicadores-level one
+INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, status, idprinciosubdivision) VALUES
+     ('P101','Porcentaje de socios activos', 'División', true, 1),
+     ('P102','Porcentaje del valor de certificados de aportación en relación al SBU', 'División', true, 1),
+     ('P103','Porcentaje de socias mujeres', 'División', true, 1),
+     ('P104','Porcentaje de socios que residen en áreas rurales', 'División', true, 1),
+     ('P105','Porcentaje de socios pertenecientes a minorías étnicas', 'División', true, 1),
+     ('P106','Porcentaje de socios con ingresos menores o iguales al SBU', 'División', true, 1),
+     ('P107','Porcentaje de agencias con acceso a personas con discapacidad', 'División',true, 1),
+     ('P108','Manuales y procesos adecuados a la inclusión de población vulnerable, aprobados y actualizados.', 'Cumplimiento', true, 1),
+     ('P109','Porcentaje de socios con ingresos menores o iguales al SBU', 'División', true, 1);
 
 --view vusers
 CREATE VIEW vusers AS
