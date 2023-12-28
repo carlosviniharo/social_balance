@@ -2,7 +2,7 @@ import uuid
 import socket
 import requests
 from django.contrib.postgres.search import SearchQuery, SearchVector
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.exceptions import APIException
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.pagination import PageNumberPagination
@@ -148,3 +148,41 @@ class BaseUpdateView(UpdateAPIView):
             },
             status=status.HTTP_200_OK
             )
+
+
+# Viewset with customized Response
+
+class BaseViewSet(viewsets.ModelViewSet):
+    """
+    Base class for set views.
+    """
+
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        return Response(
+            {
+                "message": "success",
+                "data": response.data
+            },
+            status=status.HTTP_201_CREATED
+            )
+
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        return Response(
+            {
+                "message": "success",
+                "data": response.data
+            },
+            status=status.HTTP_200_OK
+            )
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.status = False
+        instance.save()
+        instance_data = self.get_serializer(instance)
+        return Response({
+            "message": "success",
+            "data": instance_data.data
+        }, status=status.HTTP_202_ACCEPTED)

@@ -1,16 +1,27 @@
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Jprincipios
-from .serializers import JprincipiosSerializer
 from users.utils.helper import (
     CustomPagination,
     BaseListView,
     BaseRetrieveView,
     BaseUpdateView,
+    BaseViewSet,
 )
 
+from .models import Jprincipios, Jprinciossubdivisiones
+from .serializers import JprincipiosSerializer, JprinciossubdivisionesSerializer
 
+
+#  Jprincipios API endpoints
+
+class JprincipiosSetView(BaseViewSet):
+    serializer_class = JprincipiosSerializer
+    queryset = Jprincipios.objects.all()
+    # permission_classes = (IsAuthenticated,)
+
+
+# Read services for Jprincipios
 class JprincipiosReadView(ListAPIView):
     serializer_class = JprincipiosSerializer
     queryset = Jprincipios.objects.all()
@@ -20,11 +31,9 @@ class JprincipiosReadView(ListAPIView):
 
 class JprincipiosActiveView(BaseListView):
     serializer_class = JprincipiosSerializer
+    queryset = Jprincipios.objects.filter(status=True)
     pagination_class = None
     permission_classes = (IsAuthenticated,)
-
-    def get_queryset(self):
-        return Jprincipios.objects.filter(status=True)
 
 
 class JprincipiosIdView(BaseRetrieveView):
@@ -33,7 +42,33 @@ class JprincipiosIdView(BaseRetrieveView):
     permission_classes = (IsAuthenticated,)
 
 
-class JprincipiosUpdateView(BaseUpdateView):
-    serializer_class = JprincipiosSerializer
-    queryset = Jprincipios.objects.all()
+#  Jprinciossubdivisiones API endpoints
+
+class JprinciossubdivisionesViewSet(BaseViewSet):
+    queryset = Jprinciossubdivisiones.objects.all()
+    serializer_class = JprinciossubdivisionesSerializer
     permission_classes = (IsAuthenticated,)
+
+
+# Read services for Jprinciossubdivisiones
+
+class JprinciossubdivisionesReadView(ListAPIView):
+    serializer_class = JprinciossubdivisionesSerializer
+    queryset = Jprinciossubdivisiones.objects.all()
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticated,)
+
+
+class JprinciossubdivisionesActiveView(BaseListView):
+    serializer_class = JprinciossubdivisionesSerializer
+    queryset = Jprinciossubdivisiones.objects.filter(status=True)
+    pagination_class = None
+    permission_classes = (IsAuthenticated,)
+
+
+class JprinciossubdivisionesIdView(BaseRetrieveView):
+    serializer_class = JprinciossubdivisionesSerializer
+    queryset = Jprinciossubdivisiones.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+

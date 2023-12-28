@@ -132,6 +132,7 @@ class Jprincipios(models.Model):
 
     class Meta:
         db_table = "jprincipios"
+        ordering = ['codigoprincipio']
 
     objects = models.Manager()
 

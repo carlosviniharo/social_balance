@@ -302,7 +302,7 @@ INSERT INTO public.jprincipios(codigoprincipio,descripcionprincipio,status) VALU
     ('Principio 6','Cooperación e integración del sector económico popular y solidario', true),
     ('Principio 7','Compromiso con la comunidad', true);
 
--- jprinciossubdivisiones
+-- jprinciossubdivisiones -level one
 INSERT INTO public.jprinciossubdivisiones(nivel, descripcion, status, idprincipio) VALUES
 (1, 'Inclusión de la población vulnerable a los servicios financieros en la entidad', true, 1),
 (1, 'Crecimiento de la entidad en coherencia con el aporte al desarrollo local', true, 1),
@@ -319,17 +319,66 @@ INSERT INTO public.jprinciossubdivisiones(nivel, descripcion, status, idprincipi
 (1, 'Interacción con proveedores', true, 7);
 
 
--- jindicadores-level one
+-- jprinciossubdivisiones -level two
+INSERT INTO public.jprinciossubdivisiones(nivel, descripcion, status, idprincipio,fkidprinciosubdivision) VALUES
+(2, 'Nivel de apertura, no discriminación', true, 1,1),
+(2, 'Direccionamiento de productos a zonas rurales y urbanas. Existencia de productos para menores de edad. Cobertura poblacional en relación a la PEA, PIB, NBI, SBU (salario básico unificado). Cobertura física en zonas rurales y urbanas.', true, 1, 2),
+(2, 'Nivel de participación de los socios y de capital social. Equidad de género. Representación local. Participación de los socios.', true,2, 3),
+(2, 'Reciprocidad y crecimiento sostenido a través de niveles de aprobación debidamente adaptados. Concentración de fuentes de fondeo. Nivel de endeudamiento. Promotores de la economía popular y solidario. Participación de capital social. Capacidad de ahorro.', true,3, 4),
+(2, 'Capacidad de creación y adaptación de productos y servicios.', true, 4, 5),
+(2, 'Generación de planes de auditoría.', true, 4, 5),
+(2, 'Transparencia de la información.', true, 4, 6),
+(2, 'Seguridad de la información.', true, 4, 6),
+(2, 'Nivel de capacitación a sus socios, representantes a asambleas y juntas de socios, vocales de los consejos, representante legal y empleados.', true,5, 7),
+(2, 'Formación en principios y valores.', true,5, 7),
+(2, 'Formación de representantes a órganos de gobierno, vocales de los consejos.', true,5, 7),
+(2, 'Educación en temas del sector de economía popular y solidaria.', true,5, 7),
+(2, 'Educación financiera.', true,5, 7),
+(2, 'Capacitación específica: derechos humanos, prácticas anticorrupción, medio ambiente, entre otros.', true,5, 7),
+(2, 'Desarrollo de proyectos.', true,5, 7),
+(2, 'Aporte al fortalecimiento del sector.', true,6, 8),
+(2, 'Economías de escala en beneficio colectivo (entidad y socios).', true,6, 9),
+(2, 'Accesibilidad a personas con discapacidad. Satisfacción del cliente y socios. Comercio justo.', true,7, 10),
+(2, 'Finanzas verdes. Establecer prácticas ambientales.', true,7, 11),
+(2, 'Relacionamiento con el Gobierno local y GAD.', true,7, 12),
+(2, 'Relación con los proveedores.', true,7, 13);
+
+-- jprinciossubdivisiones -level three
+INSERT INTO public.jprinciossubdivisiones(nivel, descripcion, status, idprincipio, fkidprinciosubdivision) VALUES
+(3, 'Permitir que toda persona acceda a los productos y servicios, y ser parte de la entidad de acuerdo con su estatuto y la legislación vigente. Considerar la libre adhesión según el vínculo y naturaleza de su actividad para las entidades cerradas. Considerar como acciones positivas la inclusión de personas o grupos vulnerables.', true, 1, 14),
+(3, 'Orientar productos y servicios al crecimiento del sector rural de manera prioritaria y/o urbana, dentro de su zona de influencia, impulsando al desarrollo local y las finanzas populares. Impulsar la creación y el uso de productos y servicios orientados a menores de edad, con el fin de fomentar la apropiación de los socios y la sostenibilidad de la entidad en el tiempo. Enfocar productos y servicios para promover la inclusión de la población vulnerable, con la finalidad de mejorar su situación socioeconómica y de la localidad.', true, 1, 15),
+(3, 'Asegurar que todos los socios activos tengan derecho a participar en asambleas y órganos de gobierno y que cumplan con el mínimo requerido en certificados de aportación. Promover la participación igualitaria y equitativa de género en asambleas y órganos de gobierno. Promover la participación de acuerdo con las zonas de influencia de la entidad para los procesos eleccionarios.', true, 2, 16),
+(3, 'Incluir niveles de aprobación adecuados dentro de los manuales y políticas internas para los productos y servicios, los mismos que faciliten la inclusión de la población vulnerable. Priorizar que las principales fuentes de fondeo provengan de los socios y entidades del sector económico popular y solidario. Mantener niveles de endeudamiento que no comprometan las decisiones de la entidad, así como garantizar la licitud de la procedencia de los fondos.', true, 3, 17),
+(3, 'Desarrollar productos y servicios, con la finalidad de promover la inclusión e igualdad de personas, priorizando a aquellas en estado de vulnerabilidad. ', true, 4, 18),
+(3, 'Generar y ejecutar planes de auditoría (Consejo de Vigilancia, auditor interno o externo) para garantizar buenas prácticas de control interno. ', true, 4, 19),
+(3, 'Comunicar la información relevante de la entidad según su alcance y naturaleza.', true, 4, 19),
+(3, 'Cumplir los límites de tasas, cargos, comisiones y tarifas de los productos y servicios financieros. ', true, 4, 20),
+(3, 'Determinar la existencia de procesos y políticas que garanticen la seguridad de la información.', true, 4, 21),
+(3, 'Generar y ejecutar planes de capacitación enfocados a la educación en temas de economía popular y solidaria y prácticas de buen gobierno. ', true, 5, 22),
+(3, 'Generar y ejecutar planes de capacitación y concientización de principios y valores direccionado a empleados y socios. Crear y ejecutar procesos de formación de futuros representantes a órganos de gobierno, vocales de consejos. Crear, socializar y difundir el mensaje institucional y del sector de la economía popular y solidaria, así como los planes de difusión.', true, 5, 23),
+(3, 'Crear y ejecutar procesos de formación de futuros representantes a órganos de gobierno, vocales de consejos.', true, 5, 24),
+(3, 'Crear, socializar y difundir  el mensaje institucional y del sector de la economía popular y solidaria, así como los planes de difusión', true, 5, 25),
+(3, 'Establecer programas de educación financiera a los socios, clientes y otras personas involucradas. ', true, 5, 26),
+(3, 'Generar espacios de capacitación identificando temas de interés de la localidad y zonas de influencia, a través de talleres, conferencias, entre otros. ', true, 5, 27),
+(3, 'Potenciar el desarrollo local y de sus zonas de influencia mediante el impulso de proyectos sociales y ambientales.', true, 5, 28),
+(3, 'Promover acuerdos o convenios de cooperación e integración con los participantes del sector de la economía popular y solidaria. Priorizar el consumo entre los actores del sector de la economía popular y solidaria. Promover acuerdos o convenios que le permitan a la entidad participar activamente en organismos de integración y similares. Generar y mantener proyectos y convenios interinstitucionales en aspectos económicos, sociales y ambientales, con los actores del sector de la economía popular y solidaria. Fomentar el intercambio y generación conjunta del conocimiento. Impulsar el desarrollo tecnológico en beneficio de los socios.', true, 6, 29),
+(3, 'Establecer acuerdos o convenios interinstitucionales con la finalidad de generar economías de escala.', true, 6, 30),
+(3, 'Garantizar la atención a personas con discapacidad, de manera que puedan acceder a todos los productos y servicios de la entidad. Aplicar instrumentos de medición en lo referente a satisfacción de productos y servicios de la entidad, enfocadas a mejorar su calidad. Mantener políticas de comercio justo con la finalidad de generar diálogo, transparencia, respeto y equidad priorizando a los actores de la economía popular y solidaria.', true, 7, 31),
+(3, 'Establecer productos y servicios enfocados en proyectos de carácter ecológico. Fomentar la participación e involucramiento de la comunidad, con el fin de impulsar proyectos de desarrollo ecológico local. Desarrollar y aplicar buenas prácticas ambientales internas y externas.', true, 7, 32);
+(3, 'Promover alianzas y convenios con gobiernos locales y GAD, en beneficio del desarrollo local y de la sostenibilidad interinstitucional. ', true, 7, 33),
+(3, 'Establecer políticas que prioricen a los proveedores de la localidad y de sus zonas de influencia, tomando en cuenta las prácticas de comercio justo.', true, 7, 34);
+
+-- jindicadores
 INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, status, idprinciosubdivision) VALUES
-     ('P101','Porcentaje de socios activos', 'División', true, 1),
-     ('P102','Porcentaje del valor de certificados de aportación en relación al SBU', 'División', true, 1),
-     ('P103','Porcentaje de socias mujeres', 'División', true, 1),
-     ('P104','Porcentaje de socios que residen en áreas rurales', 'División', true, 1),
-     ('P105','Porcentaje de socios pertenecientes a minorías étnicas', 'División', true, 1),
-     ('P106','Porcentaje de socios con ingresos menores o iguales al SBU', 'División', true, 1),
-     ('P107','Porcentaje de agencias con acceso a personas con discapacidad', 'División',true, 1),
-     ('P108','Manuales y procesos adecuados a la inclusión de población vulnerable, aprobados y actualizados.', 'Cumplimiento', true, 1),
-     ('P109','Porcentaje de socios con ingresos menores o iguales al SBU', 'División', true, 1);
+ ('P101','Porcentaje de socios activos', 'División', true, 35),
+ ('P102','Porcentaje del valor de certificados de aportación en relación al SBU', 'División', true, 35),
+ ('P103','Porcentaje de socias mujeres', 'División', true, 35),
+ ('P104','Porcentaje de socios que residen en áreas rurales', 'División', true, 35),
+ ('P105','Porcentaje de socios pertenecientes a minorías étnicas', 'División', true, 35),
+ ('P106','Porcentaje de socios con ingresos menores o iguales al SBU', 'División', true, 35),
+ ('P107','Porcentaje de agencias con acceso a personas con discapacidad', 'División',true, 35),
+ ('P108','Manuales y procesos adecuados a la inclusión de población vulnerable, aprobados y actualizados.', 'Cumplimiento', true, 35),
+ ('P109','Porcentaje de socios con ingresos menores o iguales al SBU', 'División', true, 35);
 
 --view vusers
 CREATE VIEW vusers AS
@@ -487,3 +536,30 @@ SELECT priv.idprivilegio,
    FROM jprivilegios priv
      LEFT JOIN jroles rol ON rol.idrol = priv.idrol
      LEFT JOIN jpaginas page ON page.idpagina = priv.idpagina;
+
+-- vprinciplessubsets
+CREATE VIEW vprinciplessubsets AS
+SELECT
+    ind.idindicador,
+    ind.codigoindicador,
+    ind.descripcionindicador,
+    ind.operacion,
+    ind.status,
+    ind.fechacreacion,
+    ind.fechamodificacion,
+    ind.validezinicio,
+    ind.validezfin,
+    linsub.idprinciosubdivision AS idlineamiento,
+	linsub.descripcion AS descripcionlineamiento,
+    carasub.idprinciosubdivision AS idcaracteristica,
+	carasub.descripcion AS descripcioncaracteristica,
+	clasub.idprinciosubdivision AS idclasificacion,
+    clasub.descripcion AS descripcionclasificacion,
+    prin.idprincipio,
+    prin.codigoprincipio,
+    prin.descripcionprincipio
+FROM jindicadores ind
+LEFT JOIN jprinciossubdivisiones linsub ON linsub.idprinciosubdivision = ind.idprinciosubdivision
+LEFT JOIN jprinciossubdivisiones carasub ON carasub.fkidprinciosubdivision = linsub.idprinciosubdivision
+LEFT JOIN jprinciossubdivisiones clasub ON clasub.fkidprinciosubdivision = carasub.idprinciosubdivision
+LEFT JOIN jprincipios prin ON prin.idprincipio = clasub.idprincipio;

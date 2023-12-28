@@ -116,11 +116,9 @@ class VusersReadView(ListAPIView):
 
 class VusersActiveView(BaseListView):
     serializer_class = VusersSerializer
+    queryset = Vusers.objects.filter(is_active=True)
     pagination_class = None
     permission_classes = (IsAuthenticated,)
-
-    def get_queryset(self):
-        return Vusers.objects.filter(is_active=True)
 
 
 class VusersIdView(BaseRetrieveView):
@@ -192,11 +190,9 @@ class VcorporationsReadView(ListAPIView):
 
 class VcorporationsActiveView(BaseListView):
     serializer_class = VcorporationsSerializer
+    queryset = Vcorporations.objects.filter(status="True")
     pagination_class = None
     permission_classes = (IsAuthenticated,)
-
-    def get_queryset(self):
-        return Vcorporations.objects.filter(status="True")
 
 
 class VcorporationsIdView(BaseRetrieveView):
@@ -220,7 +216,7 @@ class JcorporacionesDeactivateView(DestroyAPIView):
         corporation = self.get_object()
         corporation.status = False
         corporation.save()
-        corpo_data = JcorporacionesSerializer(corporation)
+        corpo_data = self.get_serializer(corporation)
         return Response({
             "message": "success",
             "data": corpo_data.data
@@ -268,11 +264,9 @@ class VdepartmentsReadView(ListAPIView):
 
 class VdepartmentsActiveView(BaseListView):
     serializer_class = VdepartmentsSerializer
+    queryset = Vdepartments.objects.filter(status="True")
     pagination_class = None
     permission_classes = (IsAuthenticated,)
-
-    def get_queryset(self):
-        return Vdepartments.objects.filter(status="True")
 
 
 class VdepartmentsIdView(BaseRetrieveView):
@@ -354,11 +348,9 @@ class JgenerosReadView(ListAPIView):
 
 class JgenerosActiveView(BaseListView):
     serializer_class = JgenerosSerializer
+    queryset = Jgeneros.objects.filter(status="True")
     pagination_class = None
     permission_classes = (IsAuthenticated,)
-
-    def get_queryset(self):
-        return Jgeneros.objects.filter(status="True")
 
 
 class JgenerosIdView(BaseRetrieveView):
@@ -430,11 +422,9 @@ class VgeographyReadView(ListAPIView):
 
 class VgeographyActiveView(BaseListView):
     serializer_class = VgeographySerializer
+    queryset = Vgeography.objects.filter(status="True")
     pagination_class = None
     permission_classes = (IsAuthenticated,)
-
-    def get_queryset(self):
-        return Vgeography.objects.filter(status="True")
 
 
 class VgeographyIdView(BaseRetrieveView):
@@ -525,11 +515,9 @@ class VrolesReadView(ListAPIView):
 
 class VrolesActiveView(BaseListView):
     serializer_class = VrolesSerializer
+    querset = Vroles.objects.filter(status="True")
     pagination_class = None
     permission_classes = (IsAuthenticated,)
-
-    def get_queryset(self):
-        return Vroles.objects.filter(status="True")
 
 
 class VrolesIdView(BaseRetrieveView):
@@ -611,11 +599,9 @@ class VbranchesReadView(ListAPIView):
 
 class VbranchesActiveView(BaseListView):
     serializer_class = VbranchesSerializer
+    queryset = Vbranches.objects.filter(status="True")
     pagination_class = None
     permission_classes = (IsAuthenticated,)
-
-    def get_queryset(self):
-        return Vbranches.objects.filter(status="True")
 
 
 class VbranchesIdView(BaseRetrieveView):
@@ -696,11 +682,9 @@ class JtiposidentificacionesReadView(ListAPIView):
 
 class JtiposidentificacionesActiveView(BaseListView):
     serializer_class = JtiposidentificacionesSerializer
+    queryset = Jtiposidentificaciones.objects.filter(status="True")
     pagination_class = None
     permission_classes = (IsAuthenticated,)
-
-    def get_queryset(self):
-        return Jtiposidentificaciones.objects.filter(status="True")
 
 
 class JtiposidentificacionesIdView(BaseRetrieveView):
@@ -772,11 +756,9 @@ class JpaginasReadView(ListAPIView):
 
 class JpaginasActiveView(BaseListView):
     serializer_class = JpaginasSerializer
+    queryset = Jpaginas.objects.filter(status="True")
     pagination_class = None
     permission_classes = (IsAuthenticated,)
-
-    def get_queryset(self):
-        return Jpaginas.objects.filter(status="True")
 
 
 class JpaginasIdView(BaseRetrieveView):
@@ -848,11 +830,9 @@ class VprivilegesReadView(ListAPIView):
 
 class VprivilegesActiveView(BaseListView):
     serializer_class = VprivilegesSerializer
+    queryset = Vprivileges.objects.filter(status="True")
     pagination_class = None
     permission_classes = (IsAuthenticated,)
-
-    def get_queryset(self):
-        return Vprivileges.objects.filter(status="True")
 
 
 class JprivilegiosIdView(BaseRetrieveView):
