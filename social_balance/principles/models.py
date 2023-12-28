@@ -171,3 +171,29 @@ class Jprinciossubdivisiones(models.Model):
     def __str__(self):
         return self.descripcion
 
+
+# Database Views for the principles application
+
+class Vindicators(models.Model):
+    idindicador = models.AutoField(primary_key=True)
+    codigoindicador = models.CharField(max_length=255)
+    descripcionindicador = models.TextField()
+    operacion = models.CharField(max_length=255)
+    status = models.BooleanField()
+    fechacreacion = models.DateField()
+    fechamodificacion = models.DateField()
+    validezinicio = models.DateField()
+    validezfin = models.DateField()
+    idlineamiento = models.IntegerField()
+    descripcionlineamiento = models.CharField(max_length=255)
+    idcaracteristica = models.IntegerField()
+    descripcioncaracteristica = models.CharField(max_length=255)
+    idclasificacion = models.IntegerField()
+    descripcionclasificacion = models.CharField(max_length=255)
+    idprincipio = models.IntegerField()
+    codigoprincipio = models.CharField(max_length=255)
+    descripcionprincipio = models.TextField()
+
+    class Meta:
+        managed = False  # This is a database view, not a table
+        db_table = 'vindicators'

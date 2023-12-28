@@ -10,11 +10,13 @@ from .views import (
     JprinciossubdivisionesReadView,
     JprinciossubdivisionesActiveView,
     JprinciossubdivisionesIdView,
+    JindicadoresViewSet,
 )
 
 router = DefaultRouter()
 router.register(r"Principles", JprincipiosSetView)
 router.register(r"PrinciplesSubdivisions", JprinciossubdivisionesViewSet)
+router.register(r"Indicators", JindicadoresViewSet)
 
 urlpatterns = [
     path("api/", include(router.urls)),
@@ -40,5 +42,6 @@ urlpatterns = [
         JprinciossubdivisionesIdView.as_view(),
         name="id-principlessubdivisions"
     ),
+    # Indicators urls
 ]
 

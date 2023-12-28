@@ -364,7 +364,7 @@ INSERT INTO public.jprinciossubdivisiones(nivel, descripcion, status, idprincipi
 (3, 'Promover acuerdos o convenios de cooperación e integración con los participantes del sector de la economía popular y solidaria. Priorizar el consumo entre los actores del sector de la economía popular y solidaria. Promover acuerdos o convenios que le permitan a la entidad participar activamente en organismos de integración y similares. Generar y mantener proyectos y convenios interinstitucionales en aspectos económicos, sociales y ambientales, con los actores del sector de la economía popular y solidaria. Fomentar el intercambio y generación conjunta del conocimiento. Impulsar el desarrollo tecnológico en beneficio de los socios.', true, 6, 29),
 (3, 'Establecer acuerdos o convenios interinstitucionales con la finalidad de generar economías de escala.', true, 6, 30),
 (3, 'Garantizar la atención a personas con discapacidad, de manera que puedan acceder a todos los productos y servicios de la entidad. Aplicar instrumentos de medición en lo referente a satisfacción de productos y servicios de la entidad, enfocadas a mejorar su calidad. Mantener políticas de comercio justo con la finalidad de generar diálogo, transparencia, respeto y equidad priorizando a los actores de la economía popular y solidaria.', true, 7, 31),
-(3, 'Establecer productos y servicios enfocados en proyectos de carácter ecológico. Fomentar la participación e involucramiento de la comunidad, con el fin de impulsar proyectos de desarrollo ecológico local. Desarrollar y aplicar buenas prácticas ambientales internas y externas.', true, 7, 32);
+(3, 'Establecer productos y servicios enfocados en proyectos de carácter ecológico. Fomentar la participación e involucramiento de la comunidad, con el fin de impulsar proyectos de desarrollo ecológico local. Desarrollar y aplicar buenas prácticas ambientales internas y externas.', true, 7, 32),
 (3, 'Promover alianzas y convenios con gobiernos locales y GAD, en beneficio del desarrollo local y de la sostenibilidad interinstitucional. ', true, 7, 33),
 (3, 'Establecer políticas que prioricen a los proveedores de la localidad y de sus zonas de influencia, tomando en cuenta las prácticas de comercio justo.', true, 7, 34);
 
@@ -537,8 +537,8 @@ SELECT priv.idprivilegio,
      LEFT JOIN jroles rol ON rol.idrol = priv.idrol
      LEFT JOIN jpaginas page ON page.idpagina = priv.idpagina;
 
--- vprinciplessubsets
-CREATE VIEW vprinciplessubsets AS
+-- vindicators
+CREATE VIEW vindicators AS
 SELECT
     ind.idindicador,
     ind.codigoindicador,
