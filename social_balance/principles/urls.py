@@ -10,7 +10,7 @@ from .views import (
     JprinciossubdivisionesReadView,
     JprinciossubdivisionesActiveView,
     JprinciossubdivisionesIdView,
-    JindicadoresViewSet,
+    JindicadoresViewSet, VindicatorssReadView, VindicatorsActiveView, VindicatorsIdView,
 )
 
 router = DefaultRouter()
@@ -42,6 +42,22 @@ urlpatterns = [
         JprinciossubdivisionesIdView.as_view(),
         name="id-principlessubdivisions"
     ),
+
     # Indicators urls
+    path(
+        "allIndicators/",
+        VindicatorssReadView.as_view(),
+        name="list-indicators"
+    ),
+    path(
+        "activeIndicators/",
+        VindicatorsActiveView.as_view(),
+        name="list-activeindicators"
+    ),
+    path(
+        "idIndicators/<int:pk>/",
+        VindicatorsIdView.as_view(),
+        name="id-indicators"
+    ),
 ]
 

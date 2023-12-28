@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from users.serializers import model_serializers
 
-from .models import Jprincipios, Jprinciossubdivisiones, Jindicadores
+from .models import Jprincipios, Jprinciossubdivisiones, Jindicadores, Vindicators
 
 
 @model_serializers(Jprincipios)
@@ -19,3 +19,9 @@ class JprinciossubdivisionesSerializer(serializers.ModelSerializer):
 class JindicadoresSerializer(serializers.ModelSerializer):
     pass
 
+
+# Serializers for database views
+
+@model_serializers(Vindicators)
+class VindicatorsSerializer(serializers.ModelSerializer):
+    pass

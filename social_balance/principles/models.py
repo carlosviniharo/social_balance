@@ -180,10 +180,10 @@ class Vindicators(models.Model):
     descripcionindicador = models.TextField()
     operacion = models.CharField(max_length=255)
     status = models.BooleanField()
-    fechacreacion = models.DateField()
-    fechamodificacion = models.DateField()
-    validezinicio = models.DateField()
-    validezfin = models.DateField()
+    fechacreacion = models.DateTimeField()
+    fechamodificacion = models.DateTimeField()
+    validezinicio = models.DateTimeField()
+    validezfin = models.DateTimeField()
     idlineamiento = models.IntegerField()
     descripcionlineamiento = models.CharField(max_length=255)
     idcaracteristica = models.IntegerField()
@@ -197,3 +197,5 @@ class Vindicators(models.Model):
     class Meta:
         managed = False  # This is a database view, not a table
         db_table = 'vindicators'
+
+    objects = models.Manager()

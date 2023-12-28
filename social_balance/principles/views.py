@@ -9,8 +9,9 @@ from users.utils.helper import (
     BaseViewSet,
 )
 
-from .models import Jprincipios, Jprinciossubdivisiones, Jindicadores
-from .serializers import JprincipiosSerializer, JprinciossubdivisionesSerializer, JindicadoresSerializer
+from .models import Jprincipios, Jprinciossubdivisiones, Jindicadores, Vindicators
+from .serializers import JprincipiosSerializer, JprinciossubdivisionesSerializer, JindicadoresSerializer, \
+    VindicatorsSerializer
 
 
 #  Jprincipios API endpoints
@@ -72,7 +73,7 @@ class JprinciossubdivisionesIdView(BaseRetrieveView):
     permission_classes = (IsAuthenticated,)
 
 
-#  Jprinciossubdivisiones API endpoints
+#  Indicators API endpoints
 
 class JindicadoresViewSet(BaseViewSet):
     serializer_class = JindicadoresSerializer
@@ -82,21 +83,21 @@ class JindicadoresViewSet(BaseViewSet):
 
 # Read services for vindicators
 
-class JprinciossubdivisionesReadView(ListAPIView):
-    serializer_class = JprinciossubdivisionesSerializer
-    queryset = Jprinciossubdivisiones.objects.all()
+class VindicatorssReadView(ListAPIView):
+    serializer_class = VindicatorsSerializer
+    queryset = Vindicators.objects.all()
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
 
 
-class JprinciossubdivisionesActiveView(BaseListView):
-    serializer_class = JprinciossubdivisionesSerializer
-    queryset = Jprinciossubdivisiones.objects.filter(status=True)
+class VindicatorsActiveView(BaseListView):
+    serializer_class = VindicatorsSerializer
+    queryset = Vindicators.objects.filter(status=True)
     pagination_class = None
     permission_classes = (IsAuthenticated,)
 
 
-class JprinciossubdivisionesIdView(BaseRetrieveView):
-    serializer_class = JprinciossubdivisionesSerializer
-    queryset = Jprinciossubdivisiones.objects.all()
+class VindicatorsIdView(BaseRetrieveView):
+    serializer_class = VindicatorsSerializer
+    queryset = Vindicators.objects.all()
     permission_classes = (IsAuthenticated,)

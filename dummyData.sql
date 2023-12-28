@@ -560,6 +560,6 @@ SELECT
     prin.descripcionprincipio
 FROM jindicadores ind
 LEFT JOIN jprinciossubdivisiones linsub ON linsub.idprinciosubdivision = ind.idprinciosubdivision
-LEFT JOIN jprinciossubdivisiones carasub ON carasub.fkidprinciosubdivision = linsub.idprinciosubdivision
-LEFT JOIN jprinciossubdivisiones clasub ON clasub.fkidprinciosubdivision = carasub.idprinciosubdivision
+LEFT JOIN jprinciossubdivisiones carasub ON carasub.idprinciosubdivision = linsub.fkidprinciosubdivision
+LEFT JOIN jprinciossubdivisiones clasub ON clasub.idprinciosubdivision = carasub.fkidprinciosubdivision
 LEFT JOIN jprincipios prin ON prin.idprincipio = clasub.idprincipio;
