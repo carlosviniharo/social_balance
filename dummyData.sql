@@ -370,7 +370,7 @@ INSERT INTO public.jprinciossubdivisiones(nivel, descripcion, status, idprincipi
 
 -- jindicadores
 INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, variables, status, idprinciosubdivision) VALUES
- ('P101','Porcentaje de socios activos', 'División', ARRAY['Número de socios activos al corte', 'Número total de socios al corte'], true, 35),
+ ('P101','Porcentaje de socios activos', 'División', ARRAY['Número de socios activos', 'Número total de socios'], true, 35),
  ('P102','Porcentaje del valor de certificados de aportación en relación al SBU', 'División', ARRAY['Valor mínimo de aportación dispuesto por la entidad', 'Valor del Salario Básico Unificado'],true, 35),
  ('P103','Porcentaje de socias mujeres', 'División', ARRAY['Número de socias activas mujeres', 'Número total de socios'],true,35),
  ('P104','Porcentaje de socios que residen en áreas rurales', 'División', ARRAY['Número de socios que residen en una zona rural', 'Número total de socios'], true, 35),

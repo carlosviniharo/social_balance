@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from users.serializers import model_serializers
 
-from .models import Jprincipios, Jprinciossubdivisiones, Jindicadores, Vindicators, Jvalores
+from .models import Jprincipios, Jprinciossubdivisiones, Jindicadores, Vindicators, Jvalores, Jobjetivos
 
 
 @model_serializers(Jprincipios)
@@ -22,6 +22,11 @@ class JindicadoresSerializer(serializers.ModelSerializer):
 
 @model_serializers(Jvalores)
 class JvaloresSerializer(serializers.ModelSerializer):
+    pass
+
+
+@model_serializers(Jobjetivos)
+class JobjetivosSerializer(serializers.ModelSerializer):
     pass
 
 

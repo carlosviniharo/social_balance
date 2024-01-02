@@ -9,13 +9,13 @@ from users.utils.helper import (
     get_query_by_id,
 )
 
-from .models import Jprincipios, Jprinciossubdivisiones, Jindicadores, Vindicators, Jvalores
+from .models import Jprincipios, Jprinciossubdivisiones, Jindicadores, Vindicators, Jvalores, Jobjetivos
 from .serializers import (
     JprincipiosSerializer,
     JprinciossubdivisionesSerializer,
     JindicadoresSerializer,
     VindicatorsSerializer,
-    JvaloresSerializer
+    JvaloresSerializer, JobjetivosSerializer
 )
 
 
@@ -132,17 +132,47 @@ class JvaloresReadView(ListAPIView):
     serializer_class = JvaloresSerializer
     queryset = Jvalores.objects.all()
     pagination_class = CustomPagination
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
 
 class JvaloresActiveView(BaseListView):
     serializer_class = JvaloresSerializer
     queryset = Jvalores.objects.filter(status=True)
     pagination_class = None
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
 
 class JvaloresIdView(BaseRetrieveView):
     serializer_class = JvaloresSerializer
     queryset = Jvalores.objects.all()
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
+
+
+# Objectives API endpoints
+
+class JobjetivosViewSet(BaseViewSet):
+    serializer_class = JobjetivosSerializer
+    queryset = Jobjetivos.objects.all()
+    permissions_class = (IsAuthenticated,)
+
+
+# Read services for Jobjetivos
+
+class JobjetivosReadView(ListAPIView):
+    serializer_class = JobjetivosSerializer
+    queryset = Jobjetivos.objects.all()
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticated,)
+
+
+class JobjetivosActiveView(BaseListView):
+    serializer_class = JobjetivosSerializer
+    queryset = Jobjetivos.objects.filter(status=True)
+    pagination_class = None
+    permission_classes = (IsAuthenticated,)
+
+
+class JobjetivosIdView(BaseRetrieveView):
+    serializer_class = JobjetivosSerializer
+    queryset = Jobjetivos.objects.all()
+    permission_classes = (IsAuthenticated,)
