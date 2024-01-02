@@ -5,8 +5,8 @@ from users.utils.helper import (
     CustomPagination,
     BaseListView,
     BaseRetrieveView,
-    BaseUpdateView,
     BaseViewSet,
+    get_query_by_id,
 )
 
 from .models import Jprincipios, Jprinciossubdivisiones, Jindicadores, Vindicators
@@ -101,3 +101,13 @@ class VindicatorsIdView(BaseRetrieveView):
     serializer_class = VindicatorsSerializer
     queryset = Vindicators.objects.all()
     permission_classes = (IsAuthenticated,)
+
+
+class IndicatorsByPrinciplesView(BaseListView):
+    serializer_class = VindicatorsSerializer
+    pagination_class = CustomPagination
+    # permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        idprincipio = self.request.query_params.get("idprincipio")
+        return get_query_by_id("idprincipio", idprincipio, Vindicators)
