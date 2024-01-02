@@ -1,3 +1,4 @@
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 from users.models import Jusuarios
@@ -16,6 +17,7 @@ class Jindicadores(models.Model):
     codigoindicador = models.CharField(max_length=4)
     descripcionindicador = models.CharField(max_length=500)
     operacion = models.CharField()
+    variables = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     status = models.BooleanField(default=True)
     fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
     fechamodificacion = models.DateTimeField(auto_now=True, null=True)
@@ -179,6 +181,7 @@ class Vindicators(models.Model):
     codigoindicador = models.CharField(max_length=255)
     descripcionindicador = models.TextField()
     operacion = models.CharField(max_length=255)
+    variables = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     status = models.BooleanField()
     fechacreacion = models.DateTimeField()
     fechamodificacion = models.DateTimeField()

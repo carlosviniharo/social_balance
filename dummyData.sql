@@ -369,16 +369,16 @@ INSERT INTO public.jprinciossubdivisiones(nivel, descripcion, status, idprincipi
 (3, 'Establecer políticas que prioricen a los proveedores de la localidad y de sus zonas de influencia, tomando en cuenta las prácticas de comercio justo.', true, 7, 34);
 
 -- jindicadores
-INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, status, idprinciosubdivision) VALUES
- ('P101','Porcentaje de socios activos', 'División', true, 35),
- ('P102','Porcentaje del valor de certificados de aportación en relación al SBU', 'División', true, 35),
- ('P103','Porcentaje de socias mujeres', 'División', true, 35),
- ('P104','Porcentaje de socios que residen en áreas rurales', 'División', true, 35),
- ('P105','Porcentaje de socios pertenecientes a minorías étnicas', 'División', true, 35),
- ('P106','Porcentaje de socios con ingresos menores o iguales al SBU', 'División', true, 35),
- ('P107','Porcentaje de agencias con acceso a personas con discapacidad', 'División',true, 35),
- ('P108','Manuales y procesos adecuados a la inclusión de población vulnerable, aprobados y actualizados.', 'Cumplimiento', true, 35),
- ('P109','Porcentaje de socios con ingresos menores o iguales al SBU', 'División', true, 35);
+INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, variables, status, idprinciosubdivision) VALUES
+ ('P101','Porcentaje de socios activos', 'División', ARRAY['Número de socios activos al corte', 'Número total de socios al corte'], true, 35),
+ ('P102','Porcentaje del valor de certificados de aportación en relación al SBU', 'División', ARRAY['Valor mínimo de aportación dispuesto por la entidad', 'Valor del Salario Básico Unificado'],true, 35),
+ ('P103','Porcentaje de socias mujeres', 'División', ARRAY['Número de socias activas mujeres', 'Número total de socios'],true,35),
+ ('P104','Porcentaje de socios que residen en áreas rurales', 'División', ARRAY['Número de socios que residen en una zona rural', 'Número total de socios'], true, 35),
+ ('P105','Porcentaje de socios pertenecientes a minorías étnicas', 'División', ARRAY['Número de socios que pertenecen a minorías étnicas', 'Número total de socios'],true, 35),
+ ('P106','Porcentaje de socios con ingresos menores o iguales al SBU', 'División', ARRAY['Número de socios con ingresos menores o iguales al SBU', 'Número total de socios'], true, 35),
+ ('P107','Porcentaje de agencias con acceso a personas con discapacidad', 'División', ARRAY['Número de agencias con accesos para personas con discapacidad ', 'Número de agencias registradas de la entidad'],true, 35),
+ ('P108','Manuales y procesos adecuados a la inclusión de población vulnerable, aprobados y actualizados.', 'Cumplimiento', ARRAY['¿Tienen manuales aprobados por el CAD y actualizados que beneficien la inclusión financiera de personas vulnerables?'], true, 35),
+ ('P109','Porcentaje de socios con ingresos menores o iguales al SBU', 'División',  ARRAY['Número de socios activos que posean carné de discapacidad emitido por la institución competente', 'Número total de socios'],true, 35);
 
 --view vusers
 CREATE VIEW vusers AS
@@ -544,6 +544,7 @@ SELECT
     ind.codigoindicador,
     ind.descripcionindicador,
     ind.operacion,
+    ind.variables,
     ind.status,
     ind.fechacreacion,
     ind.fechamodificacion,
