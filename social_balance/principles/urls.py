@@ -10,13 +10,22 @@ from .views import (
     JprinciossubdivisionesReadView,
     JprinciossubdivisionesActiveView,
     JprinciossubdivisionesIdView,
-    JindicadoresViewSet, VindicatorssReadView, VindicatorsActiveView, VindicatorsIdView, IndicatorsByPrinciplesView,
+    JindicadoresViewSet,
+    VindicatorsReadView,
+    VindicatorsActiveView,
+    VindicatorsIdView,
+    VindicatorsByPrinciplesView,
+    JvaloresViewSet,
+    JvaloresReadView,
+    JvaloresActiveView,
+    JvaloresIdView,
 )
 
 router = DefaultRouter()
 router.register(r"Principles", JprincipiosSetView)
 router.register(r"PrinciplesSubdivisions", JprinciossubdivisionesViewSet)
 router.register(r"Indicators", JindicadoresViewSet)
+router.register(r"Values", JvaloresViewSet)
 
 urlpatterns = [
     path("api/", include(router.urls)),
@@ -46,7 +55,7 @@ urlpatterns = [
     # Indicators urls
     path(
         "allIndicators/",
-        VindicatorssReadView.as_view(),
+        VindicatorsReadView.as_view(),
         name="list-indicators"
     ),
     path(
@@ -61,8 +70,25 @@ urlpatterns = [
     ),
     path(
         "indicatorsByPrinciples/",
-        IndicatorsByPrinciplesView.as_view(),
+        VindicatorsByPrinciplesView.as_view(),
         name="list-indicatorsbyprinciples",
-    )
+    ),
+
+    # Values urls
+    path(
+        "allValues/",
+        JvaloresReadView.as_view(),
+        name="list-values",
+    ),
+    path(
+        "activeValues/",
+        JvaloresActiveView.as_view(),
+        name="list-activevalues",
+    ),
+    path(
+        "idValues/<int:pk>/",
+        JvaloresIdView.as_view(),
+        name="id-values",
+    ),
 ]
 

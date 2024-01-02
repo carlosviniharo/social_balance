@@ -9,9 +9,14 @@ from users.utils.helper import (
     get_query_by_id,
 )
 
-from .models import Jprincipios, Jprinciossubdivisiones, Jindicadores, Vindicators
-from .serializers import JprincipiosSerializer, JprinciossubdivisionesSerializer, JindicadoresSerializer, \
-    VindicatorsSerializer
+from .models import Jprincipios, Jprinciossubdivisiones, Jindicadores, Vindicators, Jvalores
+from .serializers import (
+    JprincipiosSerializer,
+    JprinciossubdivisionesSerializer,
+    JindicadoresSerializer,
+    VindicatorsSerializer,
+    JvaloresSerializer
+)
 
 
 #  Jprincipios API endpoints
@@ -83,7 +88,7 @@ class JindicadoresViewSet(BaseViewSet):
 
 # Read services for vindicators
 
-class VindicatorssReadView(ListAPIView):
+class VindicatorsReadView(ListAPIView):
     serializer_class = VindicatorsSerializer
     queryset = Vindicators.objects.all()
     pagination_class = CustomPagination
@@ -103,11 +108,41 @@ class VindicatorsIdView(BaseRetrieveView):
     permission_classes = (IsAuthenticated,)
 
 
-class IndicatorsByPrinciplesView(BaseListView):
+class VindicatorsByPrinciplesView(BaseListView):
     serializer_class = VindicatorsSerializer
     pagination_class = CustomPagination
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         idprincipio = self.request.query_params.get("idprincipio")
         return get_query_by_id("idprincipio", idprincipio, Vindicators)
+
+
+# Values API endpoints
+
+class JvaloresViewSet(BaseViewSet):
+    serializer_class = JvaloresSerializer
+    queryset = Jvalores.objects.all()
+    permissions_class = (IsAuthenticated,)
+
+
+# Read services for Jvalores
+
+class JvaloresReadView(ListAPIView):
+    serializer_class = JvaloresSerializer
+    queryset = Jvalores.objects.all()
+    pagination_class = CustomPagination
+    # permission_classes = (IsAuthenticated,)
+
+
+class JvaloresActiveView(BaseListView):
+    serializer_class = JvaloresSerializer
+    queryset = Jvalores.objects.filter(status=True)
+    pagination_class = None
+    # permission_classes = (IsAuthenticated,)
+
+
+class JvaloresIdView(BaseRetrieveView):
+    serializer_class = JvaloresSerializer
+    queryset = Jvalores.objects.all()
+    # permission_classes = (IsAuthenticated,)
