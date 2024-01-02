@@ -39,8 +39,8 @@ class Jvalores(models.Model):
     tipovalor = models.CharField(max_length=250)
     valor = models.IntegerField()
     status = models.BooleanField(default=True)
-    fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
-    fechamodificacion = models.DateTimeField(auto_now=True, null=True)
+    validezinicio = models.DateTimeField(auto_now_add=True, null=True)
+    validezfin = models.DateTimeField(null=True)
 
     class Meta:
         db_table = "jvalores"
@@ -63,8 +63,8 @@ class Jobjetivos(models.Model):
     )
     meta = models.IntegerField()
     status = models.BooleanField(default=True)
-    fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
-    fechamodificacion = models.DateTimeField(auto_now=True, null=True)
+    validezinicio = models.DateTimeField(auto_now_add=True, null=True)
+    validezfin = models.DateTimeField(null=True)
 
     class Meta:
         db_table = "jobjetivos"
