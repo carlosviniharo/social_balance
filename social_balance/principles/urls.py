@@ -19,6 +19,7 @@ from .views import (
     JvaloresReadView,
     JvaloresActiveView,
     JvaloresIdView, JobjetivosViewSet, JobjetivosReadView, JobjetivosActiveView, JobjetivosIdView,
+    JobjetivosValoresViewSet,
 )
 
 router = DefaultRouter()
@@ -27,6 +28,7 @@ router.register(r"PrinciplesSubdivisions", JprinciossubdivisionesViewSet)
 router.register(r"Indicators", JindicadoresViewSet)
 router.register(r"Values", JvaloresViewSet)
 router.register(r"Objectives", JobjetivosViewSet)
+router.register(r"objetivosValores", JobjetivosValoresViewSet)
 urlpatterns = [
     path("api/", include(router.urls)),
 

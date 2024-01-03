@@ -37,7 +37,7 @@ class Jvalores(models.Model):
     idvalores = models.AutoField(primary_key=True)
     descripcionvalores = models.CharField(max_length=500)
     tipovalor = models.CharField(max_length=250)
-    valor = models.IntegerField()
+    valor = models.CharField()
     status = models.BooleanField(default=True)
     validezinicio = models.DateTimeField(auto_now_add=True, null=True)
     validezfin = models.DateTimeField(null=True)

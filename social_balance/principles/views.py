@@ -9,13 +9,14 @@ from users.utils.helper import (
     get_query_by_id,
 )
 
-from .models import Jprincipios, Jprinciossubdivisiones, Jindicadores, Vindicators, Jvalores, Jobjetivos
+from .models import Jprincipios, Jprinciossubdivisiones, Jindicadores, Vindicators, Jvalores, Jobjetivos, \
+    JobjetivosValores
 from .serializers import (
     JprincipiosSerializer,
     JprinciossubdivisionesSerializer,
     JindicadoresSerializer,
     VindicatorsSerializer,
-    JvaloresSerializer, JobjetivosSerializer
+    JvaloresSerializer, JobjetivosSerializer, JobjetivosValoresSerializer
 )
 
 
@@ -24,7 +25,7 @@ from .serializers import (
 class JprincipiosSetView(BaseViewSet):
     serializer_class = JprincipiosSerializer
     queryset = Jprincipios.objects.all()
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
 
 # Read services for Jprincipios
@@ -83,7 +84,7 @@ class JprinciossubdivisionesIdView(BaseRetrieveView):
 class JindicadoresViewSet(BaseViewSet):
     serializer_class = JindicadoresSerializer
     queryset = Jindicadores.objects.all()
-    permissions_class = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
 
 # Read services for vindicators
@@ -123,7 +124,7 @@ class VindicatorsByPrinciplesView(BaseListView):
 class JvaloresViewSet(BaseViewSet):
     serializer_class = JvaloresSerializer
     queryset = Jvalores.objects.all()
-    permissions_class = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
 
 # Read services for Jvalores
@@ -153,7 +154,37 @@ class JvaloresIdView(BaseRetrieveView):
 class JobjetivosViewSet(BaseViewSet):
     serializer_class = JobjetivosSerializer
     queryset = Jobjetivos.objects.all()
-    permissions_class = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
+
+
+# Read services for Jobjetivos
+
+class JobjetivosReadView(ListAPIView):
+    serializer_class = JobjetivosSerializer
+    queryset = Jobjetivos.objects.all()
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticated,)
+
+
+class JobjetivosActiveView(BaseListView):
+    serializer_class = JobjetivosSerializer
+    queryset = Jobjetivos.objects.filter(status=True)
+    pagination_class = None
+    permission_classes = (IsAuthenticated,)
+
+
+class JobjetivosIdView(BaseRetrieveView):
+    serializer_class = JobjetivosSerializer
+    queryset = Jobjetivos.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+
+# objetivosValores API endpoints
+
+class JobjetivosValoresViewSet(BaseViewSet):
+    serializer_class = JobjetivosValoresSerializer
+    queryset = JobjetivosValores.objects.all()
+    permission_classes = (IsAuthenticated,)
 
 
 # Read services for Jobjetivos

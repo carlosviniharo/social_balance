@@ -306,7 +306,7 @@ class Jusuarios(AbstractUser):
         ordering = ['-date_joined']
 
     def __str__(self):
-        return self.first_name + self.last_name - self.email
+        return f"{self.first_name} - {self.last_name} - {self.email}"
 
 
 # Database Views for the user application
