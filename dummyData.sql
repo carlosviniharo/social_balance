@@ -539,28 +539,33 @@ SELECT priv.idprivilegio,
 
 -- vindicators
 CREATE VIEW vindicators AS
-SELECT
-    ind.idindicador,
+ SELECT ind.idindicador,
     ind.codigoindicador,
     ind.descripcionindicador,
     ind.operacion,
     ind.variables,
+    val_d.idvalores AS idvalor_denominador,
+    val_d.valor AS valor_denominador,
+    val_n.idvalores AS idvalor_numerador,
+    val_n.valor AS valor_numerador,
     ind.status,
     ind.fechacreacion,
     ind.fechamodificacion,
     ind.validezinicio,
     ind.validezfin,
     linsub.idprinciosubdivision AS idlineamiento,
-	linsub.descripcion AS descripcionlineamiento,
+    linsub.descripcion AS descripcionlineamiento,
     carasub.idprinciosubdivision AS idcaracteristica,
-	carasub.descripcion AS descripcioncaracteristica,
-	clasub.idprinciosubdivision AS idclasificacion,
+    carasub.descripcion AS descripcioncaracteristica,
+    clasub.idprinciosubdivision AS idclasificacion,
     clasub.descripcion AS descripcionclasificacion,
     prin.idprincipio,
     prin.codigoprincipio,
     prin.descripcionprincipio
-FROM jindicadores ind
-LEFT JOIN jprinciossubdivisiones linsub ON linsub.idprinciosubdivision = ind.idprinciosubdivision
-LEFT JOIN jprinciossubdivisiones carasub ON carasub.idprinciosubdivision = linsub.fkidprinciosubdivision
-LEFT JOIN jprinciossubdivisiones clasub ON clasub.idprinciosubdivision = carasub.fkidprinciosubdivision
-LEFT JOIN jprincipios prin ON prin.idprincipio = clasub.idprincipio;
+   FROM jindicadores ind
+     LEFT JOIN jprinciossubdivisiones linsub ON linsub.idprinciosubdivision = ind.idprinciosubdivision
+     LEFT JOIN jprinciossubdivisiones carasub ON carasub.idprinciosubdivision = linsub.fkidprinciosubdivision
+     LEFT JOIN jprinciossubdivisiones clasub ON clasub.idprinciosubdivision = carasub.fkidprinciosubdivision
+     LEFT JOIN jprincipios prin ON prin.idprincipio = clasub.idprincipio
+     LEFT JOIN jvalores val_d ON ind.variables[1]::text = val_d.descripcionvalores::text AND val_d.status = true
+     LEFT JOIN jvalores val_n ON ind.variables[2]::text = val_n.descripcionvalores::text AND val_n.status = true;
