@@ -98,17 +98,15 @@ class JobjetivosValores(models.Model):
         db_column="iddenominador",
         related_name="jobjetivosvalores_iddenominador_set",
         blank=True,
-        null=True,
     )
     idusuario = models.ForeignKey(
         Jusuarios,
         models.DO_NOTHING,
         db_column="idusuario",
         blank=True,
-        null=True,
     )
-    resultado = models.CharField()
-    cumplimiento = models.BooleanField()
+    resultado = models.CharField(null=True)
+    cumplimiento = models.BooleanField(null=True)
     status = models.BooleanField(default=True)
     fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
     fechamodificacion = models.DateTimeField(auto_now=True, null=True)
