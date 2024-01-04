@@ -10,13 +10,13 @@ from users.utils.helper import (
 )
 
 from .models import Jprincipios, Jprinciossubdivisiones, Jindicadores, Vindicators, Jvalores, Jobjetivos, \
-    JobjetivosValores
+    JobjetivosValores, Vobjectivesvalues
 from .serializers import (
     JprincipiosSerializer,
     JprinciossubdivisionesSerializer,
     JindicadoresSerializer,
     VindicatorsSerializer,
-    JvaloresSerializer, JobjetivosSerializer, JobjetivosValoresSerializer
+    JvaloresSerializer, JobjetivosSerializer, JobjetivosValoresSerializer, VobjectivesvaluesSerializer
 )
 
 
@@ -189,21 +189,21 @@ class JobjetivosValoresViewSet(BaseViewSet):
 
 # Read services for Jobjetivos
 
-class JobjetivosReadView(ListAPIView):
-    serializer_class = JobjetivosSerializer
-    queryset = Jobjetivos.objects.all()
+class VobjectivesvaluesReadView(ListAPIView):
+    serializer_class = VobjectivesvaluesSerializer
+    queryset = Vobjectivesvalues.objects.all()
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
 
 
-class JobjetivosActiveView(BaseListView):
-    serializer_class = JobjetivosSerializer
-    queryset = Jobjetivos.objects.filter(status=True)
+class VobjectivesvaluesActiveView(BaseListView):
+    serializer_class = VobjectivesvaluesSerializer
+    queryset = Vobjectivesvalues.objects.filter(status=True)
     pagination_class = None
     permission_classes = (IsAuthenticated,)
 
 
-class JobjetivosIdView(BaseRetrieveView):
-    serializer_class = JobjetivosSerializer
-    queryset = Jobjetivos.objects.all()
+class VobjectivesvaluesIdView(BaseRetrieveView):
+    serializer_class = VobjectivesvaluesSerializer
+    queryset = Vobjectivesvalues.objects.all()
     permission_classes = (IsAuthenticated,)

@@ -538,8 +538,8 @@ SELECT priv.idprivilegio,
      LEFT JOIN jpaginas page ON page.idpagina = priv.idpagina;
 
 -- vindicators
-CREATE VIEW vindicators AS
- SELECT ind.idindicador,
+CREATE OR REPLACE VIEW public.vindicators
+AS SELECT ind.idindicador,
     ind.codigoindicador,
     ind.descripcionindicador,
     ind.operacion,
@@ -567,5 +567,29 @@ CREATE VIEW vindicators AS
      LEFT JOIN jprinciossubdivisiones carasub ON carasub.idprinciosubdivision = linsub.fkidprinciosubdivision
      LEFT JOIN jprinciossubdivisiones clasub ON clasub.idprinciosubdivision = carasub.fkidprinciosubdivision
      LEFT JOIN jprincipios prin ON prin.idprincipio = clasub.idprincipio
-     LEFT JOIN jvalores val_d ON ind.variables[1]::text = val_d.descripcionvalores::text AND val_d.status = true
-     LEFT JOIN jvalores val_n ON ind.variables[2]::text = val_n.descripcionvalores::text AND val_n.status = true;
+     LEFT JOIN jvalores val_n ON ind.variables[1]::text = val_n.descripcionvalores::text AND val_n.status = true
+     LEFT JOIN jvalores val_d ON ind.variables[2]::text = val_d.descripcionvalores::text AND val_d.status = true;
+
+-- vobjectivesvalues
+CREATE OR REPLACE VIEW public.vobjectivesvalues
+AS SELECT objval.idobjetivevalue,
+    objval.idobjectivo,
+    obj.meta,
+    objval.idnumerador,
+    val_n.descripcionvalores AS descripcion_numerador,
+    val_n.valor AS valor_numerador,
+    objval.iddenominador,
+    val_d.descripcionvalores AS descripcion_denominador,
+    val_d.valor AS valor_denominador,
+    objval.idusuario,
+    (users.first_name::text || ' '::text) || users.last_name::text AS fullname,
+    objval.resultado,
+    objval.cumplimiento,
+    objval.status,
+    objval.fechacreacion,
+    objval.fechamodificacion
+   FROM jobjetivosvalores objval
+     LEFT JOIN jobjetivos obj ON obj.idobjectivo = objval.idobjectivo
+     LEFT JOIN jvalores val_n ON val_n.idvalores = objval.idnumerador
+     LEFT JOIN jvalores val_d ON val_d.idvalores = objval.iddenominador
+     LEFT JOIN jusuarios users ON users.idusuario = objval.idusuario;

@@ -19,7 +19,7 @@ from .views import (
     JvaloresReadView,
     JvaloresActiveView,
     JvaloresIdView, JobjetivosViewSet, JobjetivosReadView, JobjetivosActiveView, JobjetivosIdView,
-    JobjetivosValoresViewSet,
+    JobjetivosValoresViewSet, VobjectivesvaluesReadView, VobjectivesvaluesActiveView, VobjectivesvaluesIdView,
 )
 
 router = DefaultRouter()
@@ -28,7 +28,7 @@ router.register(r"PrinciplesSubdivisions", JprinciossubdivisionesViewSet)
 router.register(r"Indicators", JindicadoresViewSet)
 router.register(r"Values", JvaloresViewSet)
 router.register(r"Objectives", JobjetivosViewSet)
-router.register(r"objetivosValores", JobjetivosValoresViewSet)
+router.register(r"ObjetivosValores", JobjetivosValoresViewSet)
 urlpatterns = [
     path("api/", include(router.urls)),
 
@@ -108,5 +108,22 @@ urlpatterns = [
         "idObjectives/<int:pk>/",
         JobjetivosIdView.as_view(),
         name="id-objectives",
+    ),
+
+    # Objectivesvalues urls
+    path(
+        "allObjectivesValues/",
+        VobjectivesvaluesReadView.as_view(),
+        name="list-objectivesvalues",
+    ),
+    path(
+        "activeObjectivesValues/",
+        VobjectivesvaluesActiveView.as_view(),
+        name="list-activeobjectivesvalues",
+    ),
+    path(
+        "idObjectivesValues/<int:pk>/",
+        VobjectivesvaluesIdView.as_view(),
+        name="id-objectivesvalues",
     ),
 ]

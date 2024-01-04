@@ -202,7 +202,33 @@ class Vindicators(models.Model):
     descripcionprincipio = models.TextField()
 
     class Meta:
-        managed = False  # This is a database view, not a table
+        managed = False
         db_table = 'vindicators'
 
     objects = models.Manager()
+
+
+class Vobjectivesvalues(models.Model):
+    idobjetivevalue = models.IntegerField(primary_key=True)
+    idobjectivo = models.IntegerField()
+    meta = models.CharField(max_length=255)
+    idnumerador = models.IntegerField()
+    descripcion_numerador = models.CharField(max_length=255)
+    valor_numerador = models.IntegerField()
+    iddenominador = models.IntegerField()
+    descripcion_denominador = models.CharField(max_length=255)
+    valor_denominador = models.IntegerField()
+    idusuario = models.IntegerField()
+    fullname = models.CharField(max_length=255)
+    resultado = models.CharField(max_length=255)
+    cumplimiento = models.CharField(max_length=255)
+    status = models.CharField(max_length=255)
+    fechacreacion = models.DateTimeField()
+    fechamodificacion = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'vobjectivesvalues'
+
+    objects = models.Manager()
+
