@@ -63,6 +63,7 @@ class Jobjetivos(models.Model):
     )
     meta = models.CharField()
     status = models.BooleanField(default=True)
+    is_applicable = models.BooleanField(default=True)
     validezinicio = models.DateTimeField(auto_now_add=True, null=True)
     validezfin = models.DateTimeField(null=True)
 
@@ -187,6 +188,7 @@ class Vindicators(models.Model):
     idobjectivo = models.IntegerField()
     meta = models.CharField()
     objetivo_validezinicio = models.DateTimeField()
+    is_applicable = models.BooleanField()
     fechacreacion = models.DateTimeField()
     fechamodificacion = models.DateTimeField()
     validezinicio = models.DateTimeField()
