@@ -61,7 +61,7 @@ class Jobjetivos(models.Model):
         blank=True,
         null=True,
     )
-    meta = models.IntegerField()
+    meta = models.CharField()
     status = models.BooleanField(default=True)
     validezinicio = models.DateTimeField(auto_now_add=True, null=True)
     validezfin = models.DateTimeField(null=True)
@@ -89,8 +89,6 @@ class JobjetivosValores(models.Model):
         models.DO_NOTHING,
         db_column="idnumerador",
         related_name="jobjetivosvalores_idnumerador_set",
-        blank=True,
-        null=True,
     )
     iddenominador = models.ForeignKey(
         Jvalores,
@@ -98,6 +96,7 @@ class JobjetivosValores(models.Model):
         db_column="iddenominador",
         related_name="jobjetivosvalores_iddenominador_set",
         blank=True,
+        null=True,
     )
     idusuario = models.ForeignKey(
         Jusuarios,
@@ -212,10 +211,10 @@ class Vobjectivesvalues(models.Model):
     meta = models.CharField(max_length=255)
     idnumerador = models.IntegerField()
     descripcion_numerador = models.CharField(max_length=255)
-    valor_numerador = models.IntegerField()
+    valor_numerador = models.CharField()
     iddenominador = models.IntegerField()
     descripcion_denominador = models.CharField(max_length=255)
-    valor_denominador = models.IntegerField()
+    valor_denominador = models.CharField()
     idusuario = models.IntegerField()
     fullname = models.CharField(max_length=255)
     resultado = models.CharField(max_length=255)

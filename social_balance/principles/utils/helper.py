@@ -8,26 +8,29 @@ def get_result_accomplishment(dict_object_value):
     :param dict_object_value: dict
     :return: dict
     """
-    denominator = dict_object_value["iddenominador"]
-    numerator = dict_object_value["idnumerador"]
     target = dict_object_value["idobjectivo"]
     operation = target.idindicador.operacion
-
-    if denominator.tipovalor and numerator.tipovalor == 'number':
+    numerator = dict_object_value["idnumerador"]
+    result = None
+    if operation == "División":
+        denominator = dict_object_value["iddenominador"]
         try:
             numerator_value = float(numerator.valor)
             denominator_value = float(denominator.valor)
 
-            if operation == 'División':
-                result = numerator_value / denominator_value * 100
-            elif operation == 'Igual':
-                result = numerator_value
+            result = numerator_value / denominator_value * 100
 
-            dict_object_value["cumplimiento"] = result > target.meta
-            dict_object_value["resultado"] = result
+            dict_object_value["cumplimiento"] = result > float(target.meta)
 
         except (ValueError, TypeError):
             dict_object_value["cumplimiento"] = False
-            dict_object_value["resultado"] = None
 
-        return dict_object_value
+    elif operation == "Igual":
+        result = numerator.valor
+
+    elif operation == "Cumplimiento":
+        dict_object_value["cumplimiento"] = True if numerator.valor == "Si" else False
+
+    dict_object_value["resultado"] = result
+
+    return dict_object_value
