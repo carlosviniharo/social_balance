@@ -908,6 +908,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                 user = Jusuarios.objects.get(email=request.data["email"])
                 user.last_login = timezone.now()
                 user.save()
+                response.data["idusuario"] = user.idusuario
                 response.data["name"] = user.first_name + user.last_name
                 response.data["idrol"] = user.idrol.idrol if user.idrol else None
                 response.data["role"] = user.idrol.nombrerol if user.idrol else None
