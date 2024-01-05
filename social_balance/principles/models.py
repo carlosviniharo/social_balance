@@ -184,6 +184,8 @@ class Vindicators(models.Model):
     idvalor_numerador = models.IntegerField()
     valor_numerador = models.CharField(max_length=255)
     status = models.BooleanField()
+    idobjectivo = models.IntegerField()
+    meta = models.CharField()
     fechacreacion = models.DateTimeField()
     fechamodificacion = models.DateTimeField()
     validezinicio = models.DateTimeField()

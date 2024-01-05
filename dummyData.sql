@@ -376,7 +376,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  ('P104','Porcentaje de socios que residen en áreas rurales', 'División', ARRAY['Número de socios que residen en una zona rural', 'Número total de socios'], true, 35),
  ('P105','Porcentaje de socios pertenecientes a minorías étnicas', 'División', ARRAY['Número de socios que pertenecen a minorías étnicas', 'Número total de socios'],true, 35),
  ('P106','Porcentaje de socios con ingresos menores o iguales al SBU', 'División', ARRAY['Número de socios con ingresos menores o iguales al SBU', 'Número total de socios'], true, 35),
- ('P107','Porcentaje de agencias con acceso a personas con discapacidad', 'División', ARRAY['Número de agencias con accesos para personas con discapacidad ', 'Número de agencias registradas de la entidad'],true, 35),
+ ('P107','Porcentaje de agencias con acceso a personas con discapacidad', 'División', ARRAY['Número de agencias con accesos para personas con discapacidad', 'Número de agencias registradas de la entidad'],true, 35),
  ('P108','Manuales y procesos adecuados a la inclusión de población vulnerable, aprobados y actualizados.', 'Cumplimiento', ARRAY['¿Tienen manuales aprobados por el CAD y actualizados que beneficien la inclusión financiera de personas vulnerables?'], true, 35),
  ('P109','Porcentaje de socios con ingresos menores o iguales al SBU', 'División',  ARRAY['Número de socios activos que posean carné de discapacidad emitido por la institución competente', 'Número total de socios'],true, 35);
 
@@ -549,6 +549,8 @@ AS SELECT ind.idindicador,
     val_n.idvalores AS idvalor_numerador,
     val_n.valor AS valor_numerador,
     ind.status,
+    obj.idobjectivo,
+    obj.meta,
     ind.fechacreacion,
     ind.fechamodificacion,
     ind.validezinicio,
@@ -568,7 +570,8 @@ AS SELECT ind.idindicador,
      LEFT JOIN jprinciossubdivisiones clasub ON clasub.idprinciosubdivision = carasub.fkidprinciosubdivision
      LEFT JOIN jprincipios prin ON prin.idprincipio = clasub.idprincipio
      LEFT JOIN jvalores val_n ON ind.variables[1]::text = val_n.descripcionvalores::text AND val_n.status = true
-     LEFT JOIN jvalores val_d ON ind.variables[2]::text = val_d.descripcionvalores::text AND val_d.status = true;
+     LEFT JOIN jvalores val_d ON ind.variables[2]::text = val_d.descripcionvalores::text AND val_d.status = true
+     LEFT JOIN 	jobjetivos obj ON obj.idindicador = ind.idindicador AND obj.status = true;
 
 -- vobjectivesvalues
 CREATE OR REPLACE VIEW public.vobjectivesvalues
