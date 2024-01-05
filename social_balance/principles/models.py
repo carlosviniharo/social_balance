@@ -82,28 +82,25 @@ class JobjetivosValores(models.Model):
         "Jobjetivos",
         models.DO_NOTHING,
         db_column="idobjectivo",
-        blank=True,
-        null=True,
     )
     idnumerador = models.ForeignKey(
         Jvalores,
         models.DO_NOTHING,
         db_column="idnumerador",
         related_name="jobjetivosvalores_idnumerador_set",
+        null=True,
     )
     iddenominador = models.ForeignKey(
         Jvalores,
         models.DO_NOTHING,
         db_column="iddenominador",
         related_name="jobjetivosvalores_iddenominador_set",
-        blank=True,
         null=True,
     )
     idusuario = models.ForeignKey(
         Jusuarios,
         models.DO_NOTHING,
         db_column="idusuario",
-        blank=True,
     )
     resultado = models.CharField(null=True)
     cumplimiento = models.BooleanField(null=True)

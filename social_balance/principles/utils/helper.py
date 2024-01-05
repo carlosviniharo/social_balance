@@ -9,9 +9,15 @@ def get_result_accomplishment(dict_object_value):
     :return: dict
     """
     target = dict_object_value["idobjectivo"]
+
+    if not target.is_applicable:
+        dict_object_value["cumplimiento"] = None
+        return dict_object_value
+
     operation = target.idindicador.operacion
     numerator = dict_object_value["idnumerador"]
     result = None
+
     if operation == "División":
         denominator = dict_object_value["iddenominador"]
         try:
