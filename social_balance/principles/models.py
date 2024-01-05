@@ -186,6 +186,7 @@ class Vindicators(models.Model):
     status = models.BooleanField()
     idobjectivo = models.IntegerField()
     meta = models.CharField()
+    objetivo_validezinicio = models.DateTimeField()
     fechacreacion = models.DateTimeField()
     fechamodificacion = models.DateTimeField()
     validezinicio = models.DateTimeField()
