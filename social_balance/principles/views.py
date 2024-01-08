@@ -205,7 +205,7 @@ class JobjetivosValoresViewSet(BaseViewSet):
             return Response(
                 {
                     "message":
-                        f"A record with the same information already exists. ID {objetivosValores.idobjetivevalue}"
+                        f"A record with the this information was already saved. ID {objetivosValores.idobjetivevalue}"
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
