@@ -123,6 +123,28 @@ class VindicatorsByPrinciplesView(BaseListView):
         idprincipio = self.request.query_params.get("idprincipio")
         return get_query_by_id("idprincipio", idprincipio, Vindicators)
 
+    def list(self, request, *args, **kwargs):
+        sorted_indicators = {}
+        queryset = self.get_queryset()
+        for entry in queryset:
+            serialized = self.get_serializer(entry)
+            exist = sorted_indicators.get(entry.idclasificacion, None)
+            if not exist:
+                sorted_indicators[entry.idclasificacion] = {
+                    "idclasificacion": entry.idclasificacion,
+                    "descripcionclasificacion": entry.descripcionclasificacion,
+                    "data": [serialized.data]
+                }
+            else:
+                sorted_indicators[entry.idclasificacion]["data"].append(serialized.data)
+        return Response(
+            {
+                "message": "success",
+                "data": sorted_indicators
+            },
+            status=status.HTTP_200_OK
+        )
+
 
 # Values API endpoints
 
@@ -189,7 +211,7 @@ class JobjetivosIdView(BaseRetrieveView):
 class JobjetivosValoresViewSet(BaseViewSet):
     serializer_class = JobjetivosValoresSerializer
     queryset = JobjetivosValores.objects.all()
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
     def create(self, request, *args, **kwargs):
 

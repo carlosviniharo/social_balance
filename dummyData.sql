@@ -378,7 +378,42 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  ('P106','Porcentaje de socios con ingresos menores o iguales al SBU', 'División', ARRAY['Número de socios con ingresos menores o iguales al SBU', 'Número total de socios'], true, 35),
  ('P107','Porcentaje de agencias con acceso a personas con discapacidad', 'División', ARRAY['Número de agencias con accesos para personas con discapacidad', 'Número de agencias registradas de la entidad'],true, 35),
  ('P108','Manuales y procesos adecuados a la inclusión de población vulnerable, aprobados y actualizados.', 'Cumplimiento', ARRAY['¿Tienen manuales aprobados por el CAD y actualizados que beneficien la inclusión financiera de personas vulnerables?'], true, 35),
- ('P109','Porcentaje de socios con ingresos menores o iguales al SBU', 'División',  ARRAY['Número de socios activos que posean carné de discapacidad emitido por la institución competente', 'Número total de socios'],true, 35);
+ ('P109','Porcentaje de socios con ingresos menores o iguales al SBU', 'División',  ARRAY['Número de socios activos que posean carné de discapacidad emitido por la institución competente', 'Número total de socios'],true, 35),
+ ('P110', 'Promedio de ahorros', 'División', ARRAY['Saldo elemento 21', 'Número de socios activos al corte'], true, 36),
+ ('P111', 'Porcentaje de saldo de cartera de crédito destinado a mujeres', 'División', ARRAY['Saldo de cartera de crédito otorgada a mujeres al corte', 'Saldo cuenta 14-1499'], true, 36),
+ ('P112', 'Porcentaje de créditos otorgados por valores inferiores o iguales al SBU', 'División', ARRAY['Número de créditos otorgados por valores inferiores o iguales al SBU en el año', 'Número de créditos vigentes al corte'], true, 36),
+ ('P113', 'Porcentaje del saldo de cartera de crédito destinado a personas con residencia rural', 'División', ARRAY['Saldo de crédito otorgado a socios que residen en una zona rural al corte', 'Saldo cuenta 14-1499'], true, 36),
+ ('P114', 'Porcentaje de personas con residencia rural que tienen operaciones de crédito', 'División', ARRAY['Número de créditos otorgado a socios que residen en una zona rural al corte', 'Número total de créditos vigentes al corte'], true, 36),
+ ('P115', 'Porcentaje de cartera de microcrédito', 'División', ARRAY['Número de créditos vigentes del segmento microcrédito al corte', 'Número total de créditos vigentes al corte'], true, 36),
+ ('P116', 'Desembolsos de CDH', 'Igual', ARRAY['Número de desembolsos realizados por concepto de CDH en el año'], true, 36),
+ ('P117', 'Pagos de BDH', 'Igual', ARRAY['Número de pagos realizados por concepto de BDH en el año'], true, 36),
+ ('P118', 'Monto promedio de créditos asociativos', 'División', ARRAY['Monto otorgado bajo la metodología de créditos asociativos en el año', 'Número de socios que han accedido a montos bajo la metodología de créditos asociativos en el año'], true, 36),
+ ('P119', 'Monto promedio de microcrédito', 'División', ARRAY['Saldo cuenta 1404+1412+1420+1428+ 1436+1444+1452+1460+ 1468', 'Número de socios que mantienen créditos vigentes del segmento microcrédito al corte'], true, 36),
+ ('P120', 'Porcentaje de menores de edad con cuentas de ahorro', 'División', ARRAY['Número de personas menores de 18 años que disponen a una o más cuentas al corte', 'Número total de socios al corte'], true, 36),
+ ('P201', 'Porcentaje de socios o representantes que asisten a Asambleas Generales', 'División', ARRAY['Número de socios o representantes asistentes en el año', 'Número de socios o representantes al corte'], true, 37),
+ ('P202', 'Porcentaje de representantes que participan en elecciones (por agencia)', 'División', ARRAY['Número de representantes que asiste a votar en el año', 'Número de representantes por agencia al corte'], true, 37),
+ ('P203', 'Porcentaje de socios que participan en elecciones de representantes', 'División', ARRAY['Número de socios que asisten a votar por representantes en el año', 'Número de socios activos al corte'], true, 37),
+ ('P204', 'Porcentaje de mujeres en Consejos', 'División', ARRAY['Número de mujeres que son vocales titulares y suplentes al corte', 'Número de vocales titulares y suplentes al corte'], true, 37),
+ ('P205', 'Porcentaje de mujeres representantes', 'División', ARRAY['Número de mujeres que son representantes al corte', 'Número de representantes al corte'], true, 37),
+ ('P206', 'Porcentaje de vocales procedentes de zonas de influencia', 'División', ARRAY['Número de vocales titulares y suplentes procedentes de zonas de influencia al corte', 'Número de vocales titulares y suplentes al corte'], true, 37),
+ ('P207', 'Presencia de jóvenes en órganos de gobierno', 'División', ARRAY['Número de vocales titulares y suplentes menores a 30 años de edad al corte', 'Número de vocales titulares y suplentes al corte'], true, 37),
+ ('P208', 'Porcentaje de vocales que pertenecen a minoría étnicas', 'División', ARRAY['Número de vocales titulares y suplentes que pertenecen a minoría étnicas al corte', 'Número de vocales titulares y suplentes al corte'], true, 37),
+ ('P209', 'Políticas de inclusión y participación democrática actualizadas', 'Cumplimiento', ARRAY['¿Existe un documento de política de inclusión y participación democrática?'], true, 37),
+ ('P210', 'Manuales y procesos adecuados a participación democrática aprobados y actualizados.', 'Cumplimiento', ARRAY['¿Tienen manuales aprobados por el CAD y actualizados que mantengan procesos adecuados de participación democrática?'], true, 37),
+ ('P211', 'Porcentaje de socios o representantes asistentes a Asambleas que pertenecen a grupos priorizados', 'División', ARRAY['Número de socios o representantes que asisten a Asambleas y son personas vulnerables en el año', 'Número de socios o representantes al corte'], true, 37),
+ ('P301', 'Porcentaje de capital en relación al patrimonio', 'División', ARRAY['Saldo elemento 31', 'Saldo grupo 3'], true, 38),
+ ('P302', 'Reservas de cada socio', 'División', ARRAY['Saldo elemento 33', 'Número total de socios al corte'], true, 38),
+ ('P303', 'Capital social por socio', 'División', ARRAY['Saldo elemento 31', 'Número total de socios al corte'], true, 38),
+ ('P304', 'Fondo irrepartible de reserva legal por socio', 'División', ARRAY['Saldo cuenta 3301', 'Número total de socios al corte'], true, 38),
+ ('P305', 'Porcentaje del presupuesto anual destinado a balance social', 'División', ARRAY['Monto destinado para realizar actividades de balance social en el año', 'Monto presupuesto de la entidad en el año'], true, 38),
+ ('P306', 'Porcentaje de gastos administrativos en relación al gasto total', 'División', ARRAY['Saldo elemento 45', 'Saldo grupo 4'], true, 38),
+ ('P307', 'Promedio de transacciones por periodo', 'División', ARRAY['Número de transacciones por producto', 'Número de socios activos al corte'], true, 38),
+ ('P308', 'Promedio de tasas activas y pasivas por rangos de valor', 'Igual', ARRAY['Cálculo de tasas activas y pasivas'], true, 38),
+ ('P309', 'Porcentaje de fondeo proveniente de socios en relación al total de fondeo', 'División', ARRAY['Saldo grupo 21', 'Saldo grupos 21 + 26'], true, 38),
+ ('P310', 'Porcentaje de pasivos en relación al patrimonio', 'División', ARRAY['Saldo elemento 2', 'Saldo elemento 3'], true, 38),
+ ('P311', 'Mantiene actualizada la normativa y procedimientos de prevención de lavado de activos relacionada con la procedencia de fondos', 'Cumplimiento', ARRAY['¿Tiene actualizado y aprobado por el CAD sobre la validación de la procedencia lícita de fondos?'], true, 38),
+ ('P312', 'Porcentaje de socios con el mínimo de certificados de aportación', 'División', ARRAY['Número de socios registrados en la entidad con aportes inferiores al mínimo establecido en el Estatuto al corte', 'Número total de socios al corte'], true, 38),
+ ('P313', 'Porcentaje de socios con participación superior al 5% del capital social', 'División', ARRAY['Número de socios registrados con participación superior al 5% del capital social al corte', 'Número total de socios al corte'], true, 38);
 
 --view vusers
 CREATE VIEW vusers AS
@@ -573,7 +608,7 @@ AS SELECT ind.idindicador,
      LEFT JOIN jprincipios prin ON prin.idprincipio = clasub.idprincipio
      LEFT JOIN jvalores val_n ON ind.variables[1]::text = val_n.descripcionvalores::text AND val_n.status = true
      LEFT JOIN jvalores val_d ON ind.variables[2]::text = val_d.descripcionvalores::text AND val_d.status = true
-     LEFT JOIN 	jobjetivos obj ON obj.idindicador = ind.idindicador AND obj.status = true;
+     LEFT JOIN jobjetivos obj ON obj.idindicador = ind.idindicador AND obj.status = true;
 
 -- vobjectivesvalues
 CREATE OR REPLACE VIEW public.vobjectivesvalues
