@@ -35,7 +35,7 @@ def get_result_accomplishment(dict_object_value):
         result = numerator.valor
 
     elif operation == "Cumplimiento":
-        dict_object_value["cumplimiento"] = True if numerator.valor == "Si" else False
+        dict_object_value["cumplimiento"] = True if numerator.valor == target.meta else False
 
     dict_object_value["resultado"] = result
 

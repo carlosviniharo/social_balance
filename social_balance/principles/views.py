@@ -207,7 +207,7 @@ class JobjetivosValoresViewSet(BaseViewSet):
                     "message":
                         f"A record with the this information was already saved. ID {objetivosValores.idobjetivevalue}"
                 },
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_409_CONFLICT
             )
 
         serialized_objval = self.get_serializer(objetivosValores)
