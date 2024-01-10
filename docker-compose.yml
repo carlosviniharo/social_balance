@@ -20,7 +20,7 @@ services:
       - db
 
   db:
-    image: postgres:latest
+    image: postgres:16-alpine
     restart: always
     environment:
       POSTGRES_PASSWORD: ${PASSWORD_DB}
