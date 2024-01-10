@@ -140,7 +140,7 @@ class VindicatorsByPrinciplesView(BaseListView):
         return Response(
             {
                 "message": "success",
-                "data": sorted_indicators
+                "data": sorted_indicators.values()
             },
             status=status.HTTP_200_OK
         )
