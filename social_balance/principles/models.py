@@ -248,6 +248,7 @@ class Vindicators(models.Model):
     class Meta:
         managed = False
         db_table = 'vindicators'
+        ordering = ['codigoindicador']
 
     objects = models.Manager()
 
