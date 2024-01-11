@@ -71,6 +71,8 @@ def get_query_by_id(parm_name, param_value, model):
 
 # Customize pagination output style class
 class CustomPagination(PageNumberPagination):
+    page_size_query_param = 'page_size'
+
     def get_paginated_response(self, data):
         return Response({
             'message': 'success',
