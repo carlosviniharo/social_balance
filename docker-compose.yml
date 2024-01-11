@@ -6,6 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: carlosharo/social_balance:latest
+    restart: always
     env_file:
       - .env
     volumes:
@@ -13,9 +14,7 @@ services:
     ports:
       - '8000:8000'
     command: >
-      sh -c "python manage.py makemigrations &&
-             python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
+      sh -c "./start-app.sh"
     depends_on:
       - db
 
