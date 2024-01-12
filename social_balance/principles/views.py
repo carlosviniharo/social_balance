@@ -1,5 +1,4 @@
-from django.core.exceptions import ValidationError
-from django.db import IntegrityError
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -211,7 +210,7 @@ class JobjetivosIdView(BaseRetrieveView):
 class JobjetivosValoresViewSet(BaseViewSet):
     serializer_class = JobjetivosValoresSerializer
     queryset = JobjetivosValores.objects.all()
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def create(self, request, *args, **kwargs):
 
@@ -222,6 +221,7 @@ class JobjetivosValoresViewSet(BaseViewSet):
         data_objval = get_result_accomplishment(data_objval)
 
         objetivosValores, created = JobjetivosValores.objects.get_or_create(**data_objval)
+
         if not created:
             # If the object already exists, handle it as a repeated record
             return Response(
@@ -231,6 +231,14 @@ class JobjetivosValoresViewSet(BaseViewSet):
                 },
                 status=status.HTTP_409_CONFLICT
             )
+        else:
+            idobjectivo = objetivosValores.idobjectivo.idobjectivo
+            (
+                JobjetivosValores.objects
+                .filter(idobjectivo=idobjectivo, status=True)
+                .exclude(idobjetivevalue=objetivosValores.idobjetivevalue)
+                .update(status=False, fechamodificacion=timezone.now())
+             )
 
         serialized_objval = self.get_serializer(objetivosValores)
         return Response(
