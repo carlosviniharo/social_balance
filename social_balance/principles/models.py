@@ -18,6 +18,7 @@ class Jindicadores(models.Model):
     descripcionindicador = models.CharField(max_length=500)
     operacion = models.CharField()
     variables = ArrayField(models.CharField(max_length=255), blank=True, null=True)
+    variablesgrafico = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     status = models.BooleanField(default=True)
     fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
     fechamodificacion = models.DateTimeField(auto_now=True, null=True)
@@ -84,7 +85,7 @@ class JobjetivosValores(models.Model):
         models.DO_NOTHING,
         db_column="idusuario",
     )
-    resultado = models.CharField(null=True)
+    resultado = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     cumplimiento = models.BooleanField(null=True)
     status = models.BooleanField(default=True)
     fechacreacion = models.DateTimeField(auto_now_add=True, null=True)

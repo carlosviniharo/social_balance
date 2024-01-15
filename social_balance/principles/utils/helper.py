@@ -16,7 +16,7 @@ def get_result_accomplishment(dict_object_value):
 
     operation = target.idindicador.operacion
     numerator = dict_object_value["idnumerador"]
-    result = None
+    result = []
 
     if operation == "División":
         denominator = dict_object_value["iddenominador"]
@@ -24,9 +24,9 @@ def get_result_accomplishment(dict_object_value):
             numerator_value = float(numerator.valor)
             denominator_value = float(denominator.valor)
 
-            result = numerator_value / denominator_value * 100
+            result.append(numerator_value / denominator_value * 100)
 
-            dict_object_value["cumplimiento"] = result > float(target.meta)
+            dict_object_value["cumplimiento"] = result[0] > float(target.meta)
 
         except (ValueError, TypeError):
             dict_object_value["cumplimiento"] = False
@@ -37,19 +37,19 @@ def get_result_accomplishment(dict_object_value):
             numerator_value = float(numerator.valor)
             denominator_value = float(denominator.valor)
 
-            result = ((numerator_value / denominator_value) - 1) * 100
+            result.append(((numerator_value / denominator_value) - 1) * 100)
 
-            dict_object_value["cumplimiento"] = result > float(target.meta)
+            dict_object_value["cumplimiento"] = result[0] > float(target.meta)
 
         except (ValueError, TypeError):
             dict_object_value["cumplimiento"] = False
 
     elif operation == "Igual":
-        result = numerator.valor
-        dict_object_value["cumplimiento"] = float(result) >= float(target.meta)
+        result.append(numerator.valor)
+        dict_object_value["cumplimiento"] = float(result[0]) >= float(target.meta)
 
     elif operation in ["Selección", "Texto"]:
-        result = numerator.valor
+        result.append(numerator.valor)
         dict_object_value["cumplimiento"] = numerator.valor.lower() != "no"
 
     elif operation == "Cumplimiento":
