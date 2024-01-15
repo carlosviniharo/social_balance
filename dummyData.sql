@@ -370,14 +370,61 @@ INSERT INTO public.jprinciossubdivisiones(nivel, descripcion, status, idprincipi
 
 -- jindicadores
 INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, variables, variablesgrafico, status, idprinciosubdivision) VALUES
- ('P101','Porcentaje de socios activos', 'División', ARRAY['Número de socios activos al corte', 'Número total de socios al corte'], ARRAY['Número de socios inactivos al corte', 'Porcentaje socios inactivos'], true, 35),
- ('P102','Porcentaje del valor de certificados de aportación en relación al SBU', 'División', ARRAY['Valor mínimo de aportación dispuesto por la entidad', 'Valor del Salario Básico Unificado'], ARRAY[]::text[], true, 35),
- ('P103','Porcentaje de socias mujeres', 'División', ARRAY['Número de socias activas mujeres', 'Número total de socios'], ARRAY['Porcentaje socios mujeres'], true,35),
- ('P104','Porcentaje de socios que residen en áreas rurales', 'División', ARRAY['Número de socios que residen en una zona rural', 'Número total de socios'], ARRAY['Porcentaje de socios que residen en áreas urbanas'], true, 35),
- ('P105','Porcentaje de socios pertenecientes a minorías étnicas', 'División', ARRAY['Número de socios que pertenecen a minorías étnicas', 'Número total de socios'], ARRAY[]::text[],true, 35),
- ('P106','Porcentaje de socios con ingresos menores o iguales al SBU', 'División', ARRAY['Número de socios con ingresos menores o iguales al SBU', 'Número total de socios'], ARRAY[]::text[], true, 35),
- ('P107','Porcentaje de agencias con acceso a personas con discapacidad', 'División', ARRAY['Número de agencias con accesos para personas con discapacidad', 'Número de agencias registradas de la entidad'], ARRAY[]::text[],true, 35),
- ('P108','Manuales y procesos adecuados a la inclusión de población vulnerable, aprobados y actualizados.', 'Cumplimiento', ARRAY['¿Tienen manuales aprobados por el CAD y actualizados que beneficien la inclusión financiera de personas vulnerables?'], ARRAY[]::text[], true, 35),
+ (
+ 'P101',
+ 'Porcentaje de socios activos',
+ 'División',
+ ARRAY['Número de socios activos al corte', 'Número total de socios al corte'],
+ ARRAY['Número de socios inactivos al corte', 'Porcentaje socios inactivos'], true, 35
+ ),
+ (
+ 'P102',
+ 'Porcentaje del valor de certificados de aportación en relación al SBU',
+ 'División',
+  ARRAY['Valor mínimo de aportación dispuesto por la entidad', 'Valor del Salario Básico Unificado'],
+  ARRAY[]::text[], true, 35
+  ),
+ (
+ 'P103',
+ 'Porcentaje de socias mujeres',
+ 'División',
+ ARRAY['Número de socias activas mujeres', 'Número total de socios'],
+ ARRAY['Número de socias activas hombres', 'Porcentaje socios hombres'], true,35
+ ),
+ (
+ 'P104',
+ 'Porcentaje de socios que residen en áreas rurales',
+ 'División',
+ ARRAY['Número de socios que residen en una zona rural', 'Número total de socios'],
+ ARRAY['Número de socios que residen en una zona urbana','Porcentaje de socios que residen en áreas urbanas'], true, 35
+ ),
+ (
+ 'P105',
+ 'Porcentaje de socios pertenecientes a minorías étnicas',
+ 'División',
+  ARRAY['Número de socios que pertenecen a minorías étnicas', 'Número total de socios'],
+  ARRAY['Número de socios que no pertenecen a minorías étnicas', 'Porcentaje de socios no pertenecientes a minorías étnicas'],true, 35
+  ),
+ (
+ 'P106',
+ 'Porcentaje de socios con ingresos menores o iguales al SBU',
+ 'División',
+ ARRAY['Número de socios con ingresos menores o iguales al SBU', 'Número total de socios'],
+ ARRAY['Número de socios con ingresos mayores al SBU', 'Porcentaje de socios con ingresos mayores al SBU'], true, 35
+ ),
+ (
+ 'P107',
+ 'Porcentaje de agencias con acceso a personas con discapacidad',
+ 'División',
+ ARRAY['Número de agencias con accesos para personas con discapacidad', 'Número de agencias registradas de la entidad'],
+ ARRAY['Número de agencias sin accesos para personas con discapacidad', 'Porcentaje de agencias sin acceso a personas con discapacidad'],true, 35
+ ),
+ (
+ 'P108',
+ 'Manuales y procesos adecuados a la inclusión de población vulnerable, aprobados y actualizados.', 'Cumplimiento',
+ ARRAY['¿Tienen manuales aprobados por el CAD y actualizados que beneficien la inclusión financiera de personas vulnerables?'],
+ ARRAY[]::text[], true, 35
+ ),
  ('P109','Porcentaje de socios con ingresos menores o iguales al SBU', 'División',  ARRAY['Número de socios activos que posean carné de discapacidad emitido por la institución competente', 'Número total de socios'], ARRAY[]::text[],true, 35),
  ('P110', 'Promedio de ahorros', 'División', ARRAY['Saldo elemento 21', 'Número de socios activos al corte'], ARRAY[]::text[], true, 36),
  ('P111', 'Porcentaje de saldo de cartera de crédito destinado a mujeres', 'División', ARRAY['Saldo de cartera de crédito otorgada a mujeres al corte', 'Saldo cuenta 14-1499'], ARRAY[]::text[], true, 36),
