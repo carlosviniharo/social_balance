@@ -432,17 +432,80 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  ARRAY['Número de socios activos que posean carné de discapacidad emitido por la institución competente', 'Número total de socios al corte'],
  ARRAY[]::text[],true, 35
  ),
- ('P110', 'Promedio de ahorros', 'División', ARRAY['Saldo elemento 21', 'Número de socios activos al corte'], ARRAY[]::text[], true, 36),
- ('P111', 'Porcentaje de saldo de cartera de crédito destinado a mujeres', 'División', ARRAY['Saldo de cartera de crédito otorgada a mujeres al corte', 'Saldo cuenta 14-1499'], ARRAY[]::text[], true, 36),
- ('P112', 'Porcentaje de créditos otorgados por valores inferiores o iguales al SBU', 'División', ARRAY['Número de créditos otorgados por valores inferiores o iguales al SBU en el año', 'Número de créditos vigentes al corte'], ARRAY[]::text[], true, 36),
- ('P113', 'Porcentaje del saldo de cartera de crédito destinado a personas con residencia rural', 'División', ARRAY['Saldo de crédito otorgado a socios que residen en una zona rural al corte', 'Saldo cuenta 14-1499'], ARRAY[]::text[], true, 36),
- ('P114', 'Porcentaje de personas con residencia rural que tienen operaciones de crédito', 'División', ARRAY['Número de créditos otorgado a socios que residen en una zona rural al corte', 'Número total de créditos vigentes al corte'], ARRAY[]::text[], true, 36),
- ('P115', 'Porcentaje de cartera de microcrédito', 'División', ARRAY['Número de créditos vigentes del segmento microcrédito al corte', 'Número total de créditos vigentes al corte'], ARRAY[]::text[], true, 36),
- ('P116', 'Desembolsos de CDH', 'Igual', ARRAY['Número de desembolsos realizados por concepto de CDH en el año'], ARRAY[]::text[], true, 36),
- ('P117', 'Pagos de BDH', 'Igual', ARRAY['Número de pagos realizados por concepto de BDH en el año'], ARRAY[]::text[], true, 36),
- ('P118', 'Monto promedio de créditos asociativos', 'División', ARRAY['Monto otorgado bajo la metodología de créditos asociativos en el año', 'Número de socios que han accedido a montos bajo la metodología de créditos asociativos en el año'], ARRAY[]::text[], true, 36),
- ('P119', 'Monto promedio de microcrédito', 'División', ARRAY['Saldo cuenta 1404+1412+1420+1428+ 1436+1444+1452+1460+ 1468', 'Número de socios que mantienen créditos vigentes del segmento microcrédito al corte'], ARRAY[]::text[], true, 36),
- ('P120', 'Porcentaje de menores de edad con cuentas de ahorro', 'División', ARRAY['Número de personas menores de 18 años que disponen a una o más cuentas al corte', 'Número total de socios al corte'], ARRAY[]::text[], true, 36),
+ (
+ 'P110',
+ 'Promedio de ahorros',
+ 'División',
+ ARRAY['Saldo elemento 21', 'Número de socios activos al corte'],
+ ARRAY[]::text[], true, 36
+ ),
+ (
+ 'P111',
+ 'Porcentaje de saldo de cartera de crédito destinado a mujeres',
+ 'División',
+ ARRAY['Saldo de cartera de crédito otorgada a mujeres al corte', 'Saldo cuenta 14-1499'],
+ ARRAY['Saldo de cartera de crédito otorgada a personas que no son mujeres al corte', 'Porcentaje de saldo de cartera de crédito no destinado a mujeres' ], true, 36
+ ),
+ (
+ 'P112',
+ 'Porcentaje de créditos otorgados por valores inferiores o iguales al SBU',
+ 'División',
+ ARRAY['Número de créditos otorgados por valores inferiores o iguales al SBU en el año', 'Número de créditos vigentes al corte'],
+ ARRAY['Número de créditos otorgados por valores superiores al SBU en el año', 'Porcentaje de créditos otorgados por valores superioress al SBU'], true, 36
+ ),
+ (
+ 'P113',
+ 'Porcentaje del saldo de cartera de crédito destinado a personas con residencia rural',
+ 'División',
+ ARRAY['Saldo de crédito otorgado a socios que residen en una zona rural al corte', 'Saldo cuenta 14-1499'],
+ ARRAY['Saldo de crédito otorgado a socios que no residen en una zona rural al corte', 'Porcentaje del saldo de cartera de crédito destinado a personas con residencia no rural'], true, 36),
+ (
+ 'P114',
+ 'Porcentaje de personas con residencia rural que tienen operaciones de crédito',
+ 'División',
+ ARRAY['Número de créditos otorgado a socios que residen en una zona rural al corte', 'Número total de créditos vigentes al corte'],
+ ARRAY['Número de créditos otorgado a socios que residen en una zona no rural al corte', 'Porcentaje de personas sin residencia rural que tienen operaciones de crédito'], true, 36
+ ),
+ (
+ 'P115',
+ 'Porcentaje de cartera de microcrédito',
+ 'División',
+ ARRAY['Número de créditos vigentes del segmento microcrédito al corte', 'Número total de créditos vigentes al corte'],
+ ARRAY['Número de créditos vigentes de segmentos distintos al microcrédito al corte', 'Porcentaje de cartera no relacionada con microcréditos'], true, 36
+ ),
+ (
+ 'P116',
+ 'Desembolsos de CDH',
+ 'Igual',
+ ARRAY['Número de desembolsos realizados por concepto de CDH en el año'],
+ ARRAY[]::text[], true, 36
+ ),
+ (
+ 'P117',
+ 'Pagos de BDH', 'Igual',
+ ARRAY['Número de pagos realizados por concepto de BDH en el año'],
+ ARRAY[]::text[], true, 36
+ ),
+ (
+ 'P118',
+ 'Monto promedio de créditos asociativos',
+ 'División',
+ ARRAY['Monto otorgado bajo la metodología de créditos asociativos en el año', 'Número de socios que han accedido a montos bajo la metodología de créditos asociativos en el año'],
+ ARRAY[]::text[], true, 36
+ ),
+ (
+ 'P119',
+ 'Monto promedio de microcrédito',
+ 'División',
+ ARRAY['Saldo cuenta 1404+1412+1420+1428+ 1436+1444+1452+1460+ 1468', 'Número de socios que mantienen créditos vigentes del segmento microcrédito al corte'],
+ ARRAY[]::text[], true, 36
+ ),
+ (
+ 'P120',
+ 'Porcentaje de menores de edad con cuentas de ahorro',
+ 'División',
+ ARRAY['Número de personas menores de 18 años que disponen a una o más cuentas al corte', 'Número total de socios al corte'],
+ ARRAY[]::text[], true, 36),
 
  ('P201', 'Porcentaje de socios o representantes que asisten a Asambleas Generales', 'División',
  ARRAY['Número de socios o representantes asistentes en el año', 'Número de socios o representantes al corte'],
@@ -800,41 +863,146 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  ARRAY['Saldo invertido en entidades del SFPS al corte', 'Saldo elemento 13'],
  ARRAY['Saldo no invertido en entidades del SFPS al corte', 'Porcentaje de inversiones fueraa de entidades del SFPS'], true, 51),
 
- ('P606', 'Convenios con organizaciones de la EPS', 'Igual', ARRAY['Número de convenios o proyectos contraídos con actores de la EPS en el año'], ARRAY[]::text[], true, 51),
- ('P607', 'Compra de cartera de entidades del SFPS en liquidación', 'Igual', ARRAY['Monto de cartera adquirida de entidades del SFPS en liquidación en el año'], ARRAY[]::text[], true, 51),
- ('P608', 'Pasantías realizadas por estudiantes de colegios y universidades', 'Igual', ARRAY['Número de pasantes admitidos en el año'], ARRAY[]::text[], true, 51),
- ('P609', 'Servicios o productos brindados a entidades del SFPS', 'Igual', ARRAY['Número de servicios o productos brindados a entidades del SFPS en el año'], ARRAY[]::text[], true, 51),
- ('P610', 'Proveedores de la EPS', 'Igual', ARRAY['Número de proveedores de la EPS contratados en el año'], ARRAY[]::text[], true, 51),
- ('P611', 'Porcentaje destinado a contratos con proveedores de la EPS', 'División', ARRAY['Monto del gasto por contratos con proveedores de la EPS en el año', 'Saldo elemento 45'], ARRAY[]::text[], true, 51),
- ('P612', 'Empleados capacitados por organismos de integración', 'Igual', ARRAY['Número de empleados capacitados por organismos de integración en el año'], ARRAY[]::text[], true, 51),
- ('P613', 'Participación en organismos de integración', 'Igual', ARRAY['Número de organismos de integración a los que pertenece y participa la entidad al corte'], ARRAY[]::text[], true, 51),
- ('P614', 'Servicios electrónicos disponibles para socios', 'Igual', ARRAY['Número de servicios electrónicos que oferta la entidad al corte'], ARRAY[]::text[], true, 51),
- ('P615', 'Socios que utilizan canales electrónicos', 'Igual', ARRAY['Número de socios que utilizan servicios electrónicos en el año'], ARRAY[]::text[], true, 51),
- ('P616', 'Transacciones por canales electrónicos', 'Igual', ARRAY['Número de transacciones realizadas por usuarios a través de canales electrónicos en el año'], ARRAY[]::text[], true, 51),
- ('P617', 'Visitas a la página web de la entidad', 'Igual', ARRAY['Número de visitas a la página web de la entidad en el año'], ARRAY[]::text[], true, 51),
- ('P618', 'Medios tecnológicos diseñados para personas vulnerables', 'Cumplimiento', ARRAY['¿Tienen medios tecnológicos diseñados para personas vulnerables?'], ARRAY[]::text[], true, 51),
- ('P619', 'Variación cartera productivo-comercial', 'División - 1', ARRAY['Saldo cuenta año actual 1405+1413+1421+1429+1437+1445+1453+1461+1469+1401+1406+1409+1414+1417+1422+1425+1430+1433+1438+1441+1446+1449+1454+1457+1462+1465+1470', 'Saldo cuenta año anterior 1405+1413+1421+1429+1437+1445+1453+1461+1469+1401+1406+1409+1414+1417+1422+1425+1430+1433+1438+1441+1446+1449+1454+1457+1462+1465+1470'], ARRAY[]::text[], true, 52),
- ('P620', 'Variación cartera consumo', 'División - 1', ARRAY['Saldo cuenta año actual 1402+1407+1410+1415+1418+1423+1426+1431+1434+1439+1442+1447+1450+1455+1458+1463+1466+1471', 'Saldo cuenta año anterior1402+1407+1410+1415+1418+1423+1426+1431+1434+1439+1442+1447+1450+1455+1458+1463+1466+1471'], ARRAY[]::text[], true, 52),
- ('P621', 'Variación cartera educativo', 'División - 1', ARRAY['Saldo cuenta año actual 1473+1475+1477+1479+1481+1483+1485+1487+1489', 'Saldo cuenta año anterior 1473+1475+1477+1479+1481+1483+1485+1487+1489'], ARRAY[]::text[], true, 52),
- ('P622', 'Variación cartera vivienda de interés público e inmobiliario', 'División - 1', ARRAY['Saldo cuenta año actual 1408+1416+1424+1432+1440+1448+1456+1464+1472', 'Saldo cuenta año anterior 1408+1416+1424+1432+1440+1448+1456+1464+1472'], ARRAY[]::text[], true, 52),
- ('P623', 'Variación cartera microcrédito', 'División - 1', ARRAY['Saldo cuenta año actual 1404+1412+1420+1428+1436+1444+1452+1460+1468', 'Saldo cuenta año anterior 1404+1412+1420+1428+1436+1444+1452+1460+1468'], ARRAY[]::text[], true, 52),
- ('P624', 'Corresponsales solidarios', 'Igual', ARRAY['Número de corresponsales solidarios creados en el año'], ARRAY[]::text[], true, 52),
- ('P625', 'Transacciones realizadas en corresponsales solidarios', 'Igual', ARRAY['Número de transacciones realizadas en corresponsales solidarios en el año'], ARRAY[]::text[], true, 52),
- ('P626', 'Acuerdo para el desarrollo tecnológico', 'Cumplimiento', ARRAY['¿Tiene un acuerdo para el desarrollo tecnológico (Software o canales electrónicos)?'], ARRAY[]::text[], true, 52),
- ('P627', 'Transacciones con costo (tarifa máxima)', 'Igual', ARRAY['Número de transacciones realizadas con tarifa máxima en el año'], ARRAY[]::text[], true, 52),
- ('P628', 'Transacciones con costo (tarifa diferenciada)', 'Igual', ARRAY['Número de transacciones realizadas con tarifa diferenciada en el año'], ARRAY[]::text[], true, 52),
- ('P629', 'Transacciones con costo (tarifa cero)', 'Igual', ARRAY['Número de transacciones realizadas con tarifa cero en el año'], ARRAY[]::text[], true, 52),
- ('P630', 'Aperturas de cuentas básicas', 'Igual', ARRAY['Número de cuentas básicas aperturadas en el año'], ARRAY[]::text[], true, 52),
- ('P631', 'Transacciones con servicios financieros asociados a cuenta básica', 'Igual', ARRAY['Número de transacciones asociadas a cuentas básicas en el año'], ARRAY[]::text[], true, 52),
- ('P701', 'Prácticas para medir la satisfacción del cliente', 'Cumplimiento', ARRAY['¿Tiene un procedimiento de medición de satisfacción del cliente, gestión de quejas y reclamos, incluyendo los resultados de los estudios de satisfacción?'], ARRAY[]::text[], true, 53),
- ('P702', 'Porcentaje de satisfacción de acceso a productos y servicios', 'Igual', ARRAY['Promedio del porcentaje de satisfacción del acceso a productos y servicios financieros'], ARRAY[]::text[], true, 53),
- ('P703', 'Gestión de quejas y reclamos', 'División', ARRAY['Número de quejas y reclamos atendidos en el año', 'Número de quejas y reclamos recibidas en el año'], ARRAY[]::text[], true, 53),
- ('P704', 'Manual y políticas de gestión de reclamos', 'Cumplimiento', ARRAY['¿Tienen manuales aprobados por el CAD y actualizados que indiquen la política de gestión de quejas y reclamos?'], ARRAY[]::text[], true, 53),
- ('P705', 'Exhibición de la información relacionada a productos y servicios en paneles de la entidad', 'Selección', ARRAY['Número de cuentas básicas aperturadas en el año'], ARRAY[]::text[], true, 53),
- ('P706', 'Puntos de atención en zonas vulnerables', 'Igual', ARRAY['Número de puntos de atención ubicados en zonas vulnerables al corte'], ARRAY[]::text[], true, 53),
- ('P707', 'Productos y servicios adaptados para personas vulnerables', 'Cumplimiento', ARRAY['¿Tienen productos y/o servicios adaptados para personas vulnerables?'], ARRAY[]::text[], true, 53),
- ('P708', 'Infraestructura física para personas vulnerables', 'Cumplimiento', ARRAY['¿Tienen la infraestructura física que permita el acceso a los productos y/o servicios a personas vulnerables?'], ARRAY[]::text[], true, 53),
- ('P709', 'Infraestructura tecnológica para personas vulnerables', 'Cumplimiento', ARRAY['¿Tienen la infraestructura tecnológica que permita el acceso a los productos y/o servicios a personas vulnerables?'], ARRAY[]::text[], true, 53),
+ ('P606', 'Convenios con organizaciones de la EPS', 'Igual',
+ ARRAY['Número de convenios o proyectos contraídos con actores de la EPS en el año'],
+ ARRAY[]::text[], true, 51),
+
+ ('P607', 'Compra de cartera de entidades del SFPS en liquidación', 'Igual',
+ ARRAY['Monto de cartera adquirida de entidades del SFPS en liquidación en el año'],
+ ARRAY[]::text[], true, 51),
+
+ ('P608', 'Pasantías realizadas por estudiantes de colegios y universidades', 'Igual',
+ ARRAY['Número de pasantes admitidos en el año'],
+ ARRAY[]::text[], true, 51),
+
+ ('P609', 'Servicios o productos brindados a entidades del SFPS', 'Igual',
+ ARRAY['Número de servicios o productos brindados a entidades del SFPS en el año'],
+ ARRAY[]::text[], true, 51),
+
+ ('P610', 'Proveedores de la EPS', 'Igual',
+ ARRAY['Número de proveedores de la EPS contratados en el año'],
+ ARRAY[]::text[], true, 51),
+
+ ('P611', 'Porcentaje destinado a contratos con proveedores de la EPS', 'División',
+ ARRAY['Monto del gasto por contratos con proveedores de la EPS en el año', 'Saldo elemento 45'],
+ ARRAY['Monto del gasto por contratos con proveedores diferentes de la EPS en el año', 'Porcentaje destinado a contratos con proveedores diferentes de la EPS']::text[], true, 51),
+
+ ('P612', 'Empleados capacitados por organismos de integración', 'Igual',
+ ARRAY['Número de empleados capacitados por organismos de integración en el año'],
+ ARRAY[]::text[], true, 51),
+
+ ('P613', 'Participación en organismos de integración', 'Igual',
+ ARRAY['Número de organismos de integración a los que pertenece y participa la entidad al corte'],
+ ARRAY[]::text[], true, 51),
+
+ ('P614', 'Servicios electrónicos disponibles para socios', 'Igual',
+ ARRAY['Número de servicios electrónicos que oferta la entidad al corte'],
+ ARRAY[]::text[], true, 51),
+
+ ('P615', 'Socios que utilizan canales electrónicos', 'Igual',
+ ARRAY['Número de socios que utilizan servicios electrónicos en el año'],
+ ARRAY[]::text[], true, 51),
+
+ ('P616', 'Transacciones por canales electrónicos', 'Igual',
+ ARRAY['Número de transacciones realizadas por usuarios a través de canales electrónicos en el año'],
+ ARRAY[]::text[], true, 51),
+
+ ('P617', 'Visitas a la página web de la entidad', 'Igual',
+ ARRAY['Número de visitas a la página web de la entidad en el año'],
+ ARRAY[]::text[], true, 51),
+
+ ('P618', 'Medios tecnológicos diseñados para personas vulnerables', 'Cumplimiento',
+ ARRAY['¿Tienen medios tecnológicos diseñados para personas vulnerables?'],
+ ARRAY[]::text[], true, 51),
+
+ ('P619', 'Variación cartera productivo-comercial', 'División - 1',
+ ARRAY['Saldo cuenta año actual 1405+1413+1421+1429+1437+1445+1453+1461+1469+1401+1406+1409+1414+1417+1422+1425+1430+1433+1438+1441+1446+1449+1454+1457+1462+1465+1470', 'Saldo cuenta año anterior 1405+1413+1421+1429+1437+1445+1453+1461+1469+1401+1406+1409+1414+1417+1422+1425+1430+1433+1438+1441+1446+1449+1454+1457+1462+1465+1470'],
+ ARRAY[]::text[], true, 52),
+
+ ('P620', 'Variación cartera consumo', 'División - 1',
+ ARRAY['Saldo cuenta año actual 1402+1407+1410+1415+1418+1423+1426+1431+1434+1439+1442+1447+1450+1455+1458+1463+1466+1471', 'Saldo cuenta año anterior1402+1407+1410+1415+1418+1423+1426+1431+1434+1439+1442+1447+1450+1455+1458+1463+1466+1471'],
+ ARRAY[]::text[], true, 52),
+
+ ('P621', 'Variación cartera educativo', 'División - 1',
+ ARRAY['Saldo cuenta año actual 1473+1475+1477+1479+1481+1483+1485+1487+1489', 'Saldo cuenta año anterior 1473+1475+1477+1479+1481+1483+1485+1487+1489'],
+ ARRAY[]::text[], true, 52),
+
+ ('P622', 'Variación cartera vivienda de interés público e inmobiliario', 'División - 1',
+ ARRAY['Saldo cuenta año actual 1408+1416+1424+1432+1440+1448+1456+1464+1472', 'Saldo cuenta año anterior 1408+1416+1424+1432+1440+1448+1456+1464+1472'],
+ ARRAY[]::text[], true, 52),
+
+ ('P623', 'Variación cartera microcrédito', 'División - 1',
+ ARRAY['Saldo cuenta año actual 1404+1412+1420+1428+1436+1444+1452+1460+1468', 'Saldo cuenta año anterior 1404+1412+1420+1428+1436+1444+1452+1460+1468'],
+ ARRAY[]::text[], true, 52),
+
+ ('P624', 'Corresponsales solidarios', 'Igual',
+ ARRAY['Número de corresponsales solidarios creados en el año'],
+ ARRAY[]::text[], true, 52),
+
+ ('P625', 'Transacciones realizadas en corresponsales solidarios', 'Igual',
+ ARRAY['Número de transacciones realizadas en corresponsales solidarios en el año'],
+ ARRAY[]::text[], true, 52),
+
+ ('P626', 'Acuerdo para el desarrollo tecnológico', 'Cumplimiento',
+ ARRAY['¿Tiene un acuerdo para el desarrollo tecnológico (Software o canales electrónicos)?'],
+ ARRAY[]::text[], true, 52),
+
+ ('P627', 'Transacciones con costo (tarifa máxima)', 'Igual',
+ ARRAY['Número de transacciones realizadas con tarifa máxima en el año'],
+ ARRAY[]::text[], true, 52),
+
+ ('P628', 'Transacciones con costo (tarifa diferenciada)', 'Igual',
+ ARRAY['Número de transacciones realizadas con tarifa diferenciada en el año'],
+ ARRAY[]::text[], true, 52),
+
+ ('P629', 'Transacciones con costo (tarifa cero)', 'Igual',
+ ARRAY['Número de transacciones realizadas con tarifa cero en el año'],
+ ARRAY[]::text[], true, 52),
+
+ ('P630', 'Aperturas de cuentas básicas', 'Igual',
+ ARRAY['Número de cuentas básicas aperturadas en el año'],
+ ARRAY[]::text[], true, 52),
+
+ ('P631', 'Transacciones con servicios financieros asociados a cuenta básica', 'Igual',
+ ARRAY['Número de transacciones asociadas a cuentas básicas en el año'],
+ ARRAY[]::text[], true, 52),
+
+
+ ('P701', 'Prácticas para medir la satisfacción del cliente', 'Cumplimiento',
+ ARRAY['¿Tiene un procedimiento de medición de satisfacción del cliente, gestión de quejas y reclamos, incluyendo los resultados de los estudios de satisfacción?'],
+ ARRAY[]::text[], true, 53),
+
+ ('P702', 'Porcentaje de satisfacción de acceso a productos y servicios', 'Igual',
+ ARRAY['Promedio del porcentaje de satisfacción del acceso a productos y servicios financieros'],
+ ARRAY[]::text[], true, 53),
+
+ ('P703', 'Gestión de quejas y reclamos', 'División',
+ ARRAY['Número de quejas y reclamos atendidos en el año', 'Número de quejas y reclamos recibidas en el año'],
+ ARRAY['Número de quejas y reclamos no atendidos en el año', 'Gestión de quejas y reclamos no atendidos' ], true, 53),
+
+ ('P704', 'Manual y políticas de gestión de reclamos', 'Cumplimiento',
+ ARRAY['¿Tienen manuales aprobados por el CAD y actualizados que indiquen la política de gestión de quejas y reclamos?'],
+ ARRAY[]::text[], true, 53),
+
+ ('P705', 'Exhibición de la información relacionada a productos y servicios en paneles de la entidad', 'Selección',
+ ARRAY['Número de cuentas básicas aperturadas en el año'],
+ ARRAY[]::text[], true, 53),
+
+ ('P706', 'Puntos de atención en zonas vulnerables', 'Igual',
+ ARRAY['Número de puntos de atención ubicados en zonas vulnerables al corte'],
+ ARRAY[]::text[], true, 53),
+
+ ('P707', 'Productos y servicios adaptados para personas vulnerables', 'Cumplimiento',
+ ARRAY['¿Tienen productos y/o servicios adaptados para personas vulnerables?'],
+ ARRAY[]::text[], true, 53),
+
+ ('P708', 'Infraestructura física para personas vulnerables', 'Cumplimiento',
+ ARRAY['¿Tienen la infraestructura física que permita el acceso a los productos y/o servicios a personas vulnerables?'],
+ ARRAY[]::text[], true, 53),
+
+ ('P709', 'Infraestructura tecnológica para personas vulnerables', 'Cumplimiento',
+ ARRAY['¿Tienen la infraestructura tecnológica que permita el acceso a los productos y/o servicios a personas vulnerables?'],
+ ARRAY[]::text[], true, 53),
  ('P710', 'Políticas de colocación y captación que no incluyan costos asociados', 'Cumplimiento', ARRAY['¿Tienen políticas de colocación de créditos y captación de recursos, aprobadas por el CAD que no incluyan costos asociados?'], ARRAY[]::text[], true, 53),
  ('P711', 'Políticas de colocación y captación que incluya la igualdad de oportunidades', 'Cumplimiento', ARRAY['¿Tienen políticas de colocación de créditos y captación de recursos, aprobadas por el CAD que incluya la igualdad de oportunidades?'], ARRAY[]::text[], true, 53),
  ('P712', 'Políticas destinadas a las finanzas verdes', 'Cumplimiento', ARRAY['¿Tienen políticas aprobadas por el CAD para productos y servicios destinados a finanzas verdes?'], ARRAY[]::text[], true, 54),
