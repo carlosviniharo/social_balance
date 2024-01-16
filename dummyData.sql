@@ -388,28 +388,28 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  'P103',
  'Porcentaje de socias mujeres',
  'División',
- ARRAY['Número de socias activas mujeres', 'Número total de socios'],
+ ARRAY['Número de socias activas mujeres', 'Número total de socios al corte'],
  ARRAY['Número de socias activas hombres', 'Porcentaje socios hombres'], true,35
  ),
  (
  'P104',
  'Porcentaje de socios que residen en áreas rurales',
  'División',
- ARRAY['Número de socios que residen en una zona rural', 'Número total de socios'],
+ ARRAY['Número de socios que residen en una zona rural', 'Número total de socios al corte'],
  ARRAY['Número de socios que residen en una zona urbana','Porcentaje de socios que residen en áreas urbanas'], true, 35
  ),
  (
  'P105',
  'Porcentaje de socios pertenecientes a minorías étnicas',
  'División',
-  ARRAY['Número de socios que pertenecen a minorías étnicas', 'Número total de socios'],
+  ARRAY['Número de socios que pertenecen a minorías étnicas', 'Número total de socios al corte'],
   ARRAY['Número de socios que no pertenecen a minorías étnicas', 'Porcentaje de socios no pertenecientes a minorías étnicas'],true, 35
   ),
  (
  'P106',
  'Porcentaje de socios con ingresos menores o iguales al SBU',
  'División',
- ARRAY['Número de socios con ingresos menores o iguales al SBU', 'Número total de socios'],
+ ARRAY['Número de socios con ingresos menores o iguales al SBU', 'Número total de socios al corte'],
  ARRAY['Número de socios con ingresos mayores al SBU', 'Porcentaje de socios con ingresos mayores al SBU'], true, 35
  ),
  (
@@ -425,7 +425,13 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  ARRAY['¿Tienen manuales aprobados por el CAD y actualizados que beneficien la inclusión financiera de personas vulnerables?'],
  ARRAY[]::text[], true, 35
  ),
- ('P109','Porcentaje de socios con ingresos menores o iguales al SBU', 'División',  ARRAY['Número de socios activos que posean carné de discapacidad emitido por la institución competente', 'Número total de socios'], ARRAY[]::text[],true, 35),
+ (
+ 'P109',
+ 'Porcentaje de socios con discapacidad',
+ 'División',
+ ARRAY['Número de socios activos que posean carné de discapacidad emitido por la institución competente', 'Número total de socios al corte'],
+ ARRAY[]::text[],true, 35
+ ),
  ('P110', 'Promedio de ahorros', 'División', ARRAY['Saldo elemento 21', 'Número de socios activos al corte'], ARRAY[]::text[], true, 36),
  ('P111', 'Porcentaje de saldo de cartera de crédito destinado a mujeres', 'División', ARRAY['Saldo de cartera de crédito otorgada a mujeres al corte', 'Saldo cuenta 14-1499'], ARRAY[]::text[], true, 36),
  ('P112', 'Porcentaje de créditos otorgados por valores inferiores o iguales al SBU', 'División', ARRAY['Número de créditos otorgados por valores inferiores o iguales al SBU en el año', 'Número de créditos vigentes al corte'], ARRAY[]::text[], true, 36),
@@ -785,13 +791,22 @@ AS SELECT objval.idobjetivevalue,
     val_d.valor AS valor_denominador,
     objval.idusuario,
     (users.first_name::text || ' '::text) || users.last_name::text AS fullname,
-    objval.resultado,
+    prin.idprincipio,
+    prin.descripcionprincipio,
+    ind.idindicador,
+    ind.descripcionindicador,
+    objval.resultado[1] AS resultado_indicador,
+    ind.variablesgrafico,
+    objval.resultado[2:] AS resultado_grafico,
     objval.cumplimiento,
     objval.status,
     objval.fechacreacion,
     objval.fechamodificacion
    FROM jobjetivosvalores objval
      LEFT JOIN jobjetivos obj ON obj.idobjectivo = objval.idobjectivo
+     LEFT JOIN jindicadores ind ON ind.idindicador = obj.idindicador
+     LEFT JOIN jprinciossubdivisiones prinsub ON prinsub.idprinciosubdivision = ind.idprinciosubdivision
+     LEFT JOIN jprincipios prin ON prin.idprincipio = prinsub.idprincipio
      LEFT JOIN jvalores val_n ON val_n.idvalores = objval.idnumerador
      LEFT JOIN jvalores val_d ON val_d.idvalores = objval.iddenominador
      LEFT JOIN jusuarios users ON users.idusuario = objval.idusuario;

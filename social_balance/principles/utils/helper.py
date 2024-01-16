@@ -1,3 +1,6 @@
+import re
+
+from rest_framework.exceptions import APIException
 
 
 def get_result_accomplishment(dict_object_value):
@@ -14,8 +17,10 @@ def get_result_accomplishment(dict_object_value):
         dict_object_value["cumplimiento"] = None
         return dict_object_value
 
+    indicator = target.idindicador.descripcionindicador
     operation = target.idindicador.operacion
     numerator = dict_object_value["idnumerador"]
+    pattern_search_percentage = r'\bPorcentaje\b'
     result = []
 
     if operation == "División":
@@ -24,12 +29,21 @@ def get_result_accomplishment(dict_object_value):
             numerator_value = float(numerator.valor)
             denominator_value = float(denominator.valor)
 
-            result.append(numerator_value / denominator_value * 100)
-
-            dict_object_value["cumplimiento"] = result[0] > float(target.meta)
-
         except (ValueError, TypeError):
-            dict_object_value["cumplimiento"] = False
+            raise APIException(
+                    detail="Invalid numerator and denominator",
+                )
+
+        is_percentage = re.match(pattern_search_percentage, indicator)
+
+        if is_percentage:
+            result.append(numerator_value / denominator_value * 100)
+            result.append(100 - result[0])
+            result.append(denominator_value - numerator_value)
+        else:
+            result.append(numerator_value / denominator_value)
+
+        dict_object_value["cumplimiento"] = result[0] > float(target.meta)
 
     elif operation == "División - 1":
         denominator = dict_object_value["iddenominador"]

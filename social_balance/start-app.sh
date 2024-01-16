@@ -1,4 +1,3 @@
-#!/bin/sh
 # Wait for the Database to be ready
 while ! nc -z db 5432; do
     sleep 1
