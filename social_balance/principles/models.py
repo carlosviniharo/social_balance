@@ -232,6 +232,7 @@ class Vindicators(models.Model):
     meta = models.CharField()
     objetivo_validezinicio = models.DateTimeField()
     is_applicable = models.BooleanField()
+    idobjetivevalue = models.IntegerField()
     fechacreacion = models.DateTimeField()
     fechamodificacion = models.DateTimeField()
     validezinicio = models.DateTimeField()

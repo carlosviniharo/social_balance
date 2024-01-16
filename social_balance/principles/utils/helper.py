@@ -38,8 +38,9 @@ def get_result_accomplishment(dict_object_value):
 
         if is_percentage:
             result.append(numerator_value / denominator_value * 100)
-            result.append(100 - result[0])
             result.append(denominator_value - numerator_value)
+            result.append(100 - result[0])
+
         else:
             result.append(numerator_value / denominator_value)
 
