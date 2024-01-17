@@ -38,7 +38,10 @@ def get_result_accomplishment(dict_object_value):
 
         if is_percentage:
             result.append(numerator_value / denominator_value * 100)
-            result.append(denominator_value - numerator_value)
+            if denominator_value.is_integer() and numerator_value.is_integer():
+                result.append(int(denominator_value - numerator_value))
+            else:
+                result.append(denominator_value - numerator_value)
             result.append(100 - result[0])
 
         else:
@@ -60,7 +63,11 @@ def get_result_accomplishment(dict_object_value):
             dict_object_value["cumplimiento"] = False
 
     elif operation == "Igual":
-        result.append(numerator.valor)
+        if numerator.is_integer:
+            result.append(int(numerator.valor))
+        else:
+            result.append((numerator.valor))
+
         dict_object_value["cumplimiento"] = float(result[0]) >= float(target.meta)
 
     elif operation in ["Selección", "Texto"]:
