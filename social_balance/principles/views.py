@@ -233,11 +233,12 @@ class JobjetivosValoresViewSet(BaseViewSet):
             )
         else:
             idobjectivo = objetivosValores.idobjectivo.idobjectivo
+
             (
                 JobjetivosValores.objects
                 .filter(idobjectivo=idobjectivo, status=True)
                 .exclude(idobjetivevalue=objetivosValores.idobjetivevalue)
-                .update(status=False, fechamodificacion=timezone.now())
+                .update(status=False, fechamodificacion=timezone.localtime(timezone.now()))
              )
 
         serialized_objval = self.get_serializer(objetivosValores)

@@ -4,12 +4,13 @@ from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from reports.models import Jreportes
-from reports.serializers import JreportesSerializer
+from reports.models import Jreportes, JreportesObjetivosValores
+from reports.serializers import JreportesSerializer, JreportesObjetivosValoresSerializer
 from users.utils.helper import BaseViewSet, CustomPagination, BaseListView, BaseRetrieveView
 
 
-# Create your views here.
+# Reports API endpoints
+
 class JreportesViewSet(BaseViewSet):
     serializer_class = JreportesSerializer
     queryset = Jreportes.objects.all()
@@ -19,7 +20,8 @@ class JreportesViewSet(BaseViewSet):
         serialized_report = self.get_serializer(data=request.data)
         serialized_report.is_valid(raise_exception=True)
         report = serialized_report.validated_data
-        report["titulo"] += f" {str(timezone.now().strftime('%Y-%m-%d %H:%M:%S'))}"
+        local_time = timezone.localtime(timezone.now())
+        report["titulo"] += f" {str(local_time.strftime('%Y-%m-%d %H:%M:%S'))}"
         new_report = Jreportes.objects.create(**report)
         response_report = self.get_serializer(new_report)
         return Response(
@@ -31,7 +33,8 @@ class JreportesViewSet(BaseViewSet):
             )
 
 
-# Read services for Jprincipios
+# Read services for Reportes
+
 class JreportesReadView(ListAPIView):
     serializer_class = JreportesSerializer
     queryset = Jreportes.objects.all()
@@ -52,3 +55,30 @@ class JreportesIdView(BaseRetrieveView):
     permission_classes = (IsAuthenticated,)
 
 
+# Reports API endpoints
+
+class JreportesObjetivosValoresViewSet(BaseViewSet):
+    serializer_class = JreportesObjetivosValoresSerializer
+    queryset = JreportesObjetivosValores.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+    def create(self, request, *args, **kwargs):
+        serializer_reportobjvals = self.get_serializer(data=request.data, many=True)
+
+        serializer_reportobjvals.is_valid(raise_exception=True)
+
+        serializer_reportobjvals_objects = [
+            JreportesObjetivosValores(**reportobjval)
+            for reportobjval in serializer_reportobjvals.validated_data
+        ]
+        JreportesObjetivosValores.objects.bulk_create(serializer_reportobjvals_objects)
+
+        return Response(
+            {
+                "message": "success",
+                "data": "Reports created successfully",
+            },
+            status=status.HTTP_201_CREATED
+        )
+
+    # Read services for ReportesObjetivosValores

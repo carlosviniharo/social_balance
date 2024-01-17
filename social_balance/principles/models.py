@@ -97,7 +97,7 @@ class JobjetivosValores(models.Model):
     objects = models.Manager()
 
     def __str__(self):
-        return self.resultado
+        return str(self.idobjetivevalue)
 
 
 class Jprincipios(models.Model):

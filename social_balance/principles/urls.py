@@ -30,6 +30,7 @@ from .views import (
 )
 
 router = DefaultRouter()
+# url for set view services.
 router.register(r"Principles", JprincipiosSetView)
 router.register(r"PrinciplesSubdivisions", JprinciossubdivisionesViewSet)
 router.register(r"Indicators", JindicadoresViewSet)

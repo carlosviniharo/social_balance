@@ -46,5 +46,9 @@ class JreportesObjetivosValores(models.Model):
 
     class Meta:
         db_table = 'jreportesobjetivosvalores'
+        unique_together = ("idreporte", "idobjetivevalue")
 
     objects = models.Manager()
+
+    def __str__(self):
+        return f"{self.idreporte} <- {self.idobjetivevalue}"

@@ -321,7 +321,7 @@ INSERT INTO public.jprinciossubdivisiones(nivel, descripcion, status, idprincipi
 
 -- jprinciossubdivisiones -level two
 INSERT INTO public.jprinciossubdivisiones(nivel, descripcion, status, idprincipio,fkidprinciosubdivision) VALUES
-(2, 'Nivel de apertura, no discriminación', true, 1,1),
+(2, 'Nivel de apertura, no discriminación Equidad de género', true, 1,1),
 (2, 'Direccionamiento de productos a zonas rurales y urbanas. Existencia de productos para menores de edad. Cobertura poblacional en relación a la PEA, PIB, NBI, SBU (salario básico unificado). Cobertura física en zonas rurales y urbanas.', true, 1, 2),
 (2, 'Nivel de participación de los socios y de capital social. Equidad de género. Representación local. Participación de los socios.', true,2, 3),
 (2, 'Reciprocidad y crecimiento sostenido a través de niveles de aprobación debidamente adaptados. Concentración de fuentes de fondeo. Nivel de endeudamiento. Promotores de la economía popular y solidario. Participación de capital social. Capacidad de ahorro.', true,3, 4),
