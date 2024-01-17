@@ -18,8 +18,15 @@ from .views import (
     JvaloresViewSet,
     JvaloresReadView,
     JvaloresActiveView,
-    JvaloresIdView, JobjetivosViewSet, JobjetivosReadView, JobjetivosActiveView, JobjetivosIdView,
-    JobjetivosValoresViewSet, VobjectivesvaluesReadView, VobjectivesvaluesActiveView, VobjectivesvaluesIdView,
+    JvaloresIdView,
+    JobjetivosViewSet,
+    JobjetivosReadView,
+    JobjetivosActiveView,
+    JobjetivosIdView,
+    JobjetivosValoresViewSet,
+    VobjectivesvaluesReadView,
+    VobjectivesvaluesActiveView,
+    VobjectivesvaluesIdView,
 )
 
 router = DefaultRouter()

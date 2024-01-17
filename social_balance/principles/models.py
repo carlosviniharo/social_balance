@@ -152,51 +152,6 @@ class Jprinciossubdivisiones(models.Model):
         return self.descripcion
 
 
-# TODO reportes model should have its own app
-
-class Jreportes(models.Model):
-
-    idreporte = models.AutoField(primary_key=True)
-    titulo = models.CharField(max_length=250)
-    categoria = models.CharField(max_length=250)
-    autor = models.ForeignKey(
-        Jusuarios,
-        models.DO_NOTHING,
-        db_column="autor",
-    )
-    status = models.BooleanField(default=True)
-    fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
-    fechamodificacion = models.DateTimeField(auto_now=True, null=True)
-    objetivosvalores = models.ManyToManyField(JobjetivosValores, through='JreportesObjetivosValores')
-
-    class Meta:
-        db_table = 'jreportes'
-
-    objects = models.Manager()
-
-    def __str__(self):
-        return self.titulo
-
-
-class JreportesObjetivosValores(models.Model):
-    idreporteobjetivosvalores = models.AutoField(primary_key=True)
-    idreporte = models.ForeignKey(
-        Jreportes,
-        models.DO_NOTHING,
-        db_column="idreporte",
-    )
-    idobjetivevalue = models.ForeignKey(
-        JobjetivosValores,
-        models.DO_NOTHING,
-        db_column="idobjetivevalue",
-    )
-
-    class Meta:
-        db_table = 'jreportesobjetivosvalores'
-
-    objects = models.Manager()
-
-
 class Jvalores(models.Model):
     idvalores = models.AutoField(primary_key=True)
     descripcionvalores = models.CharField(max_length=500)
