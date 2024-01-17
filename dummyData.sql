@@ -1003,21 +1003,65 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  ('P709', 'Infraestructura tecnológica para personas vulnerables', 'Cumplimiento',
  ARRAY['¿Tienen la infraestructura tecnológica que permita el acceso a los productos y/o servicios a personas vulnerables?'],
  ARRAY[]::text[], true, 53),
- ('P710', 'Políticas de colocación y captación que no incluyan costos asociados', 'Cumplimiento', ARRAY['¿Tienen políticas de colocación de créditos y captación de recursos, aprobadas por el CAD que no incluyan costos asociados?'], ARRAY[]::text[], true, 53),
- ('P711', 'Políticas de colocación y captación que incluya la igualdad de oportunidades', 'Cumplimiento', ARRAY['¿Tienen políticas de colocación de créditos y captación de recursos, aprobadas por el CAD que incluya la igualdad de oportunidades?'], ARRAY[]::text[], true, 53),
- ('P712', 'Políticas destinadas a las finanzas verdes', 'Cumplimiento', ARRAY['¿Tienen políticas aprobadas por el CAD para productos y servicios destinados a finanzas verdes?'], ARRAY[]::text[], true, 54),
- ('P713', 'Productos y servicios destinados a finanzas verdes', 'Igual', ARRAY['Número de productos destinados a finanzas verdes en el año'], ARRAY[]::text[], true, 54),
- ('P714', 'Porcentaje de cartera destinada a finanzas verdes', 'División', ARRAY['Saldo de créditos destinados a finanzas verdes al corte', 'Saldo cuenta 14-1499'], ARRAY[]::text[], true, 54),
- ('P715', 'Socios beneficiados por finanzas verdes', 'Igual', ARRAY['Número de socios que han accedido a créditos destinados a finanzas verdes en el año'], ARRAY[]::text[], true, 54),
- ('P716', 'Iniciativas para proporcionar productos y servicios enfocados en finanzas verdes', 'Igual', ARRAY['Número de iniciativas para proporcionar productos y servicios enfocados en la promoción de finanzas verdes en el año'], ARRAY[]::text[], true, 54),
- ('P717', 'Capacitaciones que promueven la gestión e involucramiento en finanzas verdes', 'Igual', ARRAY['Número de capacitaciones ejecutadas en el año'], ARRAY[]::text[], true, 54),
- ('P718', 'Iniciativas que incentiven las buenas prácticas ambientales en la entidad', 'Igual', ARRAY['Número de iniciativas que incentiven las buenas prácticas ambientales en la entidad en el año'], ARRAY[]::text[], true, 54),
- ('P719', 'Iniciativas que incentiven las buenas prácticas ambientales en la comunidad o zona de influencia', 'Igual', ARRAY['Número de iniciativas que incentiven las buenas prácticas ambientales en la comunidad o zona de influencia en el año'], ARRAY[]::text[], true, 54),
- ('P720', 'Convenios con Gobiernos Autónomos Descentralizados y/o con organismos gubernamentales que promuevan el desarrollo local o la sostenibilidad interinstitucional', 'Igual', ARRAY['Número de convenios vigentes con Gobiernos Autónomos Descentralizados y/o con organismos gubernamentales que promueven el desarrollo local o la sostenibilidad interinstitucional'], ARRAY[]::text[], true, 55),
- ('P721', 'Políticas que promuevan la inclusión de proveedores locales de la EPS', 'Cumplimiento', ARRAY['¿Tiene políticas aprobadas por el CAD y actualizadas que promuevan la inclusión de proveedores locales de la EPS?'], ARRAY[]::text[], true, 56),
- ('P722', 'Proveedores de la localidad calificados para establecer relaciones comerciales', 'División', ARRAY['Número de proveedores de la EPS, de la localidad, calificados y contratados en el año', 'Número de proveedores de la EPS contratados en el año'], ARRAY[]::text[], true, 56),
- ('P723', 'Porcentaje del presupuesto destinado a compras a proveedores de la EPS', 'División', ARRAY['Monto de compras presupuestado a proveedores de la EPS en el año', 'Monto presupuesto de la entidad en el año'], ARRAY[]::text[], true, 56),
- ('P724', 'Porcentaje del presupuesto efectivamente ejecutado en compras a proveedores de la EPS', 'División', ARRAY['Monto de compras real a proveedores de la EPS en el año', 'Monto presupuesto de la entidad en el año'], ARRAY[]::text[], true, 56);
+
+ ('P710', 'Políticas de colocación y captación que no incluyan costos asociados', 'Cumplimiento',
+ ARRAY['¿Tienen políticas de colocación de créditos y captación de recursos, aprobadas por el CAD que no incluyan costos asociados?'],
+ ARRAY[]::text[], true, 53),
+
+ ('P711', 'Políticas de colocación y captación que incluya la igualdad de oportunidades', 'Cumplimiento',
+ ARRAY['¿Tienen políticas de colocación de créditos y captación de recursos, aprobadas por el CAD que incluya la igualdad de oportunidades?'],
+ ARRAY[]::text[], true, 53),
+
+ ('P712', 'Políticas destinadas a las finanzas verdes', 'Cumplimiento',
+ ARRAY['¿Tienen políticas aprobadas por el CAD para productos y servicios destinados a finanzas verdes?'],
+ ARRAY[]::text[], true, 54),
+
+ ('P713', 'Productos y servicios destinados a finanzas verdes', 'Igual',
+ ARRAY['Número de productos destinados a finanzas verdes en el año'],
+ ARRAY[]::text[], true, 54),
+
+ ('P714', 'Porcentaje de cartera destinada a finanzas verdes', 'División',
+ ARRAY['Saldo de créditos destinados a finanzas verdes al corte', 'Saldo cuenta 14-1499'],
+ ARRAY['Saldo de créditos destinados a otras categorías que no son finanzas verdes al corte','Porcentaje de cartera destinada a otras categorías que no son finanzas verdes'], true, 54),
+
+ ('P715', 'Socios beneficiados por finanzas verdes', 'Igual',
+ ARRAY['Número de socios que han accedido a créditos destinados a finanzas verdes en el año'],
+ ARRAY[]::text[], true, 54),
+
+ ('P716', 'Iniciativas para proporcionar productos y servicios enfocados en finanzas verdes', 'Igual',
+ ARRAY['Número de iniciativas para proporcionar productos y servicios enfocados en la promoción de finanzas verdes en el año'], ARRAY[]::text[], true, 54),
+
+ ('P717', 'Capacitaciones que promueven la gestión e involucramiento en finanzas verdes', 'Igual',
+ ARRAY['Número de capacitaciones ejecutadas en el año'], ARRAY[]::text[], true, 54),
+
+ ('P718', 'Iniciativas que incentiven las buenas prácticas ambientales en la entidad', 'Igual',
+ ARRAY['Número de iniciativas que incentiven las buenas prácticas ambientales en la entidad en el año'],
+ ARRAY[]::text[], true, 54),
+
+ ('P719', 'Iniciativas que incentiven las buenas prácticas ambientales en la comunidad o zona de influencia', 'Igual',
+ ARRAY['Número de iniciativas que incentiven las buenas prácticas ambientales en la comunidad o zona de influencia en el año'],
+ ARRAY[]::text[], true, 54),
+
+ ('P720', 'Convenios con Gobiernos Autónomos Descentralizados y/o con organismos gubernamentales que promuevan el desarrollo local o la sostenibilidad interinstitucional', 'Igual',
+ ARRAY['Número de convenios vigentes con Gobiernos Autónomos Descentralizados y/o con organismos gubernamentales que promueven el desarrollo local o la sostenibilidad interinstitucional'],
+ ARRAY[]::text[], true, 55),
+
+ ('P721', 'Políticas que promuevan la inclusión de proveedores locales de la EPS', 'Cumplimiento',
+ ARRAY['¿Tiene políticas aprobadas por el CAD y actualizadas que promuevan la inclusión de proveedores locales de la EPS?'],
+ ARRAY[]::text[], true, 56),
+
+ ('P722', 'Proveedores de la localidad calificados para establecer relaciones comerciales', 'División',
+ ARRAY['Número de proveedores de la EPS, de la localidad, calificados y contratados en el año', 'Número de proveedores de la EPS contratados en el año'],
+ ARRAY['Número de proveedores de la EPS, no locales, calificados y contratados en el año', 'Proveedores no locales calificados para establecer relaciones comerciales'], true, 56),
+
+ ('P723', 'Porcentaje del presupuesto destinado a compras a proveedores de la EPS', 'División',
+ ARRAY['Monto de compras presupuestado a proveedores de la EPS en el año', 'Monto presupuesto de la entidad en el año'],
+ ARRAY['Monto de compras no presupuestado a proveedores de la EPS en el año', 'Porcentaje del presupuesto no destinado a compras a proveedores de la EPS'], true, 56),
+
+ ('P724', 'Porcentaje del presupuesto efectivamente ejecutado en compras a proveedores de la EPS', 'División',
+ ARRAY['Monto de compras real a proveedores de la EPS en el año', 'Monto presupuesto de la entidad en el año'],
+ ARRAY['Monto diferente a compras real a proveedores de la EPS en el año', 'Porcentaje del presupuesto no ejecutado en compras a proveedores de la EPS'], true, 56);
+
 
 --view vusers
 CREATE VIEW vusers AS
