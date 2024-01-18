@@ -63,10 +63,15 @@ def get_result_accomplishment(dict_object_value):
             dict_object_value["cumplimiento"] = False
 
     elif operation == "Igual":
-        if numerator.is_integer:
+        try:
+            numerator_value = float(numerator.valor)
+        except (ValueError, TypeError):
+            raise APIException(f"Invalid value for numerator as it musts be a number")
+
+        if numerator_value.is_integer:
             result.append(int(numerator.valor))
         else:
-            result.append((numerator.valor))
+            result.append(numerator_value)
 
         dict_object_value["cumplimiento"] = float(result[0]) >= float(target.meta)
 

@@ -6,7 +6,10 @@ from reports.views import (
     JreportesReadView,
     JreportesActiveView,
     JreportesIdView,
-    JreportesObjetivosValoresViewSet
+    JreportesObjetivosValoresViewSet,
+    JreportesObjetivosValoresViewSetReadView,
+    # JreportesObjetivosValoresActiveView,
+    JreportesObjetivosValoresIdView
 )
 
 router = DefaultRouter()
@@ -30,7 +33,13 @@ urlpatterns = [
     ),
 
     # JreportesObjetivosValores urls
+    path(
+        "allReportObjVals/", JreportesObjetivosValoresViewSetReadView.as_view(), name="list-reportobjvals"
+    ),
     # path(
+    #     "activeReportObjVals/", JreportesObjetivosValoresActiveView.as_view(), name="list-activereportobjvals"
     # ),
-
+    path(
+        "idReportObjVals/<int:pk>/", JreportesObjetivosValoresIdView.as_view(), name="id-reportobjvals"
+    )
 ]

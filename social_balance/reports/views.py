@@ -84,21 +84,21 @@ class JreportesObjetivosValoresViewSet(BaseViewSet):
 
 # Read services for ReportesObjetivosValores
 
-class JreportesReadView(ListAPIView):
-    serializer_class = JreportesSerializer
-    queryset = Jreportes.objects.all()
+class JreportesObjetivosValoresViewSetReadView(ListAPIView):
+    serializer_class = JreportesObjetivosValoresSerializer
+    queryset = JreportesObjetivosValores.objects.all()
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
 
 
-class JreportesActiveView(BaseListView):
-    serializer_class = JreportesSerializer
-    queryset = Jreportes.objects.filter(status=True)
-    pagination_class = None
-    permission_classes = (IsAuthenticated,)
+# class JreportesObjetivosValoresActiveView(BaseListView):
+#     serializer_class = JreportesObjetivosValoresSerializer
+#     queryset = JreportesObjetivosValores.objects.filter(status=True)
+#     pagination_class = None
+#     permission_classes = (IsAuthenticated,)
 
 
-class JreportesIdView(BaseRetrieveView):
-    serializer_class = JreportesSerializer
-    queryset = Jreportes.objects.all()
+class JreportesObjetivosValoresIdView(BaseRetrieveView):
+    serializer_class = JreportesObjetivosValoresSerializer
+    queryset = JreportesObjetivosValores.objects.all()
     permission_classes = (IsAuthenticated,)
