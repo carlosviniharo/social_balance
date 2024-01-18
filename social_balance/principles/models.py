@@ -225,7 +225,7 @@ class Vobjectivesvalues(models.Model):
     resultado_indicador = models.CharField()
     variablesgrafico = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     resultado_grafico = ArrayField(models.CharField(max_length=255), blank=True, null=True)
-    cumplimiento = models.CharField(max_length=255)
+    cumplimiento = models.BooleanField(max_length=255)
     operacion = models.CharField()
     idindicador = models.IntegerField()
     descripcionindicador = models.CharField()
