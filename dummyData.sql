@@ -430,7 +430,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  'Porcentaje de socios con discapacidad',
  'División',
  ARRAY['Número de socios activos que posean carné de discapacidad emitido por la institución competente', 'Número total de socios al corte'],
- ARRAY[]::text[],true, 35
+ ARRAY['Número de socios activos que no aplican a carné discapacidad emitido por la institución competente', 'Porcentaje de socios sin discapacidad']::text[],true, 35
  ),
  (
  'P110',
@@ -1273,22 +1273,27 @@ AS SELECT objval.idobjetivevalue,
     val_d.valor AS valor_denominador,
     objval.idusuario,
     (users.first_name::text || ' '::text) || users.last_name::text AS fullname,
-    prin.idprincipio,
-    prin.descripcionprincipio,
-    ind.idindicador,
-    ind.descripcionindicador,
     objval.resultado[1] AS resultado_indicador,
     ind.variablesgrafico,
     objval.resultado[2:] AS resultado_grafico,
     objval.cumplimiento,
+    ind.operacion,
+    ind.idindicador,
+    ind.descripcionindicador,
+    clasub.idprinciosubdivision AS idclasificacion,
+    clasub.descripcion AS descripcionclasificacion,
+    prin.idprincipio,
+    prin.descripcionprincipio,
     objval.status,
     objval.fechacreacion,
     objval.fechamodificacion
    FROM jobjetivosvalores objval
      LEFT JOIN jobjetivos obj ON obj.idobjectivo = objval.idobjectivo
      LEFT JOIN jindicadores ind ON ind.idindicador = obj.idindicador
-     LEFT JOIN jprinciossubdivisiones prinsub ON prinsub.idprinciosubdivision = ind.idprinciosubdivision
-     LEFT JOIN jprincipios prin ON prin.idprincipio = prinsub.idprincipio
+     LEFT JOIN jprinciossubdivisiones linsub ON linsub.idprinciosubdivision = ind.idprinciosubdivision
+     LEFT JOIN jprinciossubdivisiones carasub ON carasub.idprinciosubdivision = linsub.fkidprinciosubdivision
+     LEFT JOIN jprinciossubdivisiones clasub ON clasub.idprinciosubdivision = carasub.fkidprinciosubdivision
+     LEFT JOIN jprincipios prin ON prin.idprincipio = linsub.idprincipio
      LEFT JOIN jvalores val_n ON val_n.idvalores = objval.idnumerador
      LEFT JOIN jvalores val_d ON val_d.idvalores = objval.iddenominador
      LEFT JOIN jusuarios users ON users.idusuario = objval.idusuario;

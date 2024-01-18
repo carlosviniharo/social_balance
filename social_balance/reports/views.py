@@ -81,4 +81,24 @@ class JreportesObjetivosValoresViewSet(BaseViewSet):
             status=status.HTTP_201_CREATED
         )
 
-    # Read services for ReportesObjetivosValores
+
+# Read services for ReportesObjetivosValores
+
+class JreportesReadView(ListAPIView):
+    serializer_class = JreportesSerializer
+    queryset = Jreportes.objects.all()
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticated,)
+
+
+class JreportesActiveView(BaseListView):
+    serializer_class = JreportesSerializer
+    queryset = Jreportes.objects.filter(status=True)
+    pagination_class = None
+    permission_classes = (IsAuthenticated,)
+
+
+class JreportesIdView(BaseRetrieveView):
+    serializer_class = JreportesSerializer
+    queryset = Jreportes.objects.all()
+    permission_classes = (IsAuthenticated,)
