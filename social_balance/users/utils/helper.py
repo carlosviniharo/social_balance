@@ -40,7 +40,7 @@ def get_public_ip_address():
     return None
 
 
-def c(search_string, model, fields=None):
+def get_query(search_string, model, fields=None):
     """
     This function search a specific string through the entire table/object
     using a SearchVector.
