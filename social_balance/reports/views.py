@@ -69,8 +69,13 @@ class JreportesObjetivosValoresViewSet(BaseViewSet):
 
         serializer_reportobjvals_objects = [
             JreportesObjetivosValores(**reportobjval)
-            for reportobjval in serializer_reportobjvals.validated_data
+            for reportobjval in serializer_reportobjvals.validated_data if reportobjval.get('idobjetivevalue').status
         ]
+
+        # for reportobjval in serializer_reportobjvals.validated_data:
+        #     if reportobjval.get('idobjetivevalue').status:
+        #         JreportesObjetivosValores(**reportobjval)
+
         JreportesObjetivosValores.objects.bulk_create(serializer_reportobjvals_objects)
 
         return Response(

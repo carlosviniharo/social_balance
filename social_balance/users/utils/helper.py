@@ -40,16 +40,18 @@ def get_public_ip_address():
     return None
 
 
-def get_query(search_string, model):
+def c(search_string, model, fields=None):
     """
     This function search a specific string through the entire table/object
     using a SearchVector.
     :param search_string: str
     :param model: ORM object
+    :param: array of the names of the columns to search in: list
     :return: query object
     """
     if search_string is not None and search_string != '':
-        fields = [field.name for field in model._meta.fields]
+        if not fields:
+            fields = [field.name for field in model._meta.fields]
         query = SearchQuery(search_string)
         vector = SearchVector(*fields)
         return model.objects.annotate(search=vector).filter(search=query)

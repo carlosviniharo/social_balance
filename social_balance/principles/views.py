@@ -10,6 +10,7 @@ from users.utils.helper import (
     BaseRetrieveView,
     BaseViewSet,
     get_query_by_id,
+    get_query,
 )
 
 from .models import Jprincipios, Jprinciossubdivisiones, Jindicadores, Vindicators, Jvalores, Jobjetivos, \
@@ -117,14 +118,25 @@ class VindicatorsByPrinciplesView(BaseListView):
     serializer_class = VindicatorsSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
+    idprincipio = None
+    search_string = None
 
     def get_queryset(self):
-        idprincipio = self.request.query_params.get("idprincipio")
-        return get_query_by_id("idprincipio", idprincipio, Vindicators)
+        self.idprincipio = self.request.query_params.get("idprincipio")
+        self.search_string = self.request.query_params.get("search_string", None)
+        return get_query_by_id("idprincipio", self.idprincipio, Vindicators)
+
+    def get_queryset_search(self):
+        lookup_columns = ["codigoindicador", "descripcionindicador", "variables"]
+        query = get_query(self.search_string, Vindicators, lookup_columns).filter(idprincipio=self.idprincipio)
+        return query
 
     def list(self, request, *args, **kwargs):
         sorted_indicators = {}
         queryset = self.get_queryset()
+        if self.search_string:
+            queryset = self.get_queryset_search()
+
         for entry in queryset:
             serialized = self.get_serializer(entry)
             exist = sorted_indicators.get(entry.idclasificacion, None)

@@ -233,7 +233,7 @@ class Vobjectivesvalues(models.Model):
     descripcionclasificacion = models.CharField()
     idprincipio = models.IntegerField()
     descripcionprincipio = models.CharField()
-    status = models.CharField(max_length=255)
+    status = models.BooleanField(max_length=255)
     fechacreacion = models.DateTimeField()
     fechamodificacion = models.DateTimeField()
 

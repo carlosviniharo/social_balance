@@ -16,6 +16,8 @@ def get_result_accomplishment(dict_object_value):
     if not target.is_applicable:
         dict_object_value["cumplimiento"] = None
         return dict_object_value
+    if target.meta == "N/A":
+        raise APIException("Please set up an objects after coming from 'no applicable'")
 
     indicator = target.idindicador.descripcionindicador
     operation = target.idindicador.operacion
