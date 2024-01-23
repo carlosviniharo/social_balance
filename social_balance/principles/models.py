@@ -3,8 +3,9 @@ from django.db import models
 
 from users.models import Jusuarios
 
+types_operators = [("higher_than", "higher_than"), ("lower_than", "lower_than")]
 
-# Create your models here.
+
 class Jindicadores(models.Model):
     idindicador = models.AutoField(primary_key=True)
     idprinciosubdivision = models.ForeignKey(
@@ -45,6 +46,7 @@ class Jobjetivos(models.Model):
         null=True,
     )
     meta = models.CharField()
+    logica = models.CharField(max_length=250, choices=[value for value in types_operators])
     status = models.BooleanField(default=True)
     is_applicable = models.BooleanField(default=True)
     validezinicio = models.DateTimeField(auto_now_add=True, null=True)

@@ -2,6 +2,12 @@ import re
 
 from rest_framework.exceptions import APIException
 
+LOGIC_OPERATORS = {
+    "higher_than": lambda x, y: x > y,
+    "lower_than": lambda x, y: x < y,
+    "default": lambda x, y: False,
+}
+
 
 def get_result_accomplishment(dict_object_value):
     """
@@ -21,6 +27,7 @@ def get_result_accomplishment(dict_object_value):
 
     indicator = target.idindicador.descripcionindicador
     operation = target.idindicador.operacion
+    logic_operator = target.logica
     numerator = dict_object_value["idnumerador"]
     pattern_search_percentage = r'\bPorcentaje\b'
     result = []
@@ -49,7 +56,10 @@ def get_result_accomplishment(dict_object_value):
         else:
             result.append(numerator_value / denominator_value)
 
-        dict_object_value["cumplimiento"] = result[0] > float(target.meta)
+        dict_object_value["cumplimiento"] = (
+            LOGIC_OPERATORS
+            .get(logic_operator, LOGIC_OPERATORS["default"])(result[0], float(target.meta))
+        )
 
     elif operation == "División - 1":
         denominator = dict_object_value["iddenominador"]
@@ -59,7 +69,10 @@ def get_result_accomplishment(dict_object_value):
 
             result.append(((numerator_value / denominator_value) - 1) * 100)
 
-            dict_object_value["cumplimiento"] = result[0] > float(target.meta)
+            dict_object_value["cumplimiento"] = (
+                LOGIC_OPERATORS
+                .get(logic_operator, LOGIC_OPERATORS["default"])(result[0], float(target.meta))
+            )
 
         except (ValueError, TypeError):
             dict_object_value["cumplimiento"] = False
