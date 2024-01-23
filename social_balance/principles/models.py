@@ -3,7 +3,7 @@ from django.db import models
 
 from users.models import Jusuarios
 
-types_operators = [("higher_than", "higher_than"), ("lower_than", "lower_than")]
+types_operators = [("greater_than", "greater_than"), ("less_than", "less_than")]
 
 
 class Jindicadores(models.Model):
@@ -46,7 +46,12 @@ class Jobjetivos(models.Model):
         null=True,
     )
     meta = models.CharField()
-    logica = models.CharField(max_length=250, choices=[value for value in types_operators])
+    logica = models.CharField(
+        max_length=250,
+        choices=[value for value in types_operators],
+        null=True,
+        default="default"
+    )
     status = models.BooleanField(default=True)
     is_applicable = models.BooleanField(default=True)
     validezinicio = models.DateTimeField(auto_now_add=True, null=True)

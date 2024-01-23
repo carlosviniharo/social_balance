@@ -194,6 +194,28 @@ class JobjetivosViewSet(BaseViewSet):
     queryset = Jobjetivos.objects.all()
     permission_classes = (IsAuthenticated,)
 
+    def create(self, request, *args, **kwargs):
+        serializer_objects = self.get_serializer(data=request.data)
+        serializer_objects.is_valid(raise_exception=True)
+        objective, created = Jobjetivos.objects.get_or_create(**serializer_objects.validated_data)
+        response_objective = self.get_serializer(objective)
+
+        if not created:
+            return Response(
+                {
+                    "message": "A record with the this information already exist",
+                    "data": response_objective.data
+                },
+                status=status.HTTP_201_CREATED
+            )
+        return Response(
+            {
+                "message": "success",
+                "data": serializer_objects.data
+            },
+            status=status.HTTP_201_CREATED
+        )
+
 
 # Read services for Jobjetivos
 
@@ -239,7 +261,7 @@ class JobjetivosValoresViewSet(BaseViewSet):
             # If the object already exists, handle it as a repeated record
             return Response(
                 {
-                    "message": "A record with the this information was already exist. ID",
+                    "message": "A record with the this information already exist.",
                     "data": serialized_objval.data,
                 },
                 status=status.HTTP_409_CONFLICT

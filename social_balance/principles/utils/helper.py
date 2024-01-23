@@ -3,8 +3,9 @@ import re
 from rest_framework.exceptions import APIException
 
 LOGIC_OPERATORS = {
-    "higher_than": lambda x, y: x > y,
-    "lower_than": lambda x, y: x < y,
+    "greater_than": lambda x, y: x > y,
+    "less_than": lambda x, y: x < y,
+    "equal_greater": lambda x, y: x >= y,
     "default": lambda x, y: False,
 }
 
@@ -88,7 +89,10 @@ def get_result_accomplishment(dict_object_value):
         else:
             result.append(numerator_value)
 
-        dict_object_value["cumplimiento"] = float(result[0]) >= float(target.meta)
+        dict_object_value["cumplimiento"] = (
+            LOGIC_OPERATORS
+            .get("equal_higher")(float(result[0]), float(target.meta))
+        )
 
     elif operation in ["Selección", "Texto"]:
         result.append(numerator.valor)
