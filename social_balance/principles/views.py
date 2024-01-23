@@ -233,13 +233,14 @@ class JobjetivosValoresViewSet(BaseViewSet):
         data_objval = get_result_accomplishment(data_objval)
 
         objetivosValores, created = JobjetivosValores.objects.get_or_create(**data_objval)
+        serialized_objval = self.get_serializer(objetivosValores)
 
         if not created:
             # If the object already exists, handle it as a repeated record
             return Response(
                 {
-                    "message":
-                        f"A record with the this information was already saved. ID {objetivosValores.idobjetivevalue}"
+                    "message": "A record with the this information was already exist. ID",
+                    "data": serialized_objval.data,
                 },
                 status=status.HTTP_409_CONFLICT
             )
@@ -253,7 +254,6 @@ class JobjetivosValoresViewSet(BaseViewSet):
                 .update(status=False, fechamodificacion=timezone.localtime(timezone.now()))
              )
 
-        serialized_objval = self.get_serializer(objetivosValores)
         return Response(
             {
                 "message": "success",
