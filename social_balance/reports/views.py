@@ -1,5 +1,7 @@
+from django.db import transaction
 from django.utils import timezone
 from rest_framework import status
+from rest_framework.exceptions import APIException
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -63,25 +65,44 @@ class JreportesObjetivosValoresViewSet(BaseViewSet):
     permission_classes = (IsAuthenticated,)
 
     def create(self, request, *args, **kwargs):
-        serializer_reportobjvals = self.get_serializer(data=request.data, many=True)
-
+        report = request.data["report"]
+        objetivevals = request.data["objetivevals"]
+        serializer_reportobjvals = self.get_serializer(
+            data=[{"idreporte": report, "idobjetivevalue": objetiveval} for objetiveval in objetivevals],
+            many=True
+        )
         serializer_reportobjvals.is_valid(raise_exception=True)
 
-        serializer_reportobjvals_objects = [
-            JreportesObjetivosValores(**reportobjval)
-            for reportobjval in serializer_reportobjvals.validated_data if reportobjval.get('idobjetivevalue').status
-        ]
+        created_objects = 0
+        invalidated_records = 0
 
-        # for reportobjval in serializer_reportobjvals.validated_data:
-        #     if reportobjval.get('idobjetivevalue').status:
-        #         JreportesObjetivosValores(**reportobjval)
+        with (transaction.atomic()):
 
-        JreportesObjetivosValores.objects.bulk_create(serializer_reportobjvals_objects)
+            for reportobjval in serializer_reportobjvals.validated_data:
+                idobjetivevalue = reportobjval.get('idobjetivevalue')
+
+                if idobjetivevalue.is_complete:
+                    created_objects += (
+                        1
+                        if JreportesObjetivosValores.objects.get_or_create(**reportobjval)[1]
+                        else 0
+                    )
+                else:
+                    raise APIException(
+                        f"The ObjeviteValues number {reportobjval.get('idobjetivevalue').idobjetivevalue} "
+                        f"is either incomplete or deactivated"
+                    )
+
+            invalidated_records = (
+                JreportesObjetivosValores.objects
+                .filter(idobjetivevalue__status=False)
+                .update(status=False, fechamodificacion=timezone.localtime(timezone.now()))
+            )
 
         return Response(
             {
-                "message": "success",
-                "data": "Reports created successfully",
+                "message":  f"{created_objects} Reports were created successfully and "
+                            f"{invalidated_records} records were invalidated."
             },
             status=status.HTTP_201_CREATED
         )

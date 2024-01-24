@@ -97,6 +97,7 @@ class JobjetivosValores(models.Model):
     commentario = models.TextField(blank=True)
     graficotipo = models.CharField(null=True)
     graficocontenido = models.TextField(null=True)
+    is_complete = models.BooleanField(default=False)
     status = models.BooleanField(default=True)
     fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
     fechamodificacion = models.DateTimeField(auto_now=True, null=True)

@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.generics import ListAPIView
@@ -22,7 +23,7 @@ from .serializers import (
     VindicatorsSerializer,
     JvaloresSerializer, JobjetivosSerializer, JobjetivosValoresSerializer, VobjectivesvaluesSerializer
 )
-from .utils.helper import get_result_accomplishment
+from .utils.helper import ResultAccomplishmentCalculator
 
 
 #  Jprincipios API endpoints
@@ -252,29 +253,30 @@ class JobjetivosValoresViewSet(BaseViewSet):
         objectivesvalues_serializer.is_valid(raise_exception=True)
         data_objval = objectivesvalues_serializer.validated_data
 
-        data_objval = get_result_accomplishment(data_objval)
+        data_objval = ResultAccomplishmentCalculator(data_objval).get_result_accomplishment()
 
-        objetivosValores, created = JobjetivosValores.objects.get_or_create(**data_objval)
-        serialized_objval = self.get_serializer(objetivosValores)
+        with transaction.atomic():
+            objetivosValores, created = JobjetivosValores.objects.get_or_create(**data_objval)
+            serialized_objval = self.get_serializer(objetivosValores)
 
-        if not created:
-            # If the object already exists, handle it as a repeated record
-            return Response(
-                {
-                    "message": "A record with the this information already exist.",
-                    "data": serialized_objval.data,
-                },
-                status=status.HTTP_409_CONFLICT
-            )
-        else:
-            idobjectivo = objetivosValores.idobjectivo.idobjectivo
+            if not created:
+                # If the object already exists, handle it as a repeated record
+                return Response(
+                    {
+                        "message": "A record with the this information already exist.",
+                        "data": serialized_objval.data,
+                    },
+                    status=status.HTTP_409_CONFLICT
+                )
+            else:
+                idobjectivo = objetivosValores.idobjectivo
 
-            (
-                JobjetivosValores.objects
-                .filter(idobjectivo=idobjectivo, status=True)
-                .exclude(idobjetivevalue=objetivosValores.idobjetivevalue)
-                .update(status=False, fechamodificacion=timezone.localtime(timezone.now()))
-             )
+                (
+                    JobjetivosValores.objects
+                    .filter(idobjectivo__idindicador=idobjectivo.idindicador, status=True)
+                    .exclude(idobjetivevalue=objetivosValores.idobjetivevalue)
+                    .update(status=False, fechamodificacion=timezone.localtime(timezone.now()))
+                 )
 
         return Response(
             {

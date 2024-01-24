@@ -43,10 +43,13 @@ class JreportesObjetivosValores(models.Model):
         models.DO_NOTHING,
         db_column="idobjetivevalue",
     )
+    status = models.BooleanField(default=True)
+    fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
+    fechamodificacion = models.DateTimeField(auto_now=True, null=True)
 
     class Meta:
         db_table = 'jreportesobjetivosvalores'
-        unique_together = ("idreporte", "idobjetivevalue")
+        # unique_together = ("idreporte", "idobjetivevalue")
 
     objects = models.Manager()
 
