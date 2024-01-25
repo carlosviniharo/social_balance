@@ -182,7 +182,8 @@ class ResultAccomplishmentCalculator:
 
         self.dict_object_value["cumplimiento"] = (
             LOGIC_OPERATORS
-            .get("equal_higher")(float(self.result[0]), float(self.target.meta))
+            .get("equal_greater", LOGIC_OPERATORS["default"])
+            (float(self.result[0]), float(self.target.meta))
         )
 
     def handle_selection_or_text_operation(self, numerator):
