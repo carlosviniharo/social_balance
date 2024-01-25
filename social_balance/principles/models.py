@@ -18,6 +18,7 @@ class Jindicadores(models.Model):
     codigoindicador = models.CharField(max_length=4)
     descripcionindicador = models.CharField(max_length=500)
     operacion = models.CharField()
+    relacionproporcion = models.CharField(null=True)
     variables = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     variablesgrafico = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     status = models.BooleanField(default=True)

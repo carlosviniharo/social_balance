@@ -369,11 +369,12 @@ INSERT INTO public.jprinciossubdivisiones(nivel, descripcion, status, idprincipi
 (3, 'Establecer políticas que prioricen a los proveedores de la localidad y de sus zonas de influencia, tomando en cuenta las prácticas de comercio justo.', true, 7, 34);
 
 -- jindicadores
-INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, variables, variablesgrafico, status, idprinciosubdivision) VALUES
+INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, relacionproporcion, variables, variablesgrafico, status, idprinciosubdivision) VALUES
  (
  'P101',
  'Porcentaje de socios activos',
  'División',
+ 'Porcentaje',
  ARRAY['Número de socios activos al corte', 'Número total de socios al corte'],
  ARRAY['Número de socios inactivos al corte', 'Porcentaje socios inactivos'], true, 35
  ),
@@ -381,6 +382,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  'P102',
  'Porcentaje del valor de certificados de aportación en relación al SBU',
  'División',
+ 'Promedio_Procentaje',
   ARRAY['Valor mínimo de aportación dispuesto por la entidad', 'Valor del Salario Básico Unificado'],
   ARRAY[]::text[], true, 35
   ),
@@ -388,6 +390,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  'P103',
  'Porcentaje de socias mujeres',
  'División',
+ 'Porcentaje',
  ARRAY['Número de socias activas mujeres', 'Número total de socios al corte'],
  ARRAY['Número de socias activas hombres', 'Porcentaje socios hombres'], true,35
  ),
@@ -395,6 +398,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  'P104',
  'Porcentaje de socios que residen en áreas rurales',
  'División',
+ 'Porcentaje',
  ARRAY['Número de socios que residen en una zona rural', 'Número total de socios al corte'],
  ARRAY['Número de socios que residen en una zona urbana','Porcentaje de socios que residen en áreas urbanas'], true, 35
  ),
@@ -402,6 +406,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  'P105',
  'Porcentaje de socios pertenecientes a minorías étnicas',
  'División',
+ 'Porcentaje',
   ARRAY['Número de socios que pertenecen a minorías étnicas', 'Número total de socios al corte'],
   ARRAY['Número de socios que no pertenecen a minorías étnicas', 'Porcentaje de socios no pertenecientes a minorías étnicas'],true, 35
   ),
@@ -409,6 +414,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  'P106',
  'Porcentaje de socios con ingresos menores o iguales al SBU',
  'División',
+ 'Porcentaje',
  ARRAY['Número de socios con ingresos menores o iguales al SBU', 'Número total de socios al corte'],
  ARRAY['Número de socios con ingresos mayores al SBU', 'Porcentaje de socios con ingresos mayores al SBU'], true, 35
  ),
@@ -416,12 +422,14 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  'P107',
  'Porcentaje de agencias con acceso a personas con discapacidad',
  'División',
+ 'Porcentaje',
  ARRAY['Número de agencias con accesos para personas con discapacidad', 'Número de agencias registradas de la entidad'],
  ARRAY['Número de agencias sin accesos para personas con discapacidad', 'Porcentaje de agencias sin acceso a personas con discapacidad'],true, 35
  ),
  (
  'P108',
- 'Manuales y procesos adecuados a la inclusión de población vulnerable, aprobados y actualizados.', 'Cumplimiento',
+ 'Manuales y procesos adecuados a la inclusión de población vulnerable, aprobados y actualizados.',
+ 'Cumplimiento', NULL,
  ARRAY['¿Tienen manuales aprobados por el CAD y actualizados que beneficien la inclusión financiera de personas vulnerables?'],
  ARRAY[]::text[], true, 35
  ),
@@ -429,6 +437,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  'P109',
  'Porcentaje de socios con discapacidad',
  'División',
+ 'Porcentaje',
  ARRAY['Número de socios activos que posean carné de discapacidad emitido por la institución competente', 'Número total de socios al corte'],
  ARRAY['Número de socios activos que no aplican a carné discapacidad emitido por la institución competente', 'Porcentaje de socios sin discapacidad']::text[],true, 35
  ),
@@ -436,6 +445,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  'P110',
  'Promedio de ahorros',
  'División',
+ 'Promedio',
  ARRAY['Saldo elemento 21', 'Número de socios activos al corte'],
  ARRAY[]::text[], true, 36
  ),
@@ -443,6 +453,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  'P111',
  'Porcentaje de saldo de cartera de crédito destinado a mujeres',
  'División',
+ 'Porcentaje',
  ARRAY['Saldo de cartera de crédito otorgada a mujeres al corte', 'Saldo cuenta 14-1499'],
  ARRAY['Saldo de cartera de crédito otorgada a personas que no son mujeres al corte', 'Porcentaje de saldo de cartera de crédito no destinado a mujeres' ], true, 36
  ),
@@ -450,6 +461,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  'P112',
  'Porcentaje de créditos otorgados por valores inferiores o iguales al SBU',
  'División',
+ 'Porcentaje',
  ARRAY['Número de créditos otorgados por valores inferiores o iguales al SBU en el año', 'Número de créditos vigentes al corte'],
  ARRAY['Número de créditos otorgados por valores superiores al SBU en el año', 'Porcentaje de créditos otorgados por valores superioress al SBU'], true, 36
  ),
@@ -457,12 +469,14 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  'P113',
  'Porcentaje del saldo de cartera de crédito destinado a personas con residencia rural',
  'División',
+ 'Porcentaje',
  ARRAY['Saldo de crédito otorgado a socios que residen en una zona rural al corte', 'Saldo cuenta 14-1499'],
  ARRAY['Saldo de crédito otorgado a socios que no residen en una zona rural al corte', 'Porcentaje del saldo de cartera de crédito destinado a personas con residencia no rural'], true, 36),
  (
  'P114',
  'Porcentaje de personas con residencia rural que tienen operaciones de crédito',
  'División',
+ 'Porcentaje',
  ARRAY['Número de créditos otorgado a socios que residen en una zona rural al corte', 'Número total de créditos vigentes al corte'],
  ARRAY['Número de créditos otorgado a socios que residen en una zona no rural al corte', 'Porcentaje de personas sin residencia rural que tienen operaciones de crédito'], true, 36
  ),
@@ -470,19 +484,21 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  'P115',
  'Porcentaje de cartera de microcrédito',
  'División',
+ 'Porcentaje',
  ARRAY['Número de créditos vigentes del segmento microcrédito al corte', 'Número total de créditos vigentes al corte'],
  ARRAY['Número de créditos vigentes de segmentos distintos al microcrédito al corte', 'Porcentaje de cartera no relacionada con microcréditos'], true, 36
  ),
  (
  'P116',
  'Desembolsos de CDH',
- 'Igual',
+ 'Igual', NULL,
  ARRAY['Número de desembolsos realizados por concepto de CDH en el año'],
  ARRAY[]::text[], true, 36
  ),
  (
  'P117',
- 'Pagos de BDH', 'Igual',
+ 'Pagos de BDH',
+ 'Igual', NULL,
  ARRAY['Número de pagos realizados por concepto de BDH en el año'],
  ARRAY[]::text[], true, 36
  ),
@@ -490,6 +506,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  'P118',
  'Monto promedio de créditos asociativos',
  'División',
+ 'Promedio',
  ARRAY['Monto otorgado bajo la metodología de créditos asociativos en el año', 'Número de socios que han accedido a montos bajo la metodología de créditos asociativos en el año'],
  ARRAY[]::text[], true, 36
  ),
@@ -497,6 +514,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  'P119',
  'Monto promedio de microcrédito',
  'División',
+ 'Promedio',
  ARRAY['Saldo cuenta 1404+1412+1420+1428+ 1436+1444+1452+1460+ 1468', 'Número de socios que mantienen créditos vigentes del segmento microcrédito al corte'],
  ARRAY[]::text[], true, 36
  ),
@@ -504,561 +522,563 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  'P120',
  'Porcentaje de menores de edad con cuentas de ahorro',
  'División',
+ 'Porcentaje',
  ARRAY['Número de personas menores de 18 años que disponen a una o más cuentas al corte', 'Número total de socios al corte'],
  ARRAY[]::text[], true, 36),
 
- ('P201', 'Porcentaje de socios o representantes que asisten a Asambleas Generales', 'División',
+ ('P201', 'Porcentaje de socios o representantes que asisten a Asambleas Generales', 'División', 'Porcentaje',
  ARRAY['Número de socios o representantes asistentes en el año', 'Número de socios o representantes al corte'],
  ARRAY['Número de socios o representantes no asisten en el año', 'Porcentaje de socios o representantes que no asisten a Asambleas Generales'], true, 37),
 
- ('P202', 'Porcentaje de representantes que participan en elecciones (por agencia)', 'División',
+ ('P202', 'Porcentaje de representantes que participan en elecciones (por agencia)', 'División', 'Porcentaje',
  ARRAY['Número de representantes que asiste a votar en el año', 'Número de representantes por agencia al corte'],
  ARRAY['Número de representantes que no asiste a votar en el año', 'Porcentaje de representantes que no participan en elecciones (por agencia)'], true, 37),
 
- ('P203', 'Porcentaje de socios que participan en elecciones de representantes', 'División',
+ ('P203', 'Porcentaje de socios que participan en elecciones de representantes', 'División', 'Porcentaje',
  ARRAY['Número de socios que asisten a votar por representantes en el año', 'Número de socios activos al corte'],
  ARRAY['Número de socios que no asisten a votar por representantes en el año', 'Porcentaje de socios que no participan en elecciones de representantes' ], true, 37),
 
- ('P204', 'Porcentaje de mujeres en Consejos', 'División',
+ ('P204', 'Porcentaje de mujeres en Consejos', 'División', 'Porcentaje',
  ARRAY['Número de mujeres que son vocales titulares y suplentes al corte', 'Número de vocales titulares y suplentes al corte'],
  ARRAY['Número de hombres que son vocales titulares y suplentes al corte', 'Porcentaje de hombres en Consejos'], true, 37),
 
- ('P205', 'Porcentaje de mujeres representantes', 'División',
+ ('P205', 'Porcentaje de mujeres representantes', 'División', 'Porcentaje',
  ARRAY['Número de mujeres que son representantes al corte', 'Número de representantes al corte'],
  ARRAY['Número de hombres que son representantes al corte', 'Porcentaje de hombres representantes'], true, 37),
 
- ('P206', 'Porcentaje de vocales procedentes de zonas de influencia', 'División',
+ ('P206', 'Porcentaje de vocales procedentes de zonas de influencia', 'División', 'Porcentaje',
  ARRAY['Número de vocales titulares y suplentes procedentes de zonas de influencia al corte', 'Número de vocales titulares y suplentes al corte'],
  ARRAY['Número de vocales titulares y suplentes no procedentes de zonas de influencia al corte','Porcentaje de vocales no procedentes de zonas de influencia'], true, 37),
 
- ('P207', 'Presencia de jóvenes en órganos de gobierno', 'División',
+ ('P207', 'Presencia de jóvenes en órganos de gobierno', 'División', 'Porcentaje',
  ARRAY['Número de vocales titulares y suplentes menores a 30 años de edad al corte', 'Número de vocales titulares y suplentes al corte'],
  ARRAY['Número de vocales titulares y suplentes mayores a 30 años de edad al corte', 'Presencia de adultos en órganos de gobierno'], true, 37),
 
- ('P208', 'Porcentaje de vocales que pertenecen a minoría étnicas', 'División',
+ ('P208', 'Porcentaje de vocales que pertenecen a minoría étnicas', 'División', 'Porcentaje',
  ARRAY['Número de vocales titulares y suplentes que pertenecen a minoría étnicas al corte', 'Número de vocales titulares y suplentes al corte'],
  ARRAY['Número de vocales titulares y suplentes que no pertenecen a minoría étnicas al corte', 'Porcentaje de vocales que no pertenecen a minoría étnicas'], true, 37),
 
- ('P209', 'Políticas de inclusión y participación democrática actualizadas', 'Cumplimiento',
+ ('P209', 'Políticas de inclusión y participación democrática actualizadas', 'Cumplimiento', NULL,
  ARRAY['¿Existe un documento de política de inclusión y participación democrática?'],
  ARRAY[]::text[], true, 37),
 
- ('P210', 'Manuales y procesos adecuados a participación democrática aprobados y actualizados.', 'Cumplimiento',
+ ('P210', 'Manuales y procesos adecuados a participación democrática aprobados y actualizados.', 'Cumplimiento', NULL,
  ARRAY['¿Tienen manuales aprobados por el CAD y actualizados que mantengan procesos adecuados de participación democrática?'],
  ARRAY[]::text[], true, 37),
 
- ('P211', 'Porcentaje de socios o representantes asistentes a Asambleas que pertenecen a grupos priorizados', 'División',
+ ('P211', 'Porcentaje de socios o representantes asistentes a Asambleas que pertenecen a grupos priorizados', 'División', 'Porcentaje',
  ARRAY['Número de socios o representantes que asisten a Asambleas y son personas vulnerables en el año', 'Número de socios o representantes al corte'],
  ARRAY['Número de socios o representantes que asisten a Asambleas y no son personas vulnerables en el año', 'Porcentaje de socios o representantes asistentes a Asambleas que no pertenecen a grupos priorizados'], true, 37),
 
 
- ('P301', 'Porcentaje de capital en relación al patrimonio', 'División',
+ ('P301', 'Porcentaje de capital en relación al patrimonio', 'División', 'Porcentaje',
  ARRAY['Saldo elemento 31', 'Saldo grupo 3'],
  ARRAY['Capital sin relación al patrimonio', 'Porcentaje de capital sin relación al patrimonio'], true, 38),
 
- ('P302', 'Reservas de cada socio', 'División',
+ ('P302', 'Reservas de cada socio', 'División', 'Promedio',
  ARRAY['Saldo elemento 33', 'Número total de socios al corte'],
  ARRAY[]::text[], true, 38),
 
- ('P303', 'Capital social por socio', 'División',
+ ('P303', 'Capital social por socio', 'División', 'Promedio',
  ARRAY['Saldo elemento 31', 'Número total de socios al corte'],
  ARRAY[]::text[], true, 38),
 
- ('P304', 'Fondo irrepartible de reserva legal por socio', 'División',
+ ('P304', 'Fondo irrepartible de reserva legal por socio', 'División', 'Promedio',
  ARRAY['Saldo cuenta 3301', 'Número total de socios al corte'],
  ARRAY[]::text[], true, 38),
 
- ('P305', 'Porcentaje del presupuesto anual destinado a balance social', 'División',
+ ('P305', 'Porcentaje del presupuesto anual destinado a balance social', 'División', 'Porcentaje',
  ARRAY['Monto destinado para realizar actividades de balance social en el año', 'Monto presupuesto de la entidad en el año'],
  ARRAY['Monto destinado para realizar actividades generales', 'Porcentaje del presupuesto anual general' ], true, 38),
 
- ('P306', 'Porcentaje de gastos administrativos en relación al gasto total', 'División',
+ ('P306', 'Porcentaje de gastos administrativos en relación al gasto total', 'División', 'Porcentaje',
  ARRAY['Saldo elemento 45', 'Saldo grupo 4'],
  ARRAY['Valor de gastos administrativos sin relación al gasto total', 'Porcentaje de gastos administrativos sin relación al gasto total'], true, 38),
 
- ('P307', 'Promedio de transacciones por periodo', 'División',
+ ('P307', 'Promedio de transacciones por periodo', 'División', 'Promedio',
  ARRAY['Número de transacciones por producto', 'Número de socios activos al corte'],
   ARRAY[]::text[], true, 38),
 
- ('P308', 'Promedio de tasas activas y pasivas por rangos de valor', 'Igual',
+ ('P308', 'Promedio de tasas activas y pasivas por rangos de valor', 'Igual', NULL,
  ARRAY['Cálculo de tasas activas y pasivas'],
  ARRAY[]::text[], true, 38),
 
- ('P309', 'Porcentaje de fondeo proveniente de socios en relación al total de fondeo', 'División',
+ ('P309', 'Porcentaje de fondeo proveniente de socios en relación al total de fondeo', 'División', 'Porcentaje',
  ARRAY['Saldo grupo 21', 'Saldo grupos 21 + 26'],
  ARRAY['Valor de fondeo provenientes de socios sin relación al total de fondeo','Porcentaje de fondeo proveniente de socios sin relación al total de fondeo'], true, 38),
 
- ('P310', 'Porcentaje de pasivos en relación al patrimonio', 'División',
+ ('P310', 'Porcentaje de pasivos en relación al patrimonio', 'División', 'Porcentaje',
  ARRAY['Saldo elemento 2', 'Saldo elemento 3'],
  ARRAY['Valor de activos en relación al patrimonio','Porcentaje de activos en relación al patrimonio'], true, 38),
 
- ('P311', 'Mantiene actualizada la normativa y procedimientos de prevención de lavado de activos relacionada con la procedencia de fondos', 'Cumplimiento',
+ ('P311', 'Mantiene actualizada la normativa y procedimientos de prevención de lavado de activos relacionada con la procedencia de fondos', 'Cumplimiento', NULL,
  ARRAY['¿Tiene actualizado y aprobado por el CAD sobre la validación de la procedencia lícita de fondos?'],
  ARRAY[]::text[], true, 38),
 
- ('P312', 'Porcentaje de socios con el mínimo de certificados de aportación', 'División',
+ ('P312', 'Porcentaje de socios con el mínimo de certificados de aportación', 'División', 'Porcentaje',
  ARRAY['Número de socios registrados en la entidad con aportes inferiores al mínimo establecido en el Estatuto al corte', 'Número total de socios al corte'],
  ARRAY['Número de socios registrados en la entidad con aportes superiores al mínimo establecido en el Estatuto al corte', 'Porcentaje de socios sin el mínimo de certificados de aportación'], true, 38),
 
- ('P313', 'Porcentaje de socios con participación superior al 5% del capital social', 'División',
+ ('P313', 'Porcentaje de socios con participación superior al 5% del capital social', 'División', 'Porcentaje',
  ARRAY['Número de socios registrados con participación superior al 5% del capital social al corte', 'Número total de socios al corte'],
  ARRAY['Número de socios registrados sin participación superior al 5% del capital social al corte','Porcentaje de socios sin participación superior al 5% del capital social'], true, 38),
 
 
- ('P401', 'Productos financieros desarrollados por la cooperativa acorde a la misión y principios de la entidad', 'Igual',
+ ('P401', 'Productos financieros desarrollados por la cooperativa acorde a la misión y principios de la entidad', 'Igual', NULL,
  ARRAY['Número de productos financieros enfocados en la misión y principios desarrollados en el año'],
  ARRAY[]::text[], true, 39),
- ('P402', 'Productos financieros desarrollados por la cooperativa para personas vulnerables', 'Igual',
+ ('P402', 'Productos financieros desarrollados por la cooperativa para personas vulnerables', 'Igual', NULL,
  ARRAY['Número de productos financieros para personas con vulnerabilidad en el año'],
  ARRAY[]::text[], true, 39),
- ('P403', 'Mantiene actualizada las políticas para productos y servicios financieros', 'Cumplimiento',
+ ('P403', 'Mantiene actualizada las políticas para productos y servicios financieros', 'Cumplimiento', NULL,
  ARRAY['¿Tiene una política aprobada por el CAD y actualizada que contiene el diseño de productos y servicios financieros?'],
  ARRAY[]::text[], true, 39),
 
- ('P404', 'Porcentaje de acceso a productos financieros de socios con residencia rural', 'División',
+ ('P404', 'Porcentaje de acceso a productos financieros de socios con residencia rural', 'División', 'Porcentaje',
  ARRAY['Número de socios que tienen residencia rural y han realizado transacciones en el año', 'Número total de socios que han realizado transacciones en el año'],
  ARRAY['Número de socios que tienen residencia urbana y han realizado transacciones en el año', 'Porcentaje de acceso a productos financieros de socios con residencia urbana'], true, 39),
 
- ('P405', 'Porcentaje de productos financieros financiados con captaciones de los socios', 'División',
+ ('P405', 'Porcentaje de productos financieros financiados con captaciones de los socios', 'División', 'Porcentaje',
  ARRAY['Saldo cuenta 21-2102-2104', 'Saldo cuenta 14-1499'],
  ARRAY['Número de productos financieros financiados sin captaciones de los socios', 'Porcentaje de productos financieros financiados sin captaciones de los socios'], true, 39),
 
- ('P406', 'Transacciones realizadas por personas vulnerables', 'Igual',
+ ('P406', 'Transacciones realizadas por personas vulnerables', 'Igual', NULL,
  ARRAY['Número de transacciones realizadas por personas vulnerables en el año, incluye transacciones de BDH'],
  ARRAY[]::text[], true, 39),
 
- ('P407', 'Operaciones de crédito concedidas a personas vulnerables', 'Igual',
+ ('P407', 'Operaciones de crédito concedidas a personas vulnerables', 'Igual', NULL,
  ARRAY['Número de créditos desembolsados a personas vulnerables en el año, incluye desembolsos de CDH'],
  ARRAY[]::text[], true, 39),
 
- ('P408', 'Porcentaje de cumplimiento de estrategias levantadas con nivel de riesgo alto y crítico determinado en los Informes de auditoría externa', 'División',
+ ('P408', 'Porcentaje de cumplimiento de estrategias levantadas con nivel de riesgo alto y crítico determinado en los Informes de auditoría externa', 'División', 'Porcentaje',
  ARRAY['Número de estrategias de auditor externo cumplidas con nivel de riesgo alto y crítico en el año', 'Número de estrategias de auditor externo cumplidas más incumplidas con nivel de riesgo alto y crítico en el año'],
  ARRAY['Número de estrategias de auditor externo incumplidas con nivel de riesgo alto y crítico en el año','Porcentaje de incumplimiento de estrategias levantadas con nivel de riesgo alto y crítico determinado en los Informes de auditoría externa'], true, 40),
 
- ('P409', 'Porcentaje de cumplimiento de las estrategias con nivel de riesgo alto y crítico levantadas en los informes de auditoría interna o por el PCV', 'División',
+ ('P409', 'Porcentaje de cumplimiento de las estrategias con nivel de riesgo alto y crítico levantadas en los informes de auditoría interna o por el PCV', 'División', 'Porcentaje',
  ARRAY['Número de estrategias de auditor interno o PCV cumplidas con nivel de riesgo alto y crítico en el año', 'Número de estrategias de auditor interno o PCV cumplidas más incumplidas con nivel de riesgo alto y crítico en el año'],
  ARRAY['Número de estrategias de auditor interno o PCV incumplidas con nivel de riesgo alto y crítico en el año','Porcentaje de incumplimiento de las estrategias con nivel de riesgo alto y crítico levantadas en los informes de auditoría interna o por el PCV'], true, 40),
 
- ('P410', 'Porcentaje de cumplimiento de actividades del plan de trabajo de auditoría interna o PCV', 'División',
+ ('P410', 'Porcentaje de cumplimiento de actividades del plan de trabajo de auditoría interna o PCV', 'División', 'Porcentaje',
  ARRAY['Número de actividades del plan de trabajo del auditor interno o PCV cumplidas a tiempo en el año', 'Número total de actividades del plan de trabajo del auditor interno o PCV en el año'],
  ARRAY['Número de actividades del plan de trabajo del auditor interno o PCV incumplidas a tiempo en el año','Porcentaje de incumplimiento de actividades del plan de trabajo de auditoría interna o PCV'], true, 40),
 
- ('P411', 'Manual y políticas de procesos actualizados y definidos de los responsables de control interno', 'Cumplimiento',
+ ('P411', 'Manual y políticas de procesos actualizados y definidos de los responsables de control interno', 'Cumplimiento', NULL,
  ARRAY['¿Tiene manuales o documentos aprobados por el CAD y actualizados en los cuales defina los responsables de control interno?'],
  ARRAY[]::text[], true, 40),
 
- ('P412', 'Políticas y procedimientos para contratación de auditor interno y externo', 'Cumplimiento',
+ ('P412', 'Políticas y procedimientos para contratación de auditor interno y externo', 'Cumplimiento', NULL,
  ARRAY['¿Tiene políticas y procedimientos aprobados por el CAD y actualizados con respecto a la contratación de auditor interno y externo?'],
  ARRAY[]::text[], true, 40),
 
- ('P413', 'Políticas y procedimientos para elección y designación del consejo de vigilancia', 'Cumplimiento',
+ ('P413', 'Políticas y procedimientos para elección y designación del consejo de vigilancia', 'Cumplimiento', NULL,
  ARRAY['¿Tiene políticas y procedimiento para la elección y designación del consejo de vigilancia?'],
  ARRAY[]::text[], true, 40),
 
- ('P414', 'Medios de comunicación utilizados por la entidad para dar a conocer las tasas, costos y tarifas', 'Texto',
+ ('P414', 'Medios de comunicación utilizados por la entidad para dar a conocer las tasas, costos y tarifas', 'Texto', NULL,
  ARRAY['Enlistar los medios de comunicación utilizados para difundir las tasas, costos y tarifas en el año'],
  ARRAY[]::text[], true, 41),
 
- ('P415', 'Porcentaje del presupuesto en materiales para promover la transparencia de la información', 'División',
+ ('P415', 'Porcentaje del presupuesto en materiales para promover la transparencia de la información', 'División', 'Porcentaje',
  ARRAY['Monto del gasto destinado a materiales visuales (POP, medios visuales, entre otros) en el año', 'Monto presupuesto de la entidad en el año'],
  ARRAY['Monto del gasto no destinado a materiales visuales (POP, medios visuales, entre otros) en el año','Porcentaje del presupuesto en materiales que no se usa para promover la transparencia de la información'], true, 41),
 
- ('P416', 'Reuniones realizadas anualmente por los miembros del CAD', 'Igual',
+ ('P416', 'Reuniones realizadas anualmente por los miembros del CAD', 'Igual', NULL,
  ARRAY['Número de reuniones realizadas por el CAD en el año'],
  ARRAY[]::text[], true, 41),
 
- ('P417', 'Reuniones realizadas anualmente por los miembros del CV', 'Igual',
+ ('P417', 'Reuniones realizadas anualmente por los miembros del CV', 'Igual', NULL,
   ARRAY['Número de reuniones realizadas por el CV en el año'],
  ARRAY[]::text[], true, 41),
 
- ('P418', 'Asambleas generales realizadas', 'Igual',
+ ('P418', 'Asambleas generales realizadas', 'Igual', NULL,
  ARRAY['Número de asambleas generales de socios o representantes realizadas en el año'],
  ARRAY[]::text[], true, 41),
 
- ('P419', 'Porcentaje de socios o representantes que participan en las asambleas generales', 'División',
+ ('P419', 'Porcentaje de socios o representantes que participan en las asambleas generales', 'División', 'Porcentaje',
  ARRAY['Número de socios o representantes asistentes en el año', 'Número de socios o representantes al corte'],
  ARRAY['Número de socios o representantes que no asisten en el año','Porcentaje de socios o representantes que no participan en las asambleas generales'], true, 41),
 
- ('P420', 'Porcentaje de los miembros del CAD que participan en reuniones', 'División',
+ ('P420', 'Porcentaje de los miembros del CAD que participan en reuniones', 'División', 'Porcentaje',
  ARRAY['Número de miembros del CAD que participan en reuniones en el año', 'Número de miembros del CAD al corte'],
  ARRAY['Número de miembros del CAD que no participan en reuniones en el año', 'Porcentaje de los miembros del CAD que no participan en reuniones'], true, 41),
 
- ('P421', 'Porcentaje de los miembros del CV que participan en reuniones', 'División',
+ ('P421', 'Porcentaje de los miembros del CV que participan en reuniones', 'División', 'Porcentaje',
  ARRAY['Número de miembros del CV que participan en reuniones en el año', 'Número de miembros del CV al corte'],
  ARRAY['Número de miembros del CV que no participan en reuniones en el año', 'Porcentaje de los miembros del CV que no participan en reuniones'], true, 41),
 
- ('P422', 'Metodología para el cálculo de la tasa de interés efectiva anual', 'Cumplimiento',
+ ('P422', 'Metodología para el cálculo de la tasa de interés efectiva anual', 'Cumplimiento', NULL,
  ARRAY['¿Tiene una metodología para el cálculo de la tasa de interés efectiva anual?'],
  ARRAY[]::text[], true, 42),
 
- ('P423', 'Metodología para determinar la tasa de interés pasiva', 'Cumplimiento',
+ ('P423', 'Metodología para determinar la tasa de interés pasiva', 'Cumplimiento', NULL,
  ARRAY['¿Tiene una metodología para determinar la tasa de interés pasiva?'],
  ARRAY[]::text[], true, 42),
 
- ('P424', 'Tarifas de servicios financieros establecidos', 'Cumplimiento',
+ ('P424', 'Tarifas de servicios financieros establecidos', 'Cumplimiento', NULL,
  ARRAY['¿Cumple con las tarifas de servicios financieros vigentes establecidos?'],
  ARRAY[]::text[], true, 42),
 
- ('P425', 'Límites de tasas de interés para productos de colocación conforme lo establecido por el Banco Central del Ecuador', 'Cumplimiento',
+ ('P425', 'Límites de tasas de interés para productos de colocación conforme lo establecido por el Banco Central del Ecuador', 'Cumplimiento', NULL,
  ARRAY['¿Cumple con los límites de tasas de interés para productos de colocación conforme lo establecido por el Banco Central del Ecuador?'],
  ARRAY[]::text[], true, 42),
 
- ('P426', 'Definición y actualización de líneas de negocio', 'Cumplimiento',
+ ('P426', 'Definición y actualización de líneas de negocio', 'Cumplimiento', NULL,
  ARRAY['¿Tiene definidas y actualizadas las líneas de negocio?'],
  ARRAY[]::text[], true, 43),
 
- ('P427', 'Políticas de independencia y segregación de funciones', 'Cumplimiento',
+ ('P427', 'Políticas de independencia y segregación de funciones', 'Cumplimiento', NULL,
  ARRAY['¿Actualiza las políticas de independencia y segregación de funciones?'],
  ARRAY[]::text[], true, 43),
 
- ('P428', 'Base de datos de funcionarios de la entidad', 'Cumplimiento',
+ ('P428', 'Base de datos de funcionarios de la entidad', 'Cumplimiento', NULL,
  ARRAY['¿Actualiza la base de datos de funcionarios de la entidad?'],
  ARRAY[]::text[], true, 43),
 
- ('P429', 'Acuerdos de confidencialidad con todo el personal de la entidad', 'Cumplimiento',
+ ('P429', 'Acuerdos de confidencialidad con todo el personal de la entidad', 'Cumplimiento', NULL,
  ARRAY['¿Tiene acuerdos de confidencialidad con todo el personal que incluya la protección de información de los socios de la entidad?'],
  ARRAY[]::text[], true, 43),
 
- ('P430', 'Políticas, procesos, procedimientos y metodología para la administración de TI', 'Cumplimiento',
+ ('P430', 'Políticas, procesos, procedimientos y metodología para la administración de TI', 'Cumplimiento', NULL,
  ARRAY['¿Actualiza las políticas, procesos, procedimientos y metodología para la administración de TI?'],
  ARRAY[]::text[], true, 43),
 
- ('P431', 'Plan de continuidad de negocio de la entidad', 'Cumplimiento',
+ ('P431', 'Plan de continuidad de negocio de la entidad', 'Cumplimiento', NULL,
  ARRAY['¿Tiene actualizado el plan de continuidad de negocio de la entidad?'],
  ARRAY[]::text[], true, 43),
 
 
- ('P501', 'Planificación anual de capacitaciones sobre EPS', 'Cumplimiento',
+ ('P501', 'Planificación anual de capacitaciones sobre EPS', 'Cumplimiento', NULL,
  ARRAY['¿Tiene una planificación anual de programas de capacitación sobre EPS?'],
  ARRAY[]::text[], true, 44),
 
- ('P502', 'Porcentaje de capacitaciones ejecutadas sobre EPS', 'División',
+ ('P502', 'Porcentaje de capacitaciones ejecutadas sobre EPS', 'División', 'Porcentaje',
  ARRAY['Número de capacitaciones planificadas en el año total', 'Número de capacitaciones ejecutadas en el año total'],
  ARRAY['Número de capacitaciones no planificadas en el año total', 'Porcentaje de capacitaciones no ejecutadas sobre EPS'], true, 44),
 
- ('P503', 'Porcentaje de capacitaciones sobre EPS dirigidas a empleados', 'División',
+ ('P503', 'Porcentaje de capacitaciones sobre EPS dirigidas a empleados', 'División', 'Porcentaje',
  ARRAY['Número de capacitaciones planificadas en el año empleados', 'Número de capacitaciones ejecutadas en el año empleados'],
  ARRAY['Número de capacitaciones no planificadas en el año empleados','Porcentaje de capacitaciones sobre EPS no dirigidas a empleados'], true, 44),
 
- ('P504', 'Porcentaje de capacitaciones sobre EPS dirigidas a socios o representantes', 'División',
+ ('P504', 'Porcentaje de capacitaciones sobre EPS dirigidas a socios o representantes', 'División', 'Porcentaje',
  ARRAY['Número de capacitaciones planificadas en el año socios o representantes', 'Número de capacitaciones ejecutadas en el año socios o representantes'],
  ARRAY['Número de capacitaciones no planificadas en el año socios o representantes', 'Porcentaje de capacitaciones sobre EPS no dirigidas a socios o representantes'], true, 44),
 
- ('P505', 'Porcentaje del presupuesto destinado a capacitaciones sobre EPS', 'División',
+ ('P505', 'Porcentaje del presupuesto destinado a capacitaciones sobre EPS', 'División', 'Porcentaje',
  ARRAY['Monto del presupuesto destinado a capacitaciones en el año', 'Monto presupuesto de la entidad en el año'],
  ARRAY['Monto del presupuesto no destinado a capacitaciones en el año','Porcentaje del presupuesto no destinado a capacitaciones sobre EPS'], true, 44),
 
- ('P506', 'Porcentaje de cumplimiento presupuestario en capacitaciones sobre EPS', 'División',
+ ('P506', 'Porcentaje de cumplimiento presupuestario en capacitaciones sobre EPS', 'División', 'Porcentaje',
  ARRAY['Monto del gasto utilizado en capacitaciones en el año', 'Monto del presupuesto destinado a capacitación en el año'],
  ARRAY['Monto del gasto no utilizado en capacitaciones en el año', 'Porcentaje de cumplimiento presupuestario en capacitaciones sobre EPS'], true, 44),
 
- ('P507', 'Porcentaje de representantes capacitados sobre EPS', 'División',
+ ('P507', 'Porcentaje de representantes capacitados sobre EPS', 'División', 'Porcentaje',
  ARRAY['Número de representantes capacitados en el año', 'Número de representantes al corte'],
  ARRAY['Número de representantes no capacitados en el año', 'Porcentaje de representantes no capacitados sobre EPS'], true, 44),
 
- ('P508', 'Porcentaje de empleados capacitados sobre EPS', 'División',
+ ('P508', 'Porcentaje de empleados capacitados sobre EPS', 'División', 'Porcentaje',
  ARRAY['Número de empleados capacitados en el año', 'Número total de empleados al corte'],
  ARRAY['Número de empleados no capacitados en el año', 'Porcentaje de empleados no capacitados sobre EPS'], true, 44),
 
- ('P509', 'Porcentaje de socios capacitados sobre EPS', 'División',
+ ('P509', 'Porcentaje de socios capacitados sobre EPS', 'División', 'Porcentaje',
  ARRAY['Número de socios capacitados en el año', 'Número total de socios al corte'],
  ARRAY['Número de socios no capacitados en el año', 'Porcentaje de socios no capacitados sobre EPS'], true, 44),
 
- ('P510', 'Porcentaje de satisfacción de las capacitaciones realizadas a socios, representantes y empleados', 'Igual',
+ ('P510', 'Porcentaje de satisfacción de las capacitaciones realizadas a socios, representantes y empleados', 'Igual', NULL,
  ARRAY['Promedio del porcentaje de satisfacción de las capacitaciones realizadas a socios, representantes y empleados en el año'],
  ARRAY[]::text[], true, 44),
- ('P511', 'Planificación anual de programas de capacitación sobre principios y valores', 'Cumplimiento',
+ ('P511', 'Planificación anual de programas de capacitación sobre principios y valores', 'Cumplimiento', NULL,
  ARRAY['¿Tiene una planificación anual de programas de capacitación sobre principios y valores?'],
  ARRAY[]::text[], true, 45),
 
- ('P512', 'Porcentajes de socios, representantes y empleados capacitados sobre principios y valores', 'División',
+ ('P512', 'Porcentajes de socios, representantes y empleados capacitados sobre principios y valores', 'División', 'Porcentaje',
  ARRAY['Número de socios, representantes y empleados capacitados en el año', 'Número de socios, representantes y empleados al corte'],
  ARRAY['Número de socios, representantes y empleados no capacitados en el año','Porcentajes de socios, representantes y empleados no capacitados sobre principios y valores'], true, 45),
 
- ('P513', 'Porcentaje de satisfacción de las capacitaciones realizadas a socios, representantes y empleados', 'Igual',
+ ('P513', 'Porcentaje de satisfacción de las capacitaciones realizadas a socios, representantes y empleados', 'Igual', NULL,
  ARRAY['Promedio del porcentaje de satisfacción de las capacitaciones realizadas a socios, representantes y empleados en el año'],
  ARRAY[]::text[], true, 45),
- ('P514', 'Planificación anual de programas de formación de futuros representantes', 'Cumplimiento',
+
+ ('P514', 'Planificación anual de programas de formación de futuros representantes', 'Cumplimiento', NULL,
  ARRAY['¿Tiene una planificación anual de programas de formación de futuros representantes?'],
  ARRAY[]::text[], true, 46),
 
- ('P515', 'Porcentaje de socios (futuros representantes) capacitados', 'División',
+ ('P515', 'Porcentaje de socios (futuros representantes) capacitados', 'División', 'Porcentaje',
  ARRAY['Número de socios capacitados en el año', 'Número total de socios al corte'],
  ARRAY['Número de socios no capacitados en el año', 'Porcentaje de socios no capacitados'], true, 46),
 
- ('P516', 'Porcentaje de socios que pasaron a formar parte de los órganos de gobierno', 'División',
+ ('P516', 'Porcentaje de socios que pasaron a formar parte de los órganos de gobierno', 'División', 'Porcentaje',
  ARRAY['Número de socios que pasaron a formar parte de los órganos de gobierno en el año', 'Número de representantes al corte'],
  ARRAY['Número de socios que no pasaron a formar parte de los órganos de gobierno en el año', 'Porcentaje de socios que no pasaron a formar parte de los órganos de gobierno'], true, 46),
 
- ('P517', 'Planificación anual de programas de capacitación enfocados en la EPS', 'Cumplimiento',
+ ('P517', 'Planificación anual de programas de capacitación enfocados en la EPS', 'Cumplimiento', NULL,
  ARRAY['¿Tiene una planificación anual de programas de educación financiera enfocada en temas de EPS?'],
  ARRAY[]::text[], true, 47),
 
- ('P518', 'Medios de difusión de productos, servicios y programas sociales', 'Cumplimiento',
+ ('P518', 'Medios de difusión de productos, servicios y programas sociales', 'Cumplimiento', NULL,
  ARRAY['¿Utiliza medios de comunicación para difundir sus productos, servicios y programas sociales?'],
  ARRAY[]::text[], true, 47),
 
- ('P519', 'Porcentaje del presupuesto asignado y ejecutado en programas sociales', 'División',
+ ('P519', 'Porcentaje del presupuesto asignado y ejecutado en programas sociales', 'División', 'Porcentaje',
  ARRAY['Monto presupuesto destinado a programas sociales de la entidad en el año', 'Monto presupuesto de la entidad en el año'],
  ARRAY['Monto presupuesto no destinado a programas sociales de la entidad en el año', 'Porcentaje del presupuesto no asignado ni ejecutado en programas sociales'], true, 47),
 
- ('P520', 'Planificación anual de programas de capacitación enfocado en educación financiera', 'Cumplimiento',
+ ('P520', 'Planificación anual de programas de capacitación enfocado en educación financiera', 'Cumplimiento', NULL,
  ARRAY['¿Tiene una planificación anual de programas de capacitación enfocado en educación financiera?'],
  ARRAY[]::text[], true, 48),
 
- ('P521', 'Porcentaje de socios capacitados', 'División',
+ ('P521', 'Porcentaje de socios capacitados', 'División', 'Porcentaje',
  ARRAY['Número de socios capacitados en el año', 'Número total de socios al corte'],
  ARRAY['Número de socios no capacitados en el año', 'Porcentaje de socios no capacitados'], true, 48),
 
- ('P522', 'Porcentaje de satisfacción de las capacitaciones realizadas a socios', 'Igual',
+ ('P522', 'Porcentaje de satisfacción de las capacitaciones realizadas a socios', 'Igual', NULL,
  ARRAY['Promedio del porcentaje de satisfacción de las capacitaciones realizadas a socios'],
  ARRAY[]::text[], true, 48),
 
- ('P523', 'Planificación anual de programas de capacitación sobre temas de interés local o comunitario', 'Cumplimiento',
+ ('P523', 'Planificación anual de programas de capacitación sobre temas de interés local o comunitario', 'Cumplimiento', NULL,
  ARRAY['¿Tiene una planificación anual de programas de capacitación sobre temas de interés local o comunitario?'],
  ARRAY[]::text[], true, 49),
 
- ('P524', 'Convenios vigentes con organizaciones externas sobre temas de interés local o comunitario', 'Igual',
+ ('P524', 'Convenios vigentes con organizaciones externas sobre temas de interés local o comunitario', 'Igual', NULL,
  ARRAY['Número de convenios vigentes con organizaciones externas sobre temas de interés local o comunitario al corte'],
  ARRAY[]::text[], true, 49),
 
- ('P525', 'Capacitación interna sobre temas de interés local o comunitario', 'Cumplimiento',
+ ('P525', 'Capacitación interna sobre temas de interés local o comunitario', 'Cumplimiento', NULL,
  ARRAY['¿Han efectuado eventos de capacitación interna sobre temas de interés local o comunitario?'],
  ARRAY[]::text[], true, 49),
 
- ('P526', 'Porcentaje de proyectos elaborados y ejecutados en temas sociales y medioambientales', 'División',
+ ('P526', 'Porcentaje de proyectos elaborados y ejecutados en temas sociales y medioambientales', 'División', 'Porcentaje',
  ARRAY['Número de proyectos ejecutados sobre temas sociales y medioambientales', 'Número de proyectos elaborados sobre temas sociales y medioambientales'],
  ARRAY['Número de proyectos no ejecutados sobre temas sociales y medioambientales', 'Porcentaje de proyectos no elaborados ni ejecutados en temas sociales y medioambientales'], true, 50),
 
- ('P527', 'Productos y servicios desarrollados para el financiamiento de proyectos sociales y medioambientales', 'Cumplimiento',
+ ('P527', 'Productos y servicios desarrollados para el financiamiento de proyectos sociales y medioambientales', 'Cumplimiento', NULL,
  ARRAY['¿Tiene desarrollados productos y servicios dirigidos al financiamiento de proyectos sociales y medioambientales?'],
  ARRAY[]::text[], true, 50),
 
- ('P528', 'Presupuesto para desarrollo de proyectos sociales y medioambientales', 'Cumplimiento',
+ ('P528', 'Presupuesto para desarrollo de proyectos sociales y medioambientales', 'Cumplimiento', NULL,
  ARRAY['¿Han destinado parte del presupuesto al desarrollo de proyectos sociales y medioambientales?'],
  ARRAY[]::text[], true, 50),
 
- ('P529', 'Porcentaje del presupuesto ejecutado en el desarrollo de proyecto sociales y medioambientales', 'División',
+ ('P529', 'Porcentaje del presupuesto ejecutado en el desarrollo de proyecto sociales y medioambientales', 'División', 'Porcentaje',
  ARRAY['Monto de presupuesto ejecutado en el desarrollo de proyectos sociales y medioambientales en el año', 'Total del presupuesto planificado para el desarrollo de proyectos sociales y medioambientales en el año'],
  ARRAY['Monto de presupuesto no ejecutado en el desarrollo de proyectos sociales y medioambientales en el año', 'Porcentaje del presupuesto no ejecutado en el desarrollo de proyecto sociales y medioambientales'], true, 50),
 
 
- ('P601', 'Convenios de asociación como administrador', 'Igual',
+ ('P601', 'Convenios de asociación como administrador', 'Igual', NULL,
  ARRAY['Número de convenios vigentes como administrador en el SFPS al corte'],
  ARRAY[]::text[], true, 51),
 
- ('P602', 'Porcentaje de socios capacitados', 'Igual',
+ ('P602', 'Porcentaje de socios capacitados', 'Igual', NULL,
  ARRAY['Número de convenios vigentes como asistida en el SFPS al corte'],
  ARRAY[]::text[], true, 51),
 
- ('P603', 'Convenios de asociación gestionados en el SFPS', 'Igual',
+ ('P603', 'Convenios de asociación gestionados en el SFPS', 'Igual', NULL,
  ARRAY['Número de convenios de asociación gestionados en el SFPS al corte'],
  ARRAY[]::text[], true, 51),
 
- ('P604', 'Convenios de asociación ejecutados en el SFPS', 'Igual',
+ ('P604', 'Convenios de asociación ejecutados en el SFPS', 'Igual', NULL,
  ARRAY['Número de convenios de asociación ejecutados en el SFPS al corte'],
  ARRAY[]::text[], true, 51),
 
- ('P605', 'Porcentaje de inversiones en entidades del SFPS', 'División',
+ ('P605', 'Porcentaje de inversiones en entidades del SFPS', 'División', 'Porcentaje',
  ARRAY['Saldo invertido en entidades del SFPS al corte', 'Saldo elemento 13'],
  ARRAY['Saldo no invertido en entidades del SFPS al corte', 'Porcentaje de inversiones fueraa de entidades del SFPS'], true, 51),
 
- ('P606', 'Convenios con organizaciones de la EPS', 'Igual',
+ ('P606', 'Convenios con organizaciones de la EPS', 'Igual', NULL,
  ARRAY['Número de convenios o proyectos contraídos con actores de la EPS en el año'],
  ARRAY[]::text[], true, 51),
 
- ('P607', 'Compra de cartera de entidades del SFPS en liquidación', 'Igual',
+ ('P607', 'Compra de cartera de entidades del SFPS en liquidación', 'Igual', NULL,
  ARRAY['Monto de cartera adquirida de entidades del SFPS en liquidación en el año'],
  ARRAY[]::text[], true, 51),
 
- ('P608', 'Pasantías realizadas por estudiantes de colegios y universidades', 'Igual',
+ ('P608', 'Pasantías realizadas por estudiantes de colegios y universidades', 'Igual', NULL,
  ARRAY['Número de pasantes admitidos en el año'],
  ARRAY[]::text[], true, 51),
 
- ('P609', 'Servicios o productos brindados a entidades del SFPS', 'Igual',
+ ('P609', 'Servicios o productos brindados a entidades del SFPS', 'Igual', NULL,
  ARRAY['Número de servicios o productos brindados a entidades del SFPS en el año'],
  ARRAY[]::text[], true, 51),
 
- ('P610', 'Proveedores de la EPS', 'Igual',
+ ('P610', 'Proveedores de la EPS', 'Igual', NULL,
  ARRAY['Número de proveedores de la EPS contratados en el año'],
  ARRAY[]::text[], true, 51),
 
- ('P611', 'Porcentaje destinado a contratos con proveedores de la EPS', 'División',
+ ('P611', 'Porcentaje destinado a contratos con proveedores de la EPS', 'División', 'Porcentaje',
  ARRAY['Monto del gasto por contratos con proveedores de la EPS en el año', 'Saldo elemento 45'],
  ARRAY['Monto del gasto por contratos con proveedores diferentes de la EPS en el año', 'Porcentaje destinado a contratos con proveedores diferentes de la EPS']::text[], true, 51),
 
- ('P612', 'Empleados capacitados por organismos de integración', 'Igual',
+ ('P612', 'Empleados capacitados por organismos de integración', 'Igual', NULL,
  ARRAY['Número de empleados capacitados por organismos de integración en el año'],
  ARRAY[]::text[], true, 51),
 
- ('P613', 'Participación en organismos de integración', 'Igual',
+ ('P613', 'Participación en organismos de integración', 'Igual', NULL,
  ARRAY['Número de organismos de integración a los que pertenece y participa la entidad al corte'],
  ARRAY[]::text[], true, 51),
 
- ('P614', 'Servicios electrónicos disponibles para socios', 'Igual',
+ ('P614', 'Servicios electrónicos disponibles para socios', 'Igual', NULL,
  ARRAY['Número de servicios electrónicos que oferta la entidad al corte'],
  ARRAY[]::text[], true, 51),
 
- ('P615', 'Socios que utilizan canales electrónicos', 'Igual',
+ ('P615', 'Socios que utilizan canales electrónicos', 'Igual', NULL,
  ARRAY['Número de socios que utilizan servicios electrónicos en el año'],
  ARRAY[]::text[], true, 51),
 
- ('P616', 'Transacciones por canales electrónicos', 'Igual',
+ ('P616', 'Transacciones por canales electrónicos', 'Igual', NULL,
  ARRAY['Número de transacciones realizadas por usuarios a través de canales electrónicos en el año'],
  ARRAY[]::text[], true, 51),
 
- ('P617', 'Visitas a la página web de la entidad', 'Igual',
+ ('P617', 'Visitas a la página web de la entidad', 'Igual', NULL,
  ARRAY['Número de visitas a la página web de la entidad en el año'],
  ARRAY[]::text[], true, 51),
 
- ('P618', 'Medios tecnológicos diseñados para personas vulnerables', 'Cumplimiento',
+ ('P618', 'Medios tecnológicos diseñados para personas vulnerables', 'Cumplimiento', NULL,
  ARRAY['¿Tienen medios tecnológicos diseñados para personas vulnerables?'],
  ARRAY[]::text[], true, 51),
 
- ('P619', 'Variación cartera productivo-comercial', 'División - 1',
+ ('P619', 'Variación cartera productivo-comercial', 'División - 1', 'Porcentaje',
  ARRAY['Saldo cuenta año actual 1405+1413+1421+1429+1437+1445+1453+1461+1469+1401+1406+1409+1414+1417+1422+1425+1430+1433+1438+1441+1446+1449+1454+1457+1462+1465+1470', 'Saldo cuenta año anterior 1405+1413+1421+1429+1437+1445+1453+1461+1469+1401+1406+1409+1414+1417+1422+1425+1430+1433+1438+1441+1446+1449+1454+1457+1462+1465+1470'],
  ARRAY[]::text[], true, 52),
 
- ('P620', 'Variación cartera consumo', 'División - 1',
+ ('P620', 'Variación cartera consumo', 'División - 1', 'Porcentaje',
  ARRAY['Saldo cuenta año actual 1402+1407+1410+1415+1418+1423+1426+1431+1434+1439+1442+1447+1450+1455+1458+1463+1466+1471', 'Saldo cuenta año anterior1402+1407+1410+1415+1418+1423+1426+1431+1434+1439+1442+1447+1450+1455+1458+1463+1466+1471'],
  ARRAY[]::text[], true, 52),
 
- ('P621', 'Variación cartera educativo', 'División - 1',
+ ('P621', 'Variación cartera educativo', 'División - 1', 'Porcentaje',
  ARRAY['Saldo cuenta año actual 1473+1475+1477+1479+1481+1483+1485+1487+1489', 'Saldo cuenta año anterior 1473+1475+1477+1479+1481+1483+1485+1487+1489'],
  ARRAY[]::text[], true, 52),
 
- ('P622', 'Variación cartera vivienda de interés público e inmobiliario', 'División - 1',
+ ('P622', 'Variación cartera vivienda de interés público e inmobiliario', 'División - 1', 'Porcentaje',
  ARRAY['Saldo cuenta año actual 1408+1416+1424+1432+1440+1448+1456+1464+1472', 'Saldo cuenta año anterior 1408+1416+1424+1432+1440+1448+1456+1464+1472'],
  ARRAY[]::text[], true, 52),
 
- ('P623', 'Variación cartera microcrédito', 'División - 1',
+ ('P623', 'Variación cartera microcrédito', 'División - 1', 'Porcentaje',
  ARRAY['Saldo cuenta año actual 1404+1412+1420+1428+1436+1444+1452+1460+1468', 'Saldo cuenta año anterior 1404+1412+1420+1428+1436+1444+1452+1460+1468'],
  ARRAY[]::text[], true, 52),
 
- ('P624', 'Corresponsales solidarios', 'Igual',
+ ('P624', 'Corresponsales solidarios', 'Igual', NULL,
  ARRAY['Número de corresponsales solidarios creados en el año'],
  ARRAY[]::text[], true, 52),
 
- ('P625', 'Transacciones realizadas en corresponsales solidarios', 'Igual',
+ ('P625', 'Transacciones realizadas en corresponsales solidarios', 'Igual', NULL,
  ARRAY['Número de transacciones realizadas en corresponsales solidarios en el año'],
  ARRAY[]::text[], true, 52),
 
- ('P626', 'Acuerdo para el desarrollo tecnológico', 'Cumplimiento',
+ ('P626', 'Acuerdo para el desarrollo tecnológico', 'Cumplimiento', NULL,
  ARRAY['¿Tiene un acuerdo para el desarrollo tecnológico (Software o canales electrónicos)?'],
  ARRAY[]::text[], true, 52),
 
- ('P627', 'Transacciones con costo (tarifa máxima)', 'Igual',
+ ('P627', 'Transacciones con costo (tarifa máxima)', 'Igual', NULL,
  ARRAY['Número de transacciones realizadas con tarifa máxima en el año'],
  ARRAY[]::text[], true, 52),
 
- ('P628', 'Transacciones con costo (tarifa diferenciada)', 'Igual',
+ ('P628', 'Transacciones con costo (tarifa diferenciada)', 'Igual', NULL,
  ARRAY['Número de transacciones realizadas con tarifa diferenciada en el año'],
  ARRAY[]::text[], true, 52),
 
- ('P629', 'Transacciones con costo (tarifa cero)', 'Igual',
+ ('P629', 'Transacciones con costo (tarifa cero)', 'Igual', NULL,
  ARRAY['Número de transacciones realizadas con tarifa cero en el año'],
  ARRAY[]::text[], true, 52),
 
- ('P630', 'Aperturas de cuentas básicas', 'Igual',
+ ('P630', 'Aperturas de cuentas básicas', 'Igual', NULL,
  ARRAY['Número de cuentas básicas aperturadas en el año'],
  ARRAY[]::text[], true, 52),
 
- ('P631', 'Transacciones con servicios financieros asociados a cuenta básica', 'Igual',
+ ('P631', 'Transacciones con servicios financieros asociados a cuenta básica', 'Igual', NULL,
  ARRAY['Número de transacciones asociadas a cuentas básicas en el año'],
  ARRAY[]::text[], true, 52),
 
 
- ('P701', 'Prácticas para medir la satisfacción del cliente', 'Cumplimiento',
+ ('P701', 'Prácticas para medir la satisfacción del cliente', 'Cumplimiento', NULL,
  ARRAY['¿Tiene un procedimiento de medición de satisfacción del cliente, gestión de quejas y reclamos, incluyendo los resultados de los estudios de satisfacción?'],
  ARRAY[]::text[], true, 53),
 
- ('P702', 'Porcentaje de satisfacción de acceso a productos y servicios', 'Igual',
+ ('P702', 'Porcentaje de satisfacción de acceso a productos y servicios', 'Igual', NULL,
  ARRAY['Promedio del porcentaje de satisfacción del acceso a productos y servicios financieros'],
  ARRAY[]::text[], true, 53),
 
- ('P703', 'Gestión de quejas y reclamos', 'División',
+ ('P703', 'Gestión de quejas y reclamos', 'División', 'Porcentaje',
  ARRAY['Número de quejas y reclamos atendidos en el año', 'Número de quejas y reclamos recibidas en el año'],
  ARRAY['Número de quejas y reclamos no atendidos en el año', 'Gestión de quejas y reclamos no atendidos' ], true, 53),
 
- ('P704', 'Manual y políticas de gestión de reclamos', 'Cumplimiento',
+ ('P704', 'Manual y políticas de gestión de reclamos', 'Cumplimiento', NULL,
  ARRAY['¿Tienen manuales aprobados por el CAD y actualizados que indiquen la política de gestión de quejas y reclamos?'],
  ARRAY[]::text[], true, 53),
 
- ('P705', 'Exhibición de la información relacionada a productos y servicios en paneles de la entidad', 'Selección',
+ ('P705', 'Exhibición de la información relacionada a productos y servicios en paneles de la entidad', 'Selección', NULL,
  ARRAY['Número de cuentas básicas aperturadas en el año'],
  ARRAY[]::text[], true, 53),
 
- ('P706', 'Puntos de atención en zonas vulnerables', 'Igual',
+ ('P706', 'Puntos de atención en zonas vulnerables', 'Igual', NULL,
  ARRAY['Número de puntos de atención ubicados en zonas vulnerables al corte'],
  ARRAY[]::text[], true, 53),
 
- ('P707', 'Productos y servicios adaptados para personas vulnerables', 'Cumplimiento',
+ ('P707', 'Productos y servicios adaptados para personas vulnerables', 'Cumplimiento', NULL,
  ARRAY['¿Tienen productos y/o servicios adaptados para personas vulnerables?'],
  ARRAY[]::text[], true, 53),
 
- ('P708', 'Infraestructura física para personas vulnerables', 'Cumplimiento',
+ ('P708', 'Infraestructura física para personas vulnerables', 'Cumplimiento', NULL,
  ARRAY['¿Tienen la infraestructura física que permita el acceso a los productos y/o servicios a personas vulnerables?'],
  ARRAY[]::text[], true, 53),
 
- ('P709', 'Infraestructura tecnológica para personas vulnerables', 'Cumplimiento',
+ ('P709', 'Infraestructura tecnológica para personas vulnerables', 'Cumplimiento', NULL,
  ARRAY['¿Tienen la infraestructura tecnológica que permita el acceso a los productos y/o servicios a personas vulnerables?'],
  ARRAY[]::text[], true, 53),
 
- ('P710', 'Políticas de colocación y captación que no incluyan costos asociados', 'Cumplimiento',
+ ('P710', 'Políticas de colocación y captación que no incluyan costos asociados', 'Cumplimiento', NULL,
  ARRAY['¿Tienen políticas de colocación de créditos y captación de recursos, aprobadas por el CAD que no incluyan costos asociados?'],
  ARRAY[]::text[], true, 53),
 
- ('P711', 'Políticas de colocación y captación que incluya la igualdad de oportunidades', 'Cumplimiento',
+ ('P711', 'Políticas de colocación y captación que incluya la igualdad de oportunidades', 'Cumplimiento', NULL,
  ARRAY['¿Tienen políticas de colocación de créditos y captación de recursos, aprobadas por el CAD que incluya la igualdad de oportunidades?'],
  ARRAY[]::text[], true, 53),
 
- ('P712', 'Políticas destinadas a las finanzas verdes', 'Cumplimiento',
+ ('P712', 'Políticas destinadas a las finanzas verdes', 'Cumplimiento', NULL,
  ARRAY['¿Tienen políticas aprobadas por el CAD para productos y servicios destinados a finanzas verdes?'],
  ARRAY[]::text[], true, 54),
 
- ('P713', 'Productos y servicios destinados a finanzas verdes', 'Igual',
+ ('P713', 'Productos y servicios destinados a finanzas verdes', 'Igual', NULL,
  ARRAY['Número de productos destinados a finanzas verdes en el año'],
  ARRAY[]::text[], true, 54),
 
- ('P714', 'Porcentaje de cartera destinada a finanzas verdes', 'División',
+ ('P714', 'Porcentaje de cartera destinada a finanzas verdes', 'División', 'Porcentaje',
  ARRAY['Saldo de créditos destinados a finanzas verdes al corte', 'Saldo cuenta 14-1499'],
  ARRAY['Saldo de créditos destinados a otras categorías que no son finanzas verdes al corte','Porcentaje de cartera destinada a otras categorías que no son finanzas verdes'], true, 54),
 
- ('P715', 'Socios beneficiados por finanzas verdes', 'Igual',
+ ('P715', 'Socios beneficiados por finanzas verdes', 'Igual', NULL,
  ARRAY['Número de socios que han accedido a créditos destinados a finanzas verdes en el año'],
  ARRAY[]::text[], true, 54),
 
- ('P716', 'Iniciativas para proporcionar productos y servicios enfocados en finanzas verdes', 'Igual',
+ ('P716', 'Iniciativas para proporcionar productos y servicios enfocados en finanzas verdes', 'Igual', NULL,
  ARRAY['Número de iniciativas para proporcionar productos y servicios enfocados en la promoción de finanzas verdes en el año'], ARRAY[]::text[], true, 54),
 
- ('P717', 'Capacitaciones que promueven la gestión e involucramiento en finanzas verdes', 'Igual',
+ ('P717', 'Capacitaciones que promueven la gestión e involucramiento en finanzas verdes', 'Igual', NULL,
  ARRAY['Número de capacitaciones ejecutadas en el año'], ARRAY[]::text[], true, 54),
 
- ('P718', 'Iniciativas que incentiven las buenas prácticas ambientales en la entidad', 'Igual',
+ ('P718', 'Iniciativas que incentiven las buenas prácticas ambientales en la entidad', 'Igual', NULL,
  ARRAY['Número de iniciativas que incentiven las buenas prácticas ambientales en la entidad en el año'],
  ARRAY[]::text[], true, 54),
 
- ('P719', 'Iniciativas que incentiven las buenas prácticas ambientales en la comunidad o zona de influencia', 'Igual',
+ ('P719', 'Iniciativas que incentiven las buenas prácticas ambientales en la comunidad o zona de influencia', 'Igual', NULL,
  ARRAY['Número de iniciativas que incentiven las buenas prácticas ambientales en la comunidad o zona de influencia en el año'],
  ARRAY[]::text[], true, 54),
 
- ('P720', 'Convenios con Gobiernos Autónomos Descentralizados y/o con organismos gubernamentales que promuevan el desarrollo local o la sostenibilidad interinstitucional', 'Igual',
+ ('P720', 'Convenios con Gobiernos Autónomos Descentralizados y/o con organismos gubernamentales que promuevan el desarrollo local o la sostenibilidad interinstitucional', 'Igual', NULL,
  ARRAY['Número de convenios vigentes con Gobiernos Autónomos Descentralizados y/o con organismos gubernamentales que promueven el desarrollo local o la sostenibilidad interinstitucional'],
  ARRAY[]::text[], true, 55),
 
- ('P721', 'Políticas que promuevan la inclusión de proveedores locales de la EPS', 'Cumplimiento',
+ ('P721', 'Políticas que promuevan la inclusión de proveedores locales de la EPS', 'Cumplimiento', NULL,
  ARRAY['¿Tiene políticas aprobadas por el CAD y actualizadas que promuevan la inclusión de proveedores locales de la EPS?'],
  ARRAY[]::text[], true, 56),
 
- ('P722', 'Proveedores de la localidad calificados para establecer relaciones comerciales', 'División',
+ ('P722', 'Proveedores de la localidad calificados para establecer relaciones comerciales', 'División', 'Porcentaje',
  ARRAY['Número de proveedores de la EPS, de la localidad, calificados y contratados en el año', 'Número de proveedores de la EPS contratados en el año'],
  ARRAY['Número de proveedores de la EPS, no locales, calificados y contratados en el año', 'Proveedores no locales calificados para establecer relaciones comerciales'], true, 56),
 
- ('P723', 'Porcentaje del presupuesto destinado a compras a proveedores de la EPS', 'División',
+ ('P723', 'Porcentaje del presupuesto destinado a compras a proveedores de la EPS', 'División', 'Porcentaje',
  ARRAY['Monto de compras presupuestado a proveedores de la EPS en el año', 'Monto presupuesto de la entidad en el año'],
  ARRAY['Monto de compras no presupuestado a proveedores de la EPS en el año', 'Porcentaje del presupuesto no destinado a compras a proveedores de la EPS'], true, 56),
 
- ('P724', 'Porcentaje del presupuesto efectivamente ejecutado en compras a proveedores de la EPS', 'División',
+ ('P724', 'Porcentaje del presupuesto efectivamente ejecutado en compras a proveedores de la EPS', 'División', 'Porcentaje',
  ARRAY['Monto de compras real a proveedores de la EPS en el año', 'Monto presupuesto de la entidad en el año'],
  ARRAY['Monto diferente a compras real a proveedores de la EPS en el año', 'Porcentaje del presupuesto no ejecutado en compras a proveedores de la EPS'], true, 56);
 

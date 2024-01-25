@@ -120,6 +120,7 @@ class ResultAccomplishmentCalculator:
         self.target = dict_object_value["idobjectivo"]
         self.logic_operator = self.target.logica
         self.indicator = self.target.idindicador.descripcionindicador
+        self.proportion_operator = self.target.idindicador.relacionproporcion
         self.result = []
 
     def handle_division_operation(self, numerator):
@@ -133,9 +134,7 @@ class ResultAccomplishmentCalculator:
                     detail="Invalid numerator and denominator",
                 )
 
-        is_percentage = re.match(self.pattern_search_percentage, self.indicator)
-
-        if is_percentage:
+        if self.proportion_operator == "Porcentaje":
             self.result.append(numerator_value / denominator_value * 100)
             if denominator_value.is_integer() and numerator_value.is_integer():
                 self.result.append(int(denominator_value - numerator_value))
@@ -143,8 +142,11 @@ class ResultAccomplishmentCalculator:
                 self.result.append(denominator_value - numerator_value)
             self.result.append(100 - self.result[0])
 
-        else:
+        elif self.proportion_operator == "Promedio":
             self.result.append(numerator_value / denominator_value)
+
+        elif self.proportion_operator == "Promedio_Procentaje":
+            self.result.append((numerator_value / denominator_value) * 100)
 
         self.dict_object_value["cumplimiento"] = (
             LOGIC_OPERATORS
