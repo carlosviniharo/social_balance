@@ -165,6 +165,29 @@ class JvaloresViewSet(BaseViewSet):
     queryset = Jvalores.objects.all()
     permission_classes = (IsAuthenticated,)
 
+    def create(self, request, *args, **kwargs):
+        serialized_value = self.get_serializer(data=request.data)
+        serialized_value.is_valid(raise_exception=True)
+        with transaction.atomic():
+            new_value = Jvalores.objects.create(**serialized_value.validated_data)
+            values_invalidated = (
+                Jvalores.objects
+                .filter(
+                    descripcionvalores=serialized_value.validated_data.get("descripcionvalores"), status=True
+                )
+                .exclude(idvalores=new_value.idvalores)
+                .update(status=False, validezfin=timezone.localtime(timezone.now()))
+            )
+        value_response = self.get_serializer(new_value)
+        return Response(
+            {
+                "message": f"A new value vas successfully create and "
+                           f"{values_invalidated} records were updated",
+                "data": value_response.data
+            },
+            status=status.HTTP_201_CREATED
+        )
+
 
 # Read services for Jvalores
 
