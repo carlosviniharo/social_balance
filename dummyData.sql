@@ -1326,3 +1326,22 @@ AS SELECT objval.idobjetivevalue,
      LEFT JOIN jvalores val_n ON val_n.idvalores = objval.idnumerador
      LEFT JOIN jvalores val_d ON val_d.idvalores = objval.iddenominador
      LEFT JOIN jusuarios users ON users.idusuario = objval.idusuario;
+
+-- vprinciplesbyreports
+CREATE OR REPLACE VIEW public.vprinciplesbyreports
+ SELECT rep.idreporte,
+    rep.titulo,
+    rep.categoria,
+    rep.autor,
+    prin.codigoprincipio,
+    prin.descripcionprincipio,
+        CASE
+            WHEN prin.codigoprincipio::text = ANY (rep.principiosincluidos::text[]) THEN true
+            ELSE false
+        END AS in_report,
+    rep.status,
+    rep.is_complete,
+    rep.fechacreacion,
+    rep.fechamodificacion
+   FROM jprincipios prin
+     LEFT JOIN jreportes rep ON (prin.codigoprincipio::text = ANY (rep.principiosincluidos::text[])) OR prin.status = true;

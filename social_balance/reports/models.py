@@ -1,3 +1,4 @@
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 from users.models import Jusuarios
@@ -17,7 +18,9 @@ class Jreportes(models.Model):
         models.DO_NOTHING,
         db_column="autor",
     )
+    principiosincluidos = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     status = models.BooleanField(default=True)
+    is_complete = models.BooleanField(default=False)
     fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
     fechamodificacion = models.DateTimeField(auto_now=True, null=True)
     objetivosvalores = models.ManyToManyField(JobjetivosValores, through='JreportesObjetivosValores')
@@ -54,3 +57,25 @@ class JreportesObjetivosValores(models.Model):
 
     def __str__(self):
         return f"{self.idreporte} <- {self.idobjetivevalue}"
+
+
+# Views of the application reports
+
+class Vprinciplesbyreports(models.Model):
+    idreporte = models.IntegerField(primary_key=True)
+    titulo = models.CharField()
+    categoria = models.CharField()
+    autor = models.CharField()
+    codigoprincipio = models.CharField()
+    descripcionprincipio = models.CharField()
+    in_report = models.BooleanField()
+    status = models.BooleanField()
+    is_complete = models.BooleanField()
+    fechacreacion = models.DateTimeField()
+    fechamodificacion = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'vprinciplesbyreports'
+
+    objects = models.Manager()

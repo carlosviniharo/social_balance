@@ -64,11 +64,17 @@ def get_query_by_id(parm_name, param_value, model):
     :param parm_name: str
     :param param_value: str
     :param model: ORM object
-    :return: query object
+    :return: a set of objects
     """
+
     if param_value is None or param_value == "":
         raise APIException(f"{parm_name} not provided")
-    return model.objects.filter(**{parm_name: param_value})
+
+    objects_retrieved = model.objects.filter(**{parm_name: param_value})
+
+    if not objects_retrieved:
+        raise APIException(f"There was not found record with this id {param_value}")
+    return objects_retrieved
 
 
 # Customize pagination output style class

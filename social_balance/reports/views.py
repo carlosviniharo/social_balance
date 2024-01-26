@@ -6,9 +6,13 @@ from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from reports.models import Jreportes, JreportesObjetivosValores
-from reports.serializers import JreportesSerializer, JreportesObjetivosValoresSerializer
-from users.utils.helper import BaseViewSet, CustomPagination, BaseListView, BaseRetrieveView
+from reports.models import Jreportes, JreportesObjetivosValores, Vprinciplesbyreports
+from reports.serializers import (
+    JreportesSerializer,
+    JreportesObjetivosValoresSerializer,
+    VprinciplesbyreportsSerializer
+)
+from users.utils.helper import BaseViewSet, CustomPagination, BaseListView, BaseRetrieveView, get_query_by_id
 
 
 # Reports API endpoints
@@ -128,3 +132,13 @@ class JreportesObjetivosValoresIdView(BaseRetrieveView):
     serializer_class = JreportesObjetivosValoresSerializer
     queryset = JreportesObjetivosValores.objects.all()
     permission_classes = (IsAuthenticated,)
+
+
+class VprinciplesbyreportsView(ListAPIView):
+    serializer_class = VprinciplesbyreportsSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        idreporte = self.request.query_params.get("idreporte")
+        return get_query_by_id("idreporte", idreporte, Vprinciplesbyreports)
+

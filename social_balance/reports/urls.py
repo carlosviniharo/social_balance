@@ -9,7 +9,8 @@ from reports.views import (
     JreportesObjetivosValoresViewSet,
     JreportesObjetivosValoresViewSetReadView,
     # JreportesObjetivosValoresActiveView,
-    JreportesObjetivosValoresIdView
+    JreportesObjetivosValoresIdView,
+    VprinciplesbyreportsView
 )
 
 router = DefaultRouter()
@@ -41,5 +42,8 @@ urlpatterns = [
     # ),
     path(
         "idReportObjVals/<int:pk>/", JreportesObjetivosValoresIdView.as_view(), name="id-reportobjvals"
-    )
+    ),
+    path(
+        "principlesByReports/", VprinciplesbyreportsView.as_view(), name="list-principlesbyreports"
+    ),
 ]
