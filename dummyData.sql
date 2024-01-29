@@ -1260,6 +1260,7 @@ AS SELECT ind.idindicador,
     COALESCE(obj.is_applicable, true) AS is_applicable,
     objval.idobjetivevalue,
     objval.is_complete,
+    rep.idreporte,
     ind.fechacreacion,
     ind.fechamodificacion,
     ind.validezinicio,
@@ -1281,7 +1282,8 @@ AS SELECT ind.idindicador,
      LEFT JOIN jvalores val_n ON ind.variables[1]::text = val_n.descripcionvalores::text AND val_n.status = true
      LEFT JOIN jvalores val_d ON ind.variables[2]::text = val_d.descripcionvalores::text AND val_d.status = true
      LEFT JOIN jobjetivos obj ON obj.idindicador = ind.idindicador AND obj.status = true
-     LEFT JOIN jobjetivosvalores objval ON objval.idobjectivo = obj.idobjectivo AND objval.status = true;
+     LEFT JOIN jobjetivosvalores objval ON objval.idobjectivo = obj.idobjectivo AND objval.status = true
+     LEFT JOIN jreportes rep ON rep.status = true;
 
 -- vobjectivesvalues
 CREATE OR REPLACE VIEW public.vobjectivesvalues

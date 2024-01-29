@@ -28,7 +28,14 @@ class JreportesViewSet(BaseViewSet):
         report = serialized_report.validated_data
         local_time = timezone.localtime(timezone.now())
         report["titulo"] += f" {str(local_time.strftime('%Y-%m-%d %H:%M:%S'))}"
-        new_report = Jreportes.objects.create(**report)
+
+        with transaction.atomic():
+            new_report, created = Jreportes.objects.get_or_create(**report)
+            (Jreportes.objects
+             .filter(status=True)
+             .exclude(idreporte=new_report.idreporte)
+             .update(status=False))
+
         response_report = self.get_serializer(new_report)
         return Response(
             {
@@ -80,7 +87,7 @@ class JreportesObjetivosValoresViewSet(BaseViewSet):
         created_objects = 0
         invalidated_records = 0
 
-        with (transaction.atomic()):
+        with transaction.atomic():
 
             for reportobjval in serializer_reportobjvals.validated_data:
                 idobjetivevalue = reportobjval.get('idobjetivevalue')
@@ -121,11 +128,11 @@ class JreportesObjetivosValoresViewSetReadView(ListAPIView):
     permission_classes = (IsAuthenticated,)
 
 
-# class JreportesObjetivosValoresActiveView(BaseListView):
-#     serializer_class = JreportesObjetivosValoresSerializer
-#     queryset = JreportesObjetivosValores.objects.filter(status=True)
-#     pagination_class = None
-#     permission_classes = (IsAuthenticated,)
+class JreportesObjetivosValoresActiveView(BaseListView):
+    serializer_class = JreportesObjetivosValoresSerializer
+    queryset = JreportesObjetivosValores.objects.filter(status=True)
+    pagination_class = None
+    permission_classes = (IsAuthenticated,)
 
 
 class JreportesObjetivosValoresIdView(BaseRetrieveView):

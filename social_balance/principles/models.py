@@ -203,6 +203,7 @@ class Vindicators(models.Model):
     is_applicable = models.BooleanField()
     idobjetivevalue = models.IntegerField()
     is_complete = models.BooleanField()
+    idreporte = models.IntegerField()
     fechacreacion = models.DateTimeField()
     fechamodificacion = models.DateTimeField()
     validezinicio = models.DateTimeField()
