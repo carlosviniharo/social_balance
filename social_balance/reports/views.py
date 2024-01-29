@@ -78,6 +78,7 @@ class JreportesObjetivosValoresViewSet(BaseViewSet):
     def create(self, request, *args, **kwargs):
         report = request.data["report"]
         objetivevals = request.data["objetivevals"]
+        principlecode = request.data["principlecode"]
         serializer_reportobjvals = self.get_serializer(
             data=[{"idreporte": report, "idobjetivevalue": objetiveval} for objetiveval in objetivevals],
             many=True
@@ -109,6 +110,18 @@ class JreportesObjetivosValoresViewSet(BaseViewSet):
                 .filter(idobjetivevalue__status=False)
                 .update(status=False, fechamodificacion=timezone.localtime(timezone.now()))
             )
+
+            report_object = Jreportes.objects.get(idreporte=report)
+
+            if type(report_object.principiosincluidos) is list:
+                if principlecode in report_object.principiosincluidos:
+                    raise APIException("You updated the register for the principle 2")
+                else:
+                    report_object.principiosincluidos.append(principlecode)
+            else:
+                report_object.principiosincluidos = [principlecode]
+
+            report_object.save()
 
         return Response(
             {
