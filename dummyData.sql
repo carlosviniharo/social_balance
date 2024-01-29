@@ -438,7 +438,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  'Porcentaje de socios con discapacidad',
  'División',
  'Porcentaje',
- ARRAY['Número de socios activos que posean carné de discapacidad emitido por la institución competente', 'Número total de socios al corte'],
+ ARRAY['Número de socios activos que posean carné de discapacidad emitido por la CONADIS', 'Número total de socios al corte'],
  ARRAY['Número de socios activos que no aplican a carné discapacidad emitido por la institución competente', 'Porcentaje de socios sin discapacidad']::text[],true, 35
  ),
  (
@@ -1329,10 +1329,11 @@ AS SELECT objval.idobjetivevalue,
 
 -- vprinciplesbyreports
 CREATE OR REPLACE VIEW public.vprinciplesbyreports
- SELECT rep.idreporte,
+AS SELECT rep.idreporte,
     rep.titulo,
     rep.categoria,
     rep.autor,
+    prin.idprincipio,
     prin.codigoprincipio,
     prin.descripcionprincipio,
         CASE

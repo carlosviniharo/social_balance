@@ -66,6 +66,7 @@ class Vprinciplesbyreports(models.Model):
     titulo = models.CharField()
     categoria = models.CharField()
     autor = models.CharField()
+    idprincipio = models.IntegerField()
     codigoprincipio = models.CharField()
     descripcionprincipio = models.CharField()
     in_report = models.BooleanField()
