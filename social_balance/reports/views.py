@@ -1,8 +1,9 @@
 from django.db import transaction
+from django.http import HttpResponse
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.exceptions import APIException
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -12,10 +13,14 @@ from reports.serializers import (
     JreportesObjetivosValoresSerializer,
     VprinciplesbyreportsSerializer
 )
+from reports.utils.helper import create_report
 from users.utils.helper import BaseViewSet, CustomPagination, BaseListView, BaseRetrieveView, get_query_by_id
 
 
 # Reports API endpoints
+
+# TODO It is asumed that only one user will create a report at the time. It id needed a validation for create
+#  reports from differents users at the time
 
 class JreportesViewSet(BaseViewSet):
     serializer_class = JreportesSerializer
@@ -161,4 +166,11 @@ class VprinciplesbyreportsView(ListAPIView):
     def get_queryset(self):
         idreporte = self.request.query_params.get("idreporte")
         return get_query_by_id("idreporte", idreporte, Vprinciplesbyreports)
+
+
+# Endpoint for create a Word document
+
+class GenerateReport(GenericAPIView):
+    def get(self, request, *args, **kwargs):
+        return create_report()
 
