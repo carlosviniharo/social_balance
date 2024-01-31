@@ -155,7 +155,10 @@ INSERT INTO public.jpaginas (codigopagina,descripcionpagina,status) VALUES
 	 ('corporation','Admin->Corporacion: Acceso al modulo de Corporacion',true),
 	 ('privileges','Admin->Roles y Privilegios: Acceso a generar roles y otorgar Provilegios en el sistema',true),
 	 ('department','Admin->Departamentos: Acceso al modulo de departamentos',true),
-	 ('person','Admin->Personas: Acceso al modulo de Personas',true);
+	 ('person','Admin->Personas: Acceso al modulo de Personas',true),
+	 ('report','Admin->Reporte: Acceso al modulo de Reporte',true),
+     ('branch','Admin->Sucursales: Acceso al modulo de Sucursales',true),
+     ('gender','Admin->Género: Acceso al modulo de Género',true);
 
 /*usuarios*/
 INSERT INTO

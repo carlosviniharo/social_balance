@@ -26,14 +26,14 @@ class JreportesViewSet(BaseViewSet):
         serialized_report = self.get_serializer(data=request.data)
         serialized_report.is_valid(raise_exception=True)
         report = serialized_report.validated_data
-        local_time = timezone.localtime(timezone.now())
-        report["titulo"] += f" {str(local_time.strftime('%Y-%m-%d %H:%M:%S'))}"
+        # local_time = timezone.localtime(timezone.now())
+        # report["titulo"] += f" {str(local_time.strftime('%Y-%m-%d %H:%M:%S'))}"
 
         with transaction.atomic():
             new_report, created = Jreportes.objects.get_or_create(**report)
             (Jreportes.objects
              .filter(status=True)
-             .exclude(idreporte=new_report.idreporte)
+             .exclude(idreporte=new_report.idreporte, autor=new_report.autor)
              .update(status=False))
 
         response_report = self.get_serializer(new_report)

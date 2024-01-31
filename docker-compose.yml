@@ -31,5 +31,19 @@ services:
       - '${PORT}:5432' #Localport:Dockerport
     container_name: postgres_db
 
+  db_test:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${PASSWORD_DB}
+      POSTGRES_USER: ${USER}
+      POSTGRES_DB: ${NAME}
+    volumes:
+      - ./postgres-data_test:/var/lib/postgresql/data
+    ports:
+      - '5433:5432' #Localport:Dockerport
+    container_name: postgres_db_test
+
 volumes:
   postgres-data:
+  postgres-data_test:

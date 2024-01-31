@@ -11,8 +11,8 @@ types_reports = [("Annual", "Annual"), ("Biannual", "Biannual"), ("Monthly", "Mo
 class Jreportes(models.Model):
 
     idreporte = models.AutoField(primary_key=True)
-    titulo = models.CharField(max_length=250, unique=True)
-    categoria = models.CharField(max_length=250, choices=[value for value in types_reports])
+    titulo = models.CharField(max_length=250, unique=True, null=True)
+    categoria = models.CharField(max_length=250, choices=[value for value in types_reports], default="Annual")
     autor = models.ForeignKey(
         Jusuarios,
         models.DO_NOTHING,
