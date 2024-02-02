@@ -1087,6 +1087,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
 
 
 --view vusers
+
 CREATE VIEW vusers AS
  SELECT
     users.idusuario,
@@ -1188,15 +1189,16 @@ FROM
 
 CREATE VIEW vdepartments AS
  SELECT dep.iddepartamento,
-    suc.idgeografia,
-    geo.nombre AS belong_name,
-    suc.idcorporacion,
-    corp.nombrecorporacion,
     dep.idsucursal,
     suc.nombresucursal,
     dep.codigodepartamento,
     dep.nombredepartamento,
     dep.status,
+    dep.descripciondepartamento,
+    suc.idgeografia,
+    geo.nombre AS belong_name,
+    suc.idcorporacion,
+    corp.nombrecorporacion,
     dep.fechacreacion,
     dep.fechamodificacion,
     dep.ipcreacion
@@ -1244,6 +1246,7 @@ SELECT priv.idprivilegio,
      LEFT JOIN jpaginas page ON page.idpagina = priv.idpagina;
 
 -- vindicators
+
 CREATE OR REPLACE VIEW public.vindicators
 AS SELECT ind.idindicador,
     ind.codigoindicador,
@@ -1289,6 +1292,7 @@ AS SELECT ind.idindicador,
      LEFT JOIN jreportes rep ON rep.status = true;
 
 -- vobjectivesvalues
+
 CREATE OR REPLACE VIEW public.vobjectivesvalues
 AS SELECT objval.idobjetivevalue,
     objval.idobjectivo,
@@ -1334,6 +1338,7 @@ AS SELECT objval.idobjetivevalue,
      LEFT JOIN jusuarios users ON users.idusuario = objval.idusuario;
 
 -- vprinciplesbyreports
+
 CREATE OR REPLACE VIEW public.vprinciplesbyreports
 AS SELECT rep.idreporte,
     rep.titulo,
