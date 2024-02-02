@@ -9,10 +9,17 @@ current_directory = os.getcwd()
 url = os.path.join(current_directory, "reports", "templates", "docx", "socialBalanceTemplate.docx")
 
 
-def create_report():
+def create_report(principles_dict):
     # Create a Word document
     doc_social_balance = DocxTemplate(url)
-    context_example = {"Author": "Carlos"}
+    principles_maped = [
+        (principle["codigoprincipio"], principle["descripcionprincipio"])
+        for principle in principles_dict
+    ]
+
+    context_example = {"Author": "Carlos",
+                       "principles": principles_maped
+                       }
     doc_social_balance.render(context_example)
 
     # Save the document to a BytesIO buffer

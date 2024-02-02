@@ -13,6 +13,7 @@ from reports.serializers import (
     JreportesObjetivosValoresSerializer,
     VprinciplesbyreportsSerializer
 )
+from principles.models import JobjetivosValores
 from reports.utils.helper import create_report
 from users.utils.helper import BaseViewSet, CustomPagination, BaseListView, BaseRetrieveView, get_query_by_id
 
@@ -171,6 +172,12 @@ class VprinciplesbyreportsView(ListAPIView):
 # Endpoint for create a Word document
 
 class GenerateReport(GenericAPIView):
-    def get(self, request, *args, **kwargs):
-        return create_report()
+    serializer_class = VprinciplesbyreportsSerializer
 
+    def get(self, request, *args, **kwargs):
+        idreporte = self.request.query_params.get("idreporte")
+        principles_object_list = Vprinciplesbyreports.objects.filter(idreporte=idreporte)
+        report_object = Jreportes.objects.prefetch_related('objetivosvalores__idobjectivo').get(idreporte=idreporte)
+        list_obj_indicators = report_object.objetivosvalores.all()
+        principles_dic_list = self.get_serializer(principles_object_list, many=True).data
+        return create_report(principles_dic_list)
