@@ -1,29 +1,39 @@
 import os
+from concurrent.futures import ThreadPoolExecutor
 from io import BytesIO
 
 from django.http import HttpResponse
-from docxtpl import DocxTemplate
-
+from docx.shared import Mm
+from docxtpl import DocxTemplate, InlineImage
+import requests
+from rest_framework.exceptions import APIException
 
 current_directory = os.getcwd()
 url = os.path.join(current_directory, "reports", "templates", "docx", "socialBalanceTemplate.docx")
 
 
 def create_report(principles_dict_list, objects_reports_dic_list):
-    report_docx_dic = {principles_dic["descripcionprincipio"]: [{"codigoprincipio": principles_dic["codigoprincipio"]}]
-                       for principles_dic in principles_dict_list}
-    for objects_reports_dic in objects_reports_dic_list:
-        if objects_reports_dic.get("cumplimiento") is not None:
-            if report_docx_dic.get(objects_reports_dic.get("descripcionprincipio")):
-                report_docx_dic[objects_reports_dic["descripcionprincipio"]].append(objects_reports_dic)
 
-    # Create a Word document
     doc_social_balance = DocxTemplate(url)
+    report_docx_dic = {principles_dic["descripcionprincipio"]: {"code": principles_dic["codigoprincipio"],
+                                                                "objects": []}
+                       for principles_dic in principles_dict_list}
 
-    context_example = {"Author": "Carlos",
-                       "data": report_docx_dic
-                       }
-    doc_social_balance.render(context_example)
+    def process_objects(objects_reports_dic):
+        if objects_reports_dic.get("cumplimiento") is not None:
+            principle_key = objects_reports_dic["descripcionprincipio"]
+            if principle_key in report_docx_dic:
+                report_docx_dic[principle_key]["objects"].append(objects_reports_dic)
+                retrieve_image_aws(doc_social_balance, objects_reports_dic)
+
+    with ThreadPoolExecutor() as executor:
+        executor.map(process_objects, objects_reports_dic_list)
+
+    context = {"Author": "Carlos",
+               "data": report_docx_dic
+               }
+
+    doc_social_balance.render(context)
 
     # Save the document to a BytesIO buffer
     buffer = BytesIO()
@@ -40,3 +50,24 @@ def create_report(principles_dict_list, objects_reports_dic_list):
     buffer.close()
 
     return response
+
+
+def retrieve_image_aws(template, dict_indicators):
+    s3_url = dict_indicators.get("graficocontenido")
+
+    if s3_url:
+        response = requests.get(s3_url)
+
+        if response.status_code == 200:
+            imagen = InlineImage(
+                template,
+                image_descriptor=BytesIO(response.content),
+                width=Mm(150),
+                height=Mm(75)
+            )
+        else:
+            raise APIException(f"Failed to retrieve the image from S3. Status code: {response.status_code}")
+
+        dict_indicators["graficocontenido"] = imagen
+
+    return None
