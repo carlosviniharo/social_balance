@@ -3,7 +3,13 @@ from django.db import models
 
 from users.models import Jusuarios
 
-types_operators = [("greater_than", "greater_than"), ("less_than", "less_than")]
+types_operators = [
+    ("greater_than", "greater_than"),
+    ("equal_greater_than", "equal_greater_than"),
+    ("equal", "equal"),
+    ("equal_less_than", "equal_less_than"),
+    ("less_than", "less_than")
+]
 
 
 class Jindicadores(models.Model):
@@ -266,4 +272,3 @@ class Vobjectivesvalues(models.Model):
         db_table = 'vobjectivesvalues'
 
     objects = models.Manager()
-
