@@ -248,6 +248,7 @@ class Vobjectivesvalues(models.Model):
     graficocontenido = models.TextField()
     is_complete = models.BooleanField()
     operacion = models.CharField()
+    relacionproporcion = models.CharField()
     idindicador = models.IntegerField()
     codigoindicador = models.CharField()
     descripcionindicador = models.CharField()

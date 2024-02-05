@@ -1294,7 +1294,7 @@ AS SELECT ind.idindicador,
 -- vobjectivesvalues
 
 CREATE OR REPLACE VIEW public.vobjectivesvalues
-AS SELECT objval.idobjetivevalue,
+AS  SELECT objval.idobjetivevalue,
     objval.idobjectivo,
     obj.meta,
     obj.logica,
@@ -1315,6 +1315,7 @@ AS SELECT objval.idobjetivevalue,
     objval.graficocontenido,
     objval.is_complete,
     ind.operacion,
+	ind.relacionproporcion,
     ind.idindicador,
     ind.codigoindicador,
     ind.descripcionindicador,
