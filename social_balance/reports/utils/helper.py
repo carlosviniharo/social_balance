@@ -9,16 +9,19 @@ current_directory = os.getcwd()
 url = os.path.join(current_directory, "reports", "templates", "docx", "socialBalanceTemplate.docx")
 
 
-def create_report(principles_dict):
+def create_report(principles_dict_list, objects_reports_dic_list):
+    report_docx_dic = {principles_dic["descripcionprincipio"]: [{"codigoprincipio": principles_dic["codigoprincipio"]}]
+                       for principles_dic in principles_dict_list}
+    for objects_reports_dic in objects_reports_dic_list:
+        if objects_reports_dic.get("cumplimiento") is not None:
+            if report_docx_dic.get(objects_reports_dic.get("descripcionprincipio")):
+                report_docx_dic[objects_reports_dic["descripcionprincipio"]].append(objects_reports_dic)
+
     # Create a Word document
     doc_social_balance = DocxTemplate(url)
-    principles_maped = [
-        (principle["codigoprincipio"], principle["descripcionprincipio"])
-        for principle in principles_dict
-    ]
 
     context_example = {"Author": "Carlos",
-                       "principles": principles_maped
+                       "data": report_docx_dic
                        }
     doc_social_balance.render(context_example)
 

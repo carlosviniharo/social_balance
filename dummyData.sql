@@ -1357,3 +1357,44 @@ AS SELECT rep.idreporte,
     rep.fechamodificacion
    FROM jprincipios prin
      LEFT JOIN jreportes rep ON (prin.codigoprincipio::text = ANY (rep.principiosincluidos::text[])) OR prin.status = true;
+
+-- vreports
+
+  CREATE OR REPLACE VIEW public.vreports
+  AS SELECT rep.idreporte,
+    rep.titulo,
+    rep.autor,
+    (u.first_name::text || ' '::text) || u.last_name::text AS fullname,
+    rep.principiosincluidos,
+    objval.idobjectivo,
+    obj.meta,
+    objval.idnumerador,
+    val_n.descripcionvalores AS descripcion_numerador,
+    val_n.valor AS valor_numerador,
+    objval.iddenominador,
+    val_d.descripcionvalores AS descripcion_denominador,
+    val_d.valor AS valor_denominador,
+    objval.resultado[1] AS resultado_indicador,
+    objval.cumplimiento,
+    objval.commentario,
+    objval.graficotipo,
+    objval.graficocontenido,
+    ind.operacion,
+    ind.idindicador,
+    ind.codigoindicador,
+    ind.descripcionindicador,
+    prin.idprincipio,
+    prin.codigoprincipio,
+    prin.descripcionprincipio
+   FROM jreportes rep
+     LEFT JOIN jusuarios u ON u.idusuario = rep.autor
+     LEFT JOIN jreportesobjetivosvalores repobjval ON repobjval.idreporte = rep.idreporte
+     LEFT JOIN jobjetivosvalores objval ON objval.idobjetivevalue = repobjval.idobjetivevalue
+     LEFT JOIN jobjetivos obj ON obj.idobjectivo = objval.idobjectivo
+     LEFT JOIN jindicadores ind ON ind.idindicador = obj.idindicador
+     LEFT JOIN jprinciossubdivisiones linsub ON linsub.idprinciosubdivision = ind.idprinciosubdivision
+     LEFT JOIN jprinciossubdivisiones carasub ON carasub.idprinciosubdivision = linsub.fkidprinciosubdivision
+     LEFT JOIN jprinciossubdivisiones clasub ON clasub.idprinciosubdivision = carasub.fkidprinciosubdivision
+     LEFT JOIN jprincipios prin ON prin.idprincipio = clasub.idprincipio
+     LEFT JOIN jvalores val_n ON val_n.idvalores = objval.idnumerador
+     LEFT JOIN jvalores val_d ON val_d.idvalores = objval.iddenominador;

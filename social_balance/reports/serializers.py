@@ -1,6 +1,11 @@
 from rest_framework import serializers
 
-from reports.models import Jreportes, JreportesObjetivosValores, Vprinciplesbyreports
+from reports.models import (
+    Jreportes,
+    JreportesObjetivosValores,
+    Vprinciplesbyreports,
+    Vreports
+)
 from users.serializers import model_serializers
 
 
@@ -15,6 +20,12 @@ class JreportesObjetivosValoresSerializer(serializers.ModelSerializer):
 
 
 # Serializers of the database views
+
 @model_serializers(Vprinciplesbyreports)
 class VprinciplesbyreportsSerializer(serializers.ModelSerializer):
+    pass
+
+
+@model_serializers(Vreports)
+class VreportsSerializer(serializers.ModelSerializer):
     pass
