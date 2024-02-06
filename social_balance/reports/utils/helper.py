@@ -24,7 +24,10 @@ def create_report(principles_dict_list, objects_reports_dic_list):
             principle_key = objects_reports_dic["descripcionprincipio"]
             if principle_key in report_docx_dic:
                 report_docx_dic[principle_key]["objects"].append(objects_reports_dic)
-                retrieve_image_aws(doc_social_balance, objects_reports_dic)
+                if objects_reports_dic.get("graficotipo"):
+                    retrieve_image_aws(doc_social_balance, objects_reports_dic)
+                else:
+                    objects_reports_dic["table"] = True
 
     with ThreadPoolExecutor() as executor:
         executor.map(process_objects, objects_reports_dic_list)
@@ -53,21 +56,20 @@ def create_report(principles_dict_list, objects_reports_dic_list):
 
 
 def retrieve_image_aws(template, dict_indicators):
+
     s3_url = dict_indicators.get("graficocontenido")
+    response = requests.get(s3_url)
 
-    if s3_url:
-        response = requests.get(s3_url)
+    if response.status_code == 200:
+        imagen = InlineImage(
+            template,
+            image_descriptor=BytesIO(response.content),
+            width=Mm(150),
+            height=Mm(75)
+        )
+    else:
+        raise APIException(f"Failed to retrieve the image from S3. Status code: {response.status_code}")
 
-        if response.status_code == 200:
-            imagen = InlineImage(
-                template,
-                image_descriptor=BytesIO(response.content),
-                width=Mm(150),
-                height=Mm(75)
-            )
-        else:
-            raise APIException(f"Failed to retrieve the image from S3. Status code: {response.status_code}")
+    dict_indicators["graficocontenido"] = imagen
 
-        dict_indicators["graficocontenido"] = imagen
-
-    return None
+    dict_indicators["table"] = False

@@ -177,6 +177,8 @@ class GenerateReport(GenericAPIView):
     def get(self, request, *args, **kwargs):
 
         idreporte = self.request.query_params.get("idreporte")
+        if not idreporte:
+            raise APIException("idreporte was not provided")
 
         principles_object_list = Vprinciplesbyreports.objects.filter(idreporte=idreporte)
         principles_dic_list = self.get_serializer(principles_object_list, many=True).data
