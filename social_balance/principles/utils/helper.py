@@ -2,6 +2,8 @@ import re
 
 from rest_framework.exceptions import APIException
 
+from principles.models import Jindicadores, Vindicators
+
 LOGIC_OPERATORS = {
     "greater_than": lambda x, y: x > y,
     "equal_greater_than": lambda x, y: x >= y,
@@ -128,3 +130,8 @@ class ResultAccomplishmentCalculator:
         self.dict_object_value["resultado"] = self.result
         return self.dict_object_value
 
+
+def get_units(object_dic):
+    idindicator = object_dic.get("idindicador").idindicador
+    vindicator_obj = Vindicators.objects.get(idindicador=idindicator)
+    object_dic["unidades"] = vindicator_obj.units_result

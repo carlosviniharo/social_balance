@@ -26,7 +26,9 @@ class Jindicadores(models.Model):
     operacion = models.CharField()
     relacionproporcion = models.CharField(null=True)
     variables = ArrayField(models.CharField(max_length=255), blank=True, null=True)
+    variablesunidades = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     variablesgrafico = ArrayField(models.CharField(max_length=255), blank=True, null=True)
+    variablesgraficounidades = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     status = models.BooleanField(default=True)
     fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
     fechamodificacion = models.DateTimeField(auto_now=True, null=True)
@@ -53,6 +55,7 @@ class Jobjetivos(models.Model):
         null=True,
     )
     meta = models.CharField()
+    unidades = models.CharField(blank=True, null=True)
     logica = models.CharField(
         max_length=250,
         choices=[value for value in types_operators],
@@ -99,7 +102,6 @@ class JobjetivosValores(models.Model):
         models.DO_NOTHING,
         db_column="idusuario",
     )
-    unidad_resultado = models.CharField(blank=True, null=True)
     resultado = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     cumplimiento = models.BooleanField(null=True)
     commentario = models.TextField(blank=True)
@@ -205,6 +207,7 @@ class Vindicators(models.Model):
     valor_numerador = models.CharField(max_length=255)
     status = models.BooleanField()
     idobjectivo = models.IntegerField()
+    units_result = models.CharField()
     meta = models.CharField()
     logica = models.CharField()
     objetivo_validezinicio = models.DateTimeField()

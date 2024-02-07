@@ -64,8 +64,8 @@ def retrieve_image_aws(template, dict_indicators):
         imagen = InlineImage(
             template,
             image_descriptor=BytesIO(response.content),
-            width=Mm(150),
-            height=Mm(75)
+            width=Mm(130),
+            height=Mm(65)
         )
     else:
         raise APIException(f"Failed to retrieve the image from S3. Status code: {response.status_code}")
