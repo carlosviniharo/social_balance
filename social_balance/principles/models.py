@@ -99,6 +99,7 @@ class JobjetivosValores(models.Model):
         models.DO_NOTHING,
         db_column="idusuario",
     )
+    unidad_resultado = models.CharField(blank=True, null=True)
     resultado = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     cumplimiento = models.BooleanField(null=True)
     commentario = models.TextField(blank=True)
@@ -174,7 +175,8 @@ class Jvalores(models.Model):
     idvalores = models.AutoField(primary_key=True)
     descripcionvalores = models.CharField(max_length=500)
     tipovalor = models.CharField(max_length=250)
-    valor = models.CharField()
+    unidades = models.CharField(blank=True, null=True)
+    valor = models.CharField(max_length=250)
     status = models.BooleanField(default=True)
     validezinicio = models.DateTimeField(auto_now_add=True, null=True)
     validezfin = models.DateTimeField(null=True)

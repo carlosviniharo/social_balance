@@ -527,7 +527,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  'División',
  'Porcentaje',
  ARRAY['Número de personas menores de 18 años que disponen a una o más cuentas al corte', 'Número total de socios al corte'],
- ARRAY[]::text[], true, 36),
+ ARRAY['Número de personas mayores de 18 años que disponen a una o más cuentas al corte', 'Porcentaje de adultos con cuentas de ahorro'], true, 36),
 
  ('P201', 'Porcentaje de socios o representantes que asisten a Asambleas Generales', 'División', 'Porcentaje',
  ARRAY['Número de socios o representantes asistentes en el año', 'Número de socios o representantes al corte'],
@@ -574,7 +574,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  ARRAY['Número de socios o representantes que asisten a Asambleas y no son personas vulnerables en el año', 'Porcentaje de socios o representantes asistentes a Asambleas que no pertenecen a grupos priorizados'], true, 37),
 
 
- ('P301', 'Porcentaje de capital en relación al patrimonio', 'División', 'Porcentaje',
+ ('P301', 'Porcentaje de capital en relación al patrimonio', 'División', 'Promedio_Procentaje',
  ARRAY['Saldo elemento 31', 'Saldo grupo 3'],
  ARRAY['Capital sin relación al patrimonio', 'Porcentaje de capital sin relación al patrimonio'], true, 38),
 
