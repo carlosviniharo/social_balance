@@ -1726,19 +1726,20 @@ AS SELECT
     ind.variables,
     val_d.idvalores AS idvalor_denominador,
     val_d.valor AS valor_denominador,
+    ind.variablesunidades[1] AS unidades_denominador,
     val_n.idvalores AS idvalor_numerador,
     val_n.valor AS valor_numerador,
+    ind.variablesunidades[0] AS unidades_numerador,
     ind.status,
     obj.idobjectivo,
     CASE
         WHEN array_length(ind.variablesunidades, 1) = 2 THEN
-            CASE WHEN ind.variablesunidades[1] = ind.variablesunidades[2] THEN 'porcentaje'
-                 ELSE ind.variablesunidades[1] || '/' || ind.variablesunidades[2]
+            CASE
+                WHEN ind.variablesunidades[1]::text = ind.variablesunidades[2]::text THEN 'porcentaje'::text
+                ELSE (ind.variablesunidades[1]::text || '/'::text) || ind.variablesunidades[2]::text
             END
-        WHEN array_length(ind.variablesunidades, 1) = 1 THEN
-            ind.variablesunidades[1]
-        ELSE
-            NULL -- Handle other cases if needed
+        WHEN array_length(ind.variablesunidades, 1) = 1 THEN ind.variablesunidades[1]::text
+        ELSE NULL::text
     END AS units_result,
     obj.meta,
     obj.logica,
