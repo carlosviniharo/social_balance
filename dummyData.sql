@@ -1424,8 +1424,8 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  true, 53),
 
  ('P705', 'Exhibición de la información relacionada a productos y servicios en paneles de la entidad', 'Selección', NULL,
- ARRAY['Número de cuentas básicas aperturadas en el año'],
- ARRAY['cuentas'],
+ ARRAY['Seleccione la frecuencia de actualización de la información'],
+ ARRAY['frecuencia'],
  ARRAY[]::text[],
  ARRAY[]::text[], true, 53),
 
