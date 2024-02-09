@@ -169,6 +169,16 @@ class VprinciplesbyreportsView(ListAPIView):
         return get_query_by_id("idreporte", idreporte, Vprinciplesbyreports)
 
 
+class JreportesbyusersView(ListAPIView):
+    serializer_class = JreportesSerializer
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        iduser = self.request.query_params.get("iduser")
+        return get_query_by_id("autor", iduser, Jreportes)
+
+
 # Endpoint for create a Word document
 
 class GenerateReport(GenericAPIView):

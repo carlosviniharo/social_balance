@@ -68,7 +68,7 @@ def retrieve_image_aws(template, dict_indicators):
         imagen = InlineImage(
             template,
             image_descriptor=BytesIO(response.content),
-            width=Mm(130),
+            # width=Mm(130),
             height=Mm(65)
         )
     else:

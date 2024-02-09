@@ -21,7 +21,7 @@ class Jindicadores(models.Model):
         blank=True,
         null=True,
     )
-    codigoindicador = models.CharField(max_length=4)
+    codigoindicador = models.CharField(max_length=10)
     descripcionindicador = models.CharField(max_length=500)
     operacion = models.CharField()
     relacionproporcion = models.CharField(null=True)
