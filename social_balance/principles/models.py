@@ -3,7 +3,13 @@ from django.db import models
 
 from users.models import Jusuarios
 
-types_operators = [("greater_than", "greater_than"), ("less_than", "less_than")]
+types_operators = [
+    ("greater_than", "greater_than"),
+    ("equal_greater_than", "equal_greater_than"),
+    ("equal", "equal"),
+    ("equal_less_than", "equal_less_than"),
+    ("less_than", "less_than")
+]
 
 
 class Jindicadores(models.Model):
@@ -20,7 +26,9 @@ class Jindicadores(models.Model):
     operacion = models.CharField()
     relacionproporcion = models.CharField(null=True)
     variables = ArrayField(models.CharField(max_length=255), blank=True, null=True)
+    variablesunidades = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     variablesgrafico = ArrayField(models.CharField(max_length=255), blank=True, null=True)
+    variablesgraficounidades = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     status = models.BooleanField(default=True)
     fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
     fechamodificacion = models.DateTimeField(auto_now=True, null=True)
@@ -47,6 +55,7 @@ class Jobjetivos(models.Model):
         null=True,
     )
     meta = models.CharField()
+    unidades = models.CharField(blank=True, null=True)
     logica = models.CharField(
         max_length=250,
         choices=[value for value in types_operators],
@@ -168,7 +177,8 @@ class Jvalores(models.Model):
     idvalores = models.AutoField(primary_key=True)
     descripcionvalores = models.CharField(max_length=500)
     tipovalor = models.CharField(max_length=250)
-    valor = models.CharField()
+    unidades = models.CharField(blank=True, null=True)
+    valor = models.CharField(max_length=250)
     status = models.BooleanField(default=True)
     validezinicio = models.DateTimeField(auto_now_add=True, null=True)
     validezfin = models.DateTimeField(null=True)
@@ -193,10 +203,13 @@ class Vindicators(models.Model):
     variables = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     idvalor_denominador = models.IntegerField()
     valor_denominador = models.CharField(max_length=255)
+    unidades_denominador = models.CharField()
     idvalor_numerador = models.IntegerField()
     valor_numerador = models.CharField(max_length=255)
+    unidades_numerador = models.CharField()
     status = models.BooleanField()
     idobjectivo = models.IntegerField()
+    units_result = models.CharField()
     meta = models.CharField()
     logica = models.CharField()
     objetivo_validezinicio = models.DateTimeField()
@@ -233,13 +246,16 @@ class Vobjectivesvalues(models.Model):
     logica = models.CharField()
     idnumerador = models.IntegerField()
     descripcion_numerador = models.CharField(max_length=255)
+    unidades_numerador = models.CharField(max_length=255)
     valor_numerador = models.CharField()
     iddenominador = models.IntegerField()
     descripcion_denominador = models.CharField(max_length=255)
+    unidades_denominador = models.CharField()
     valor_denominador = models.CharField()
     idusuario = models.IntegerField()
     fullname = models.CharField(max_length=255)
     resultado_indicador = models.CharField()
+    unidades_indicador = models.CharField()
     variablesgrafico = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     resultado_grafico = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     cumplimiento = models.BooleanField(max_length=255)
@@ -248,6 +264,7 @@ class Vobjectivesvalues(models.Model):
     graficocontenido = models.TextField()
     is_complete = models.BooleanField()
     operacion = models.CharField()
+    relacionproporcion = models.CharField()
     idindicador = models.IntegerField()
     codigoindicador = models.CharField()
     descripcionindicador = models.CharField()
@@ -265,4 +282,3 @@ class Vobjectivesvalues(models.Model):
         db_table = 'vobjectivesvalues'
 
     objects = models.Manager()
-

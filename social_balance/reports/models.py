@@ -80,3 +80,37 @@ class Vprinciplesbyreports(models.Model):
         db_table = 'vprinciplesbyreports'
 
     objects = models.Manager()
+
+
+class Vreports(models.Model):
+    idreporte = models.IntegerField(primary_key=True)
+    titulo = models.CharField(max_length=255)
+    autor = models.CharField(max_length=255)
+    fullname = models.CharField(max_length=255)
+    principiosincluidos = ArrayField(models.CharField(max_length=255))
+    idobjectivo = models.IntegerField()
+    meta = models.CharField(max_length=255)
+    idnumerador = models.CharField()
+    descripcion_numerador = models.CharField(max_length=255)
+    valor_numerador = models.CharField()
+    iddenominador = models.CharField()
+    descripcion_denominador = models.CharField(max_length=255)
+    valor_denominador = models.CharField()
+    resultado_indicador = models.CharField(max_length=255)
+    cumplimiento = models.BooleanField()
+    commentario = models.TextField()
+    graficotipo = models.CharField(max_length=255)
+    graficocontenido = models.TextField()
+    operacion = models.CharField(max_length=255)
+    idindicador = models.IntegerField()
+    codigoindicador = models.CharField(max_length=255)
+    descripcionindicador = models.CharField(max_length=255)
+    idprincipio = models.IntegerField()
+    codigoprincipio = models.CharField(max_length=255)
+    descripcionprincipio = models.CharField(max_length=255)
+
+    class Meta:
+        managed = False
+        db_table = 'vreports'
+
+    objects = models.Manager()

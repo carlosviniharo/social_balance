@@ -7,11 +7,11 @@ from rest_framework.generics import ListAPIView, CreateAPIView, GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from reports.models import Jreportes, JreportesObjetivosValores, Vprinciplesbyreports
+from reports.models import Jreportes, JreportesObjetivosValores, Vprinciplesbyreports, Vreports
 from reports.serializers import (
     JreportesSerializer,
     JreportesObjetivosValoresSerializer,
-    VprinciplesbyreportsSerializer
+    VprinciplesbyreportsSerializer, VreportsSerializer
 )
 from principles.models import JobjetivosValores
 from reports.utils.helper import create_report
@@ -121,7 +121,7 @@ class JreportesObjetivosValoresViewSet(BaseViewSet):
 
             if type(report_object.principiosincluidos) is list:
                 if principlecode in report_object.principiosincluidos:
-                    raise APIException("You updated the registers for the principle 2")
+                    raise APIException(f"You updated the registers for {principlecode}")
                 else:
                     report_object.principiosincluidos.append(principlecode)
             else:
@@ -175,9 +175,15 @@ class GenerateReport(GenericAPIView):
     serializer_class = VprinciplesbyreportsSerializer
 
     def get(self, request, *args, **kwargs):
+
         idreporte = self.request.query_params.get("idreporte")
+        if not idreporte:
+            raise APIException("idreporte was not provided")
+
         principles_object_list = Vprinciplesbyreports.objects.filter(idreporte=idreporte)
-        report_object = Jreportes.objects.prefetch_related('objetivosvalores__idobjectivo').get(idreporte=idreporte)
-        list_obj_indicators = report_object.objetivosvalores.all()
         principles_dic_list = self.get_serializer(principles_object_list, many=True).data
-        return create_report(principles_dic_list)
+
+        object_for_report = Vreports.objects.filter(idreporte=idreporte)
+        objects_reports_dic_list = VreportsSerializer(object_for_report, many=True).data
+
+        return create_report(principles_dic_list, objects_reports_dic_list)

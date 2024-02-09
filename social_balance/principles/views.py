@@ -23,7 +23,7 @@ from .serializers import (
     VindicatorsSerializer,
     JvaloresSerializer, JobjetivosSerializer, JobjetivosValoresSerializer, VobjectivesvaluesSerializer
 )
-from .utils.helper import ResultAccomplishmentCalculator
+from .utils.helper import ResultAccomplishmentCalculator, get_units
 
 
 #  Jprincipios API endpoints
@@ -166,6 +166,7 @@ class JvaloresViewSet(BaseViewSet):
     permission_classes = (IsAuthenticated,)
 
     def create(self, request, *args, **kwargs):
+
         serialized_value = self.get_serializer(data=request.data)
         serialized_value.is_valid(raise_exception=True)
         with transaction.atomic():
@@ -221,7 +222,10 @@ class JobjetivosViewSet(BaseViewSet):
     def create(self, request, *args, **kwargs):
         serializer_objects = self.get_serializer(data=request.data)
         serializer_objects.is_valid(raise_exception=True)
-        objective, created = Jobjetivos.objects.get_or_create(**serializer_objects.validated_data)
+        object_dict = serializer_objects.validated_data
+        # Calculate the units depending on the units of the values.
+        get_units(object_dict)
+        objective, created = Jobjetivos.objects.get_or_create(**object_dict)
         response_objective = self.get_serializer(objective)
 
         if not created:
