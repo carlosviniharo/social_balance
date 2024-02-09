@@ -132,6 +132,32 @@ class JusuariosUpdateView(BaseUpdateView):
     queryset = Jusuarios.objects.all()
     permission_classes = (IsAuthenticated,)
 
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        newpassword = serializer.validated_data.pop("password", None)
+
+        if newpassword:
+            instance.set_password(newpassword)
+            instance.save()
+        self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            # If 'prefetch_related' has been applied to a queryset, we need to
+            # forcibly invalidate the prefetch cache on the instance.
+            instance._prefetched_objects_cache = {}
+
+        modified_fields = serializer.fields
+
+        return Response(
+            {
+                "message": "success",
+                "data": serializer.data
+            },
+            status=status.HTTP_200_OK
+        )
+
 
 class JusuariosDeactivateView(DestroyAPIView):
     serializer_class = JusuariosSerializer
