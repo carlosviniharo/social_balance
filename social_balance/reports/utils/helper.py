@@ -1,10 +1,13 @@
 import copy
 import os
+import shutil
+import tempfile
 from concurrent.futures import ThreadPoolExecutor
 from io import BytesIO
 
 import matplotlib
 from django.http import HttpResponse
+from django.utils import timezone
 from docx.shared import Mm
 from docxtpl import DocxTemplate, InlineImage
 import requests
@@ -24,6 +27,8 @@ def create_report(principles_dict_list, objects_reports_dic_list):
     report_docx_dic = {principles_dic["descripcionprincipio"]: {"code": principles_dic["codigoprincipio"],
                                                                 "objects": []}
                        for principles_dic in principles_dict_list}
+
+    report_name = principles_dict_list[0].get("titulo", timezone.localtime(timezone.now()))
 
     def process_objects(objects_reports_dic):
         if objects_reports_dic.get("cumplimiento") is not None:
@@ -50,19 +55,36 @@ def create_report(principles_dict_list, objects_reports_dic_list):
 
     doc_social_balance.render(context)
 
-    # Save the document to a BytesIO buffer
-    buffer = BytesIO()
-    doc_social_balance.save(buffer)
+    # # Save the document to a BytesIO buffer
+    # buffer = BytesIO()
+    # doc_social_balance.save(buffer)
+    #
+    # # Create the HttpResponse object with the appropriate content type for Word documents
+    # response = HttpResponse(
+    #     buffer.getvalue(),
+    #     content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    # )
+    # response['Content-Disposition'] = f"attachment; filename={report_name}.docx"
+    #
+    # # Close the buffer
+    # buffer.close()
+
+    # Save the document to a temporary file
+    temp_dir = tempfile.mkdtemp()
+    temp_file_path = os.path.join(temp_dir, f"{report_name}.docx")
+    doc_social_balance.save(temp_file_path)
 
     # Create the HttpResponse object with the appropriate content type for Word documents
-    response = HttpResponse(
-        buffer.getvalue(),
-        content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    )
-    response['Content-Disposition'] = 'attachment; filename=example.docx'
+    with open(temp_file_path, 'rb') as file:
+        response = HttpResponse(
+            file.read(),
+            content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        )
+        response['Content-Disposition'] = f"attachment; filename={report_name}.docx"
 
-    # Close the buffer
-    buffer.close()
+    # Clean up the temporary directory
+    shutil.rmtree(temp_dir)
+
     return response
 
 

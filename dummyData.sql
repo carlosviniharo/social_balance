@@ -1812,7 +1812,8 @@ AS SELECT
      LEFT JOIN jvalores val_d ON ind.variables[2]::text = val_d.descripcionvalores::text AND val_d.status = true
      LEFT JOIN jobjetivos obj ON obj.idindicador = ind.idindicador AND obj.status = true
      LEFT JOIN jobjetivosvalores objval ON objval.idobjectivo = obj.idobjectivo AND objval.status = true
-     LEFT JOIN jreportes rep ON rep.status = true;
+     LEFT JOIN jreportes rep ON rep.status = true
+     WHERE ind.status = true;
 
 -- vobjectivesvalues
 
@@ -1887,8 +1888,8 @@ AS SELECT rep.idreporte,
 
 -- vreports
 
-  CREATE OR REPLACE VIEW public.vreports
-  AS SELECT rep.idreporte,
+CREATE OR REPLACE VIEW public.vreports
+AS SELECT rep.idreporte,
     rep.titulo,
     rep.autor,
     (u.first_name::text || ' '::text) || u.last_name::text AS fullname,
@@ -1924,4 +1925,5 @@ AS SELECT rep.idreporte,
      LEFT JOIN jprinciossubdivisiones clasub ON clasub.idprinciosubdivision = carasub.fkidprinciosubdivision
      LEFT JOIN jprincipios prin ON prin.idprincipio = clasub.idprincipio
      LEFT JOIN jvalores val_n ON val_n.idvalores = objval.idnumerador
-     LEFT JOIN jvalores val_d ON val_d.idvalores = objval.iddenominador;
+     LEFT JOIN jvalores val_d ON val_d.idvalores = objval.iddenominador
+  WHERE objval.status = true;

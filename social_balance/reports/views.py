@@ -121,7 +121,13 @@ class JreportesObjetivosValoresViewSet(BaseViewSet):
 
             if type(report_object.principiosincluidos) is list:
                 if principlecode in report_object.principiosincluidos:
-                    raise APIException(f"You updated the registers for {principlecode}")
+                    report_object.save()
+                    Response(
+                        {
+                            "message": f"You updated the registers for {principlecode}"
+                        },
+                        status=status.HTTP_202_ACCEPTED
+                    )
                 else:
                     report_object.principiosincluidos.append(principlecode)
             else:
