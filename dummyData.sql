@@ -1327,35 +1327,35 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
 
 -- These indicator do not match the manual of the client.----------------------------------
 
- ('P619', 'Variación cartera productivo-comercial', 'División - 1', 'Porcentaje',
+ ('P619', 'Variación cartera productivo-comercial', 'División - 1', 'Porcentaje_Division',
  ARRAY['Saldo cuenta año actual 1405+1413+1421+1429+1437+1445+1453+1461+1469+1401+1406+1409+1414+1417+1422+1425+1430+1433+1438+1441+1446+1449+1454+1457+1462+1465+1470', 'Saldo cuenta año anterior 1405+1413+1421+1429+1437+1445+1453+1461+1469+1401+1406+1409+1414+1417+1422+1425+1430+1433+1438+1441+1446+1449+1454+1457+1462+1465+1470'],
  ARRAY['dolares', 'dolares'],
  ARRAY[]::text[],
  ARRAY[]::text[],
  false, 52),
 
- ('P620', 'Variación cartera consumo', 'División - 1', 'Porcentaje',
+ ('P620', 'Variación cartera consumo', 'División - 1', 'Porcentaje_Division',
  ARRAY['Saldo cuenta año actual 1402+1407+1410+1415+1418+1423+1426+1431+1434+1439+1442+1447+1450+1455+1458+1463+1466+1471', 'Saldo cuenta año anterior1402+1407+1410+1415+1418+1423+1426+1431+1434+1439+1442+1447+1450+1455+1458+1463+1466+1471'],
  ARRAY['dolares', 'dolares'],
  ARRAY[]::text[],
  ARRAY[]::text[],
  false, 52),
 
- ('P621', 'Variación cartera educativo', 'División - 1', 'Porcentaje',
+ ('P621', 'Variación cartera educativo', 'División - 1', 'Porcentaje_Division',
  ARRAY['Saldo cuenta año actual 1473+1475+1477+1479+1481+1483+1485+1487+1489', 'Saldo cuenta año anterior 1473+1475+1477+1479+1481+1483+1485+1487+1489'],
  ARRAY['dolares', 'dolares'],
  ARRAY[]::text[],
  ARRAY[]::text[],
  false, 52),
 
- ('P622', 'Variación cartera vivienda de interés público e inmobiliario', 'División - 1', 'Porcentaje',
+ ('P622', 'Variación cartera vivienda de interés público e inmobiliario', 'División - 1', 'Porcentaje_Division',
  ARRAY['Saldo cuenta año actual 1408+1416+1424+1432+1440+1448+1456+1464+1472', 'Saldo cuenta año anterior 1408+1416+1424+1432+1440+1448+1456+1464+1472'],
  ARRAY['dolares', 'dolares'],
  ARRAY[]::text[],
  ARRAY[]::text[],
  false, 52),
 
- ('P623', 'Variación cartera microcrédito', 'División - 1', 'Porcentaje',
+ ('P623', 'Variación cartera microcrédito', 'División - 1', 'Porcentaje_Division',
  ARRAY['Saldo cuenta año actual 1404+1412+1420+1428+1436+1444+1452+1460+1468', 'Saldo cuenta año anterior 1404+1412+1420+1428+1436+1444+1452+1460+1468'],
  ARRAY['dolares', 'dolares'],
  ARRAY[]::text[],
@@ -1364,7 +1364,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
 
 ---------------------------------------------------------------------------------------
 
- ('P619-P623', 'Variación cartera por tipo de crédito', 'División - 1', 'Porcentaje',
+ ('P619-P623', 'Variación cartera por tipo de crédito', 'División - 1', 'Porcentaje_Division',
  ARRAY['Saldo de cartera año 1', 'Saldo de cartera año 0'],
  ARRAY['dolares', 'dolares'],
  ARRAY[]::text[],
