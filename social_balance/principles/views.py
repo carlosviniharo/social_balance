@@ -171,6 +171,7 @@ class JvaloresViewSet(BaseViewSet):
 
         serialized_value = self.get_serializer(data=request.data)
         serialized_value.is_valid(raise_exception=True)
+        values_invalidated = 0
         with ((transaction.atomic())):
             old_value = Jvalores.objects.filter(
                 tipovalor=serialized_value.validated_data["tipovalor"],
