@@ -23,6 +23,7 @@ urlpatterns = [
     path("user/", include("users.urls")),
     path("principles/", include("principles.urls")),
     path("reports/", include("reports.urls")),
+    path("excelsync/", include("excelsync.urls")),
     path('schema/', get_schema_view()),
     path("__debug__/", include("debug_toolbar.urls")),
 ]

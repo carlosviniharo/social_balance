@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "users",
     "principles",
     "reports",
+    "excelsync",
     
 ]
 # CORS settings
