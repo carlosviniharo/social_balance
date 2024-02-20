@@ -16,7 +16,7 @@ from .utils.helper import get_public_ip_address, get_mac_address
 class Jcorporaciones(models.Model):
     idcorporacion = models.AutoField(primary_key=True)
     idgeografia = models.ForeignKey(
-        "Jgeografia", models.DO_NOTHING, db_column="idgeografia", blank=True, null=True
+        "Jgeografia", models.DO_NOTHING, db_column="idgeografia", blank=True
     )
     nombrecorporacion = models.CharField(max_length=200)
     descripcioncorporacion = models.CharField(max_length=500, blank=True, null=True)
@@ -84,8 +84,7 @@ class Jgeneros(models.Model):
 class Jgeografia(models.Model):
     idgeografia = models.AutoField(primary_key=True)
     fkidgeografia = models.ForeignKey(
-        "self", models.DO_NOTHING, db_column="fkidgeografia", blank=True, null=True
-    )
+        "self", models.DO_NOTHING, db_column="fkidgeografia", blank=True, null=True)
     codigogeografia = models.CharField(max_length=2, blank=True, null=True, unique=True)
     nombre = models.CharField(max_length=100)
     nivel = models.BigIntegerField()
