@@ -159,7 +159,7 @@ INSERT INTO public.jpaginas (codigopagina,descripcionpagina,status) VALUES
 	 ('report','Admin->Reporte: Acceso al modulo de Reporte',true),
      ('branch','Admin->Sucursales: Acceso al modulo de Sucursales',true),
      ('gender','Admin->Género: Acceso al modulo de Género',true),
-     ('history','Admin->Reporte: Acceso al modulo de Historial de Reportes',true),
+     ('history','Admin->History: Acceso al modulo de Historial de Reportes',true);
 
 /*usuarios*/
 INSERT INTO
@@ -726,14 +726,14 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  true, 38),
 
  ('P309', 'Porcentaje de fondeo proveniente de socios en relación al total de fondeo', 'División', 'Porcentaje',
- ARRAY['Saldo grupo 21', 'Saldo grupos 21 + 26'],
+ ARRAY['Valor de fondeo provenientes de socios (cta. 21)', 'Total de fondeo (cta. 21+cta.26)'],
  ARRAY['dolares', 'dolares'],
  ARRAY['Valor de fondeo provenientes de socios sin relación al total de fondeo','Porcentaje de fondeo proveniente de socios sin relación al total de fondeo'],
  ARRAY['dolares', 'porcentaje'],
  true, 38),
 
  ('P310', 'Porcentaje de pasivos en relación al patrimonio', 'División', 'Porcentaje',
- ARRAY['Saldo elemento 2', 'Saldo elemento 3'],
+ ARRAY['Valor de pasivo (cta.2) ', 'Valor de patrimonio (cta. 3)'],
  ARRAY['dolares', 'dolares'],
  ARRAY['Valor de activos en relación al patrimonio','Porcentaje de activos en relación al patrimonio'],
  ARRAY['dolares', 'porcentaje'],
