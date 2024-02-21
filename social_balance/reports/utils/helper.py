@@ -2,6 +2,7 @@ import copy
 import os
 import shutil
 import tempfile
+import threading
 from concurrent.futures import ThreadPoolExecutor
 from io import BytesIO
 
@@ -20,6 +21,11 @@ from reports.utils.radarchart import radar_factory
 current_directory = os.getcwd()
 url = os.path.join(current_directory, "reports", "templates", "docx", "socialBalanceTemplate.docx")
 
+counter_graph = 0
+counter_table = 0
+
+counter_lock = threading.Lock()
+
 
 def create_report(principles_dict_list, objects_reports_dic_list):
 
@@ -31,17 +37,41 @@ def create_report(principles_dict_list, objects_reports_dic_list):
     report_name = principles_dict_list[0].get("titulo", timezone.localtime(timezone.now()))
 
     def process_objects(objects_reports_dic):
+        global counter_graph
+        global counter_table
         if objects_reports_dic.get("cumplimiento") is not None:
             principle_key = objects_reports_dic["descripcionprincipio"]
+
             if principle_key in report_docx_dic:
                 report_docx_dic[principle_key]["objects"].append(objects_reports_dic)
-                if objects_reports_dic.get("graficotipo"):
-                    retrieve_image_aws(doc_social_balance, objects_reports_dic)
-                else:
-                    objects_reports_dic["table"] = True
 
+                with counter_lock:
+                    if objects_reports_dic.get("graficotipo"):
+                        retrieve_image_aws(doc_social_balance, objects_reports_dic)
+                        counter_graph += 1
+                        objects_reports_dic["graficocounter"] = counter_graph
+
+                    elif objects_reports_dic.get("operacion") == "Igual":
+                        counter_graph += 1
+                        objects_reports_dic["graficotipo"] = "Igual"
+                        objects_reports_dic["graficocontenido"] = objects_reports_dic.get("resultado_indicador")
+                        objects_reports_dic["table"] = False
+                        objects_reports_dic["graficocounter"] = counter_graph
+
+                    else:
+                        objects_reports_dic["table"] = True
+                        counter_table += 1
+                        objects_reports_dic["tablecounter"] = counter_table
+
+    # Execute the function process_objects in concurrency.
     with ThreadPoolExecutor() as executor:
         executor.map(process_objects, objects_reports_dic_list)
+
+    for principles, list_dic_reports in report_docx_dic.items():
+        if list_dic_reports["objects"]:
+            report_docx_dic[principles]["objects"] = (
+                sorted(list_dic_reports["objects"], key=lambda item: item["codigoindicador"])
+            )
 
     summary_dic = populate_table(objects_reports_dic_list)
 
@@ -54,20 +84,6 @@ def create_report(principles_dict_list, objects_reports_dic_list):
                }
 
     doc_social_balance.render(context)
-
-    # # Save the document to a BytesIO buffer
-    # buffer = BytesIO()
-    # doc_social_balance.save(buffer)
-    #
-    # # Create the HttpResponse object with the appropriate content type for Word documents
-    # response = HttpResponse(
-    #     buffer.getvalue(),
-    #     content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    # )
-    # response['Content-Disposition'] = f"attachment; filename={report_name}.docx"
-    #
-    # # Close the buffer
-    # buffer.close()
 
     # Save the document to a temporary file
     temp_dir = tempfile.mkdtemp()

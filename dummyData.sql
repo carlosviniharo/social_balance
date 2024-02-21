@@ -158,7 +158,8 @@ INSERT INTO public.jpaginas (codigopagina,descripcionpagina,status) VALUES
 	 ('person','Admin->Personas: Acceso al modulo de Personas',true),
 	 ('report','Admin->Reporte: Acceso al modulo de Reporte',true),
      ('branch','Admin->Sucursales: Acceso al modulo de Sucursales',true),
-     ('gender','Admin->Género: Acceso al modulo de Género',true);
+     ('gender','Admin->Género: Acceso al modulo de Género',true),
+     ('history','Admin->Reporte: Acceso al modulo de Historial de Reportes',true),
 
 /*usuarios*/
 INSERT INTO
@@ -670,28 +671,28 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
 
 
  ('P301', 'Porcentaje de capital en relación al patrimonio', 'División', 'Promedio_Procentaje',
- ARRAY['Saldo elemento 31', 'Saldo grupo 3'],
+ ARRAY['Capital social (cta. 31)', 'Patrimonio (cta.3)'],
  ARRAY['dolares', 'dolares'],
  ARRAY['Capital sin relación al patrimonio', 'Porcentaje de capital sin relación al patrimonio'],
  ARRAY['dolares', 'porcentaje'],
  true, 38),
 
  ('P302', 'Reservas de cada socio', 'División', 'Promedio',
- ARRAY['Saldo elemento 33', 'Número total de socios al corte'],
+ ARRAY['Reservas (cta. 33)', 'Número total de socios al corte'],
  ARRAY['dolares', 'socios'],
  ARRAY[]::text[],
  ARRAY[]::text[],
  true, 38),
 
  ('P303', 'Capital social por socio', 'División', 'Promedio',
- ARRAY['Saldo elemento 31', 'Número total de socios al corte'],
+ ARRAY['Capital social (cta. 31)', 'Número total de socios al corte'],
  ARRAY['dolares', 'socios'],
  ARRAY[]::text[],
  ARRAY[]::text[],
  true, 38),
 
  ('P304', 'Fondo irrepartible de reserva legal por socio', 'División', 'Promedio',
- ARRAY['Saldo cuenta 3301', 'Número total de socios al corte'],
+ ARRAY['Fondo irrepartible de reserva legal (cta. 3301)', 'Número total de socios al corte'],
  ARRAY['dolares', 'socios'],
  ARRAY[]::text[],
  ARRAY[]::text[],
@@ -705,7 +706,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  true, 38),
 
  ('P306', 'Porcentaje de gastos administrativos en relación al gasto total', 'División', 'Porcentaje',
- ARRAY['Saldo elemento 45', 'Saldo grupo 4'],
+ ARRAY['Gastos administrativos (cta. 45)', 'Gastos (cta. 4)'],
  ARRAY['dolares', 'dolares'],
  ARRAY['Valor de gastos administrativos sin relación al gasto total', 'Porcentaje de gastos administrativos sin relación al gasto total'],
  ARRAY['dolares', 'porcentaje'],
@@ -1270,7 +1271,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  ARRAY[]::text[], true, 51),
 
  ('P611', 'Porcentaje de gasto destinado a la EPS', 'División', 'Porcentaje',
- ARRAY['Monto del gasto por contratos con proveedores de la EPS en el año', 'Saldo elemento 45'],
+ ARRAY['Monto del gasto por contratos con proveedores de la EPS en el año', 'Gastos administrativos (cta. 45)'],
  ARRAY['dolares', 'dolares'],
  ARRAY['Monto del gasto por contratos con proveedores diferentes de la EPS en el año', 'Porcentaje destinado a contratos con proveedores diferentes de la EPS'],
  ARRAY['dolares', 'porcentaje'],
