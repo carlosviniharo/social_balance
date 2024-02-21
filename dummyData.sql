@@ -733,7 +733,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  true, 38),
 
  ('P310', 'Porcentaje de pasivos en relación al patrimonio', 'División', 'Porcentaje',
- ARRAY['Valor de pasivo (cta.2) ', 'Valor de patrimonio (cta. 3)'],
+ ARRAY['Valor de pasivo (cta.2)', 'Valor de patrimonio (cta. 3)'],
  ARRAY['dolares', 'dolares'],
  ARRAY['Valor de activos en relación al patrimonio','Porcentaje de activos en relación al patrimonio'],
  ARRAY['dolares', 'porcentaje'],

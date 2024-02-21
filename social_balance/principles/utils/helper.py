@@ -83,7 +83,7 @@ class ResultAccomplishmentCalculator:
         except (ValueError, TypeError):
             raise APIException(f"Invalid value for numerator as it musts be a number")
 
-        if numerator_value.is_integer:
+        if numerator_value.is_integer():
             self.result.append(int(numerator.valor))
         else:
             self.result.append(numerator_value)
