@@ -12,8 +12,8 @@ services:
       - ./social_balance:/var/www/html
     ports:
       - '80:80'
-#    command: >
-#      sh -c "./start-app.sh"
+    command: >
+      sh -c "chmod +x start-app.sh && ./start-app.sh"
 #    depends_on:
 #      - db
 
