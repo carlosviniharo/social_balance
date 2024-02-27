@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM ubuntu:latest
+FROM ubuntu
 
 ## Set environment variable to prevent buffering of Python's standard output
 ENV PYTHONUNBUFFERED=1
@@ -8,8 +8,8 @@ ENV PYTHONDONTWRITEBYTECODE 1
 #
 ## Update package lists and install wget
 RUN apt-get update && apt-get install -y  \
-    wget  \
     apt-utils  \
+    netcat \
     vim  \
     curl  \
     apache2  \
@@ -49,9 +49,10 @@ WORKDIR /var/www/html
 # Copy your project files
 COPY social_balance  .
 
-# Copy Apache configuration
-COPY site-config.conf /etc/apache2/sites-available/000-default.conf
+## Copy Apache configuration
+#COPY site-config.conf /etc/apache2/sites-available/000-default.conf
 
 # Expose ports and start Apache
-EXPOSE 80 3500
-CMD ["apache2ctl", "-D", "FOREGROUND"]
+EXPOSE 8000
+#EXPOSE 80 3500
+#CMD ["apache2ctl", "-D", "FOREGROUND"]

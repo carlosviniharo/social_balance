@@ -44,7 +44,7 @@ def create_report(principles_dict_list, objects_reports_dic_list):
 
                 elif objects_reports_dic.get("operacion") == "Igual":
                     objects_reports_dic["graficotipo"] = "Igual"
-                    objects_reports_dic["graficocontenido"] = objects_reports_dic["resultado_indicador "]
+                    objects_reports_dic["graficocontenido"] = objects_reports_dic["resultado_indicador"]
                     objects_reports_dic["table"] = False
 
                 else:
