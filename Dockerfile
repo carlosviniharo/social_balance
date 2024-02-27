@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM ubuntu
+FROM ubuntu:latest
 
 ## Set environment variable to prevent buffering of Python's standard output
 ENV PYTHONUNBUFFERED=1
@@ -39,6 +39,8 @@ RUN rm -rf /var/lib/apt/lists/*
 ## Upgrade pip inside the virtual environment
 #RUN pip install --upgrade pip
 ###########################################################################
+RUN pip install --upgrade pip
+
 COPY requirements.txt requirements.txt
 
 RUN pip install -r requirements.txt
