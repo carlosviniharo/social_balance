@@ -16,7 +16,7 @@ from .utils.helper import get_public_ip_address, get_mac_address
 class Jcorporaciones(models.Model):
     idcorporacion = models.AutoField(primary_key=True)
     idgeografia = models.ForeignKey(
-        "Jgeografia", models.DO_NOTHING, db_column="idgeografia", blank=True, null=True
+        "Jgeografia", models.DO_NOTHING, db_column="idgeografia", blank=True
     )
     nombrecorporacion = models.CharField(max_length=200)
     descripcioncorporacion = models.CharField(max_length=500, blank=True, null=True)
@@ -45,7 +45,7 @@ class Jdepartamentos(models.Model):
     idsucursal = models.ForeignKey(
         "Jsucursales", models.DO_NOTHING, db_column="idsucursal",
     )
-    codigodepartamento = models.CharField(max_length=2, blank=True, null=True)
+    codigodepartamento = models.CharField(max_length=2, blank=True, null=True, unique=True)
     nombredepartamento = models.CharField(max_length=200)
     status = models.BooleanField(default=True)
     descripciondepartamento = models.CharField(max_length=500, blank=True, null=True)
@@ -66,7 +66,7 @@ class Jdepartamentos(models.Model):
 
 class Jgeneros(models.Model):
     idgenero = models.AutoField(primary_key=True)
-    codigogenero = models.CharField(max_length=2, blank=True, null=True)
+    codigogenero = models.CharField(max_length=2, blank=True, null=True, unique=True)
     descripciongenero = models.CharField(max_length=50)
     status = models.BooleanField(default=True)
     fechacreacion = models.DateTimeField(auto_now_add=True, null=True)
@@ -84,9 +84,8 @@ class Jgeneros(models.Model):
 class Jgeografia(models.Model):
     idgeografia = models.AutoField(primary_key=True)
     fkidgeografia = models.ForeignKey(
-        "self", models.DO_NOTHING, db_column="fkidgeografia", blank=True, null=True
-    )
-    codigogeografia = models.CharField(max_length=2, blank=True, null=True)
+        "self", models.DO_NOTHING, db_column="fkidgeografia", blank=True, null=True)
+    codigogeografia = models.CharField(max_length=2, blank=True, null=True, unique=True)
     nombre = models.CharField(max_length=100)
     nivel = models.BigIntegerField()
     status = models.BooleanField(default=True)
@@ -140,7 +139,7 @@ class Jsucursales(models.Model):
         models.DO_NOTHING,
         db_column="idcorporacion"
     )
-    codigosucursal = models.CharField(max_length=2, blank=True, null=True)
+    codigosucursal = models.CharField(max_length=2, blank=True, null=True, unique=True)
     nombresucursal = models.CharField(max_length=200)
     descripcionsucursal = models.CharField(max_length=500, blank=True, null=True)
     direccionsucursal = models.CharField(max_length=200)
@@ -237,21 +236,6 @@ class JusuariosManager(BaseUserManager):
             raise ValueError("Superuser must have is_staff = True")
         if extra_fields.get("is_superuser") is not True:
             raise ValueError("Superuser must have is_superuser = True")
-        # if extra_fields.get("idrol") != 1:
-        #     raise ValueError("Superuser must have idrol == 1")
-
-        # idrol = extra_fields.pop("idrol", None)
-        #
-        # if idrol is None:
-        #     raise ValueError("The idrol argument is required to create a superuser.")
-        #
-        # try:
-        #     jroles_instance = Jroles.objects.get(pk=idrol)
-        #
-        # except ObjectDoesNotExist as exc:
-        #     raise ValueError(f"Invalid idrol {idrol} instance does not exist.") from exc
-        #
-        # extra_fields["idrol"] = jroles_instance
 
         return self._create_user(email, password, **extra_fields)
 

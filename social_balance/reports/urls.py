@@ -11,7 +11,8 @@ from reports.views import (
     # JreportesObjetivosValoresActiveView,
     JreportesObjetivosValoresIdView,
     VprinciplesbyreportsView,
-    GenerateReport
+    JreportesbyusersView,
+    GenerateReport,
 )
 
 router = DefaultRouter()
@@ -46,6 +47,9 @@ urlpatterns = [
     ),
     path(
         "principlesByReports/", VprinciplesbyreportsView.as_view(), name="list-principlesbyreports"
+    ),
+    path(
+        "reportsByUsers/", JreportesbyusersView.as_view(), name="list-reportsbyusers"
     ),
     # Endpoint to generates a Word Document
     path(

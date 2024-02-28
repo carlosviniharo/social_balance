@@ -1,10 +1,12 @@
 from django.db import transaction
+from django.db.models import Q, F
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from reports.models import Jreportes
 from users.utils.helper import (
     CustomPagination,
     BaseListView,
@@ -169,16 +171,43 @@ class JvaloresViewSet(BaseViewSet):
 
         serialized_value = self.get_serializer(data=request.data)
         serialized_value.is_valid(raise_exception=True)
-        with transaction.atomic():
-            new_value = Jvalores.objects.create(**serialized_value.validated_data)
-            values_invalidated = (
-                Jvalores.objects
-                .filter(
-                    descripcionvalores=serialized_value.validated_data.get("descripcionvalores"), status=True
-                )
-                .exclude(idvalores=new_value.idvalores)
-                .update(status=False, validezfin=timezone.localtime(timezone.now()))
+        values_invalidated = 0
+        with ((transaction.atomic())):
+            old_value = Jvalores.objects.filter(
+                tipovalor=serialized_value.validated_data["tipovalor"],
+                descripcionvalores=serialized_value.validated_data["descripcionvalores"],
+                status=True
             )
+            if old_value:
+
+                objectvalues_invalidator = (
+                    JobjetivosValores.objects
+                    .filter(
+                        Q(idnumerador=old_value[0].idvalores) | Q(iddenominador=old_value[0].idvalores),
+                        status=True,
+                        is_complete=True
+                    )
+                )
+
+                objectvalues_invalidator.update(status=False, is_complete=False)
+
+                principles_invalidated = [
+                    objectvalue.idobjectivo.idindicador.idprinciosubdivision.idprincipio.codigoprincipio
+                    for objectvalue in objectvalues_invalidator
+                ]
+
+                values_invalidated = (
+                    Jvalores.objects
+                    .filter(
+                        descripcionvalores=serialized_value.validated_data.get("descripcionvalores"), status=True)
+                    .update(status=False, validezfin=timezone.localtime(timezone.now()))
+                )
+
+                # Cleaning the principles completed.
+                Jreportes.objects.filter(
+                    status=True).update(principiosincluidos=[])
+
+            new_value = Jvalores.objects.create(**serialized_value.validated_data)
         value_response = self.get_serializer(new_value)
         return Response(
             {

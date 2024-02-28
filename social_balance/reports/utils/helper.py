@@ -1,14 +1,22 @@
+import copy
 import os
+import shutil
+import tempfile
+import threading
 from concurrent.futures import ThreadPoolExecutor
 from io import BytesIO
 
+import matplotlib
 from django.http import HttpResponse
+from django.utils import timezone
 from docx.shared import Mm
 from docxtpl import DocxTemplate, InlineImage
 import requests
+from matplotlib import pyplot as plt
 from rest_framework.exceptions import APIException
 
 from principles.models import Vindicators
+from reports.utils.radarchart import radar_factory
 
 current_directory = os.getcwd()
 url = os.path.join(current_directory, "reports", "templates", "docx", "socialBalanceTemplate.docx")
@@ -21,41 +29,59 @@ def create_report(principles_dict_list, objects_reports_dic_list):
                                                                 "objects": []}
                        for principles_dic in principles_dict_list}
 
+    report_name = principles_dict_list[0].get("titulo", timezone.localtime(timezone.now()))
+
     def process_objects(objects_reports_dic):
+
         if objects_reports_dic.get("cumplimiento") is not None:
             principle_key = objects_reports_dic["descripcionprincipio"]
+
             if principle_key in report_docx_dic:
                 report_docx_dic[principle_key]["objects"].append(objects_reports_dic)
+
                 if objects_reports_dic.get("graficotipo"):
                     retrieve_image_aws(doc_social_balance, objects_reports_dic)
+
+                elif objects_reports_dic.get("operacion") == "Igual":
+                    objects_reports_dic["graficotipo"] = "Igual"
+                    objects_reports_dic["graficocontenido"] = objects_reports_dic["resultado_indicador"]
+                    objects_reports_dic["table"] = False
+
                 else:
                     objects_reports_dic["table"] = True
 
+    # Execute the function process_objects in concurrency.
     with ThreadPoolExecutor() as executor:
         executor.map(process_objects, objects_reports_dic_list)
 
     summary_dic = populate_table(objects_reports_dic_list)
 
+    radar_plot = create_radar_plot(doc_social_balance, summary_dic)
+
     context = {"Author": "Carlos",
                "data_indicators": report_docx_dic,
-               "data_summary": summary_dic
+               "data_summary": summary_dic,
+               "radar_plot": radar_plot,
                }
 
     doc_social_balance.render(context)
 
-    # Save the document to a BytesIO buffer
-    buffer = BytesIO()
-    doc_social_balance.save(buffer)
+    # Save the document to a temporary file
+    temp_dir = tempfile.mkdtemp()
+    temp_file_path = os.path.join(temp_dir, f"{report_name}.docx")
+    doc_social_balance.save(temp_file_path)
 
     # Create the HttpResponse object with the appropriate content type for Word documents
-    response = HttpResponse(
-        buffer.getvalue(),
-        content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    )
-    response['Content-Disposition'] = 'attachment; filename=example.docx'
+    with open(temp_file_path, 'rb') as file:
+        response = HttpResponse(
+            file.read(),
+            content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        )
+        response['Content-Disposition'] = f"attachment; filename={report_name}.docx"
 
-    # Close the buffer
-    buffer.close()
+    # Clean up the temporary directory
+    shutil.rmtree(temp_dir)
+
     return response
 
 
@@ -68,7 +94,7 @@ def retrieve_image_aws(template, dict_indicators):
         imagen = InlineImage(
             template,
             image_descriptor=BytesIO(response.content),
-            width=Mm(130),
+            # width=Mm(130),
             height=Mm(65)
         )
     else:
@@ -146,3 +172,48 @@ def populate_table(objects_reports_dic_list):
     )
 
     return indicators_overview
+
+
+def create_radar_plot(template, dict_principles):
+
+    matplotlib.rcParams.update({'font.size': 13})
+
+    data = copy.deepcopy(dict_principles)
+    data.pop("sum_values")
+    spoke_labels = data.keys()
+    vertex_number = len(data)
+    theta = radar_factory(vertex_number, frame='polygon')
+
+    fig, ax = plt.subplots(figsize=(9, 9), subplot_kw=dict(projection='radar'))
+    fig.subplots_adjust(wspace=0.25, hspace=0.20, top=0.85, bottom=0.05)
+
+    color = '#FF8400'
+    ax.set_varlabels(spoke_labels)
+
+    flattened_data = [percentage['accomplishment_percentage'] for percentage in data.values()]
+    ax.plot(theta, flattened_data, marker='o', color=color, label="Note")
+    ax.fill(theta, flattened_data, facecolor=color, alpha=0.25, label='_nolegend_')
+
+    # Set specific labels and angles for radar grids
+    grid = [x for x in range(0, 105, 10)]
+    labels = [f"{x}%" for x in range(0, 105, 10)]
+    ax.set_rgrids(grid, labels=labels, angle=47, color='grey', size="medium")
+
+    # Annotate each point with its value
+    for angle, value in zip(theta, flattened_data):
+        ax.text(angle, value + 8, f'{value}%', ha='center', color="red", weight='bold')
+
+    fig.text(0.5, 0.965, 'Porcentaje Cumplimiento',
+             horizontalalignment='center', color='black', weight='bold',
+             size='large')
+
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_radar = InlineImage(
+                template,
+                image_descriptor=buffer,
+                width=Mm(120),
+                height=Mm(120)
+    )
+    return image_radar
