@@ -187,12 +187,12 @@ INSERT INTO
   )
 VALUES
   (
-    'Carlos',
+    'Jakaysa',
     '',
     '',
     '',
     NULL,
-    'jakay@admin.com',
+    'jakaysa@admin.com',
     NULL,
     '',
     'pbkdf2_sha256$720000$LXQHPmsvmI8EB3awC9bAhJ$6DHkSm5L2FLKtPS/fFjQEEkVRXGnxYYjLhlNXMKHrLk=',

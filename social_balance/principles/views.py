@@ -172,7 +172,7 @@ class JvaloresViewSet(BaseViewSet):
         serialized_value = self.get_serializer(data=request.data)
         serialized_value.is_valid(raise_exception=True)
         values_invalidated = 0
-        with ((transaction.atomic())):
+        with transaction.atomic():
             old_value = Jvalores.objects.filter(
                 tipovalor=serialized_value.validated_data["tipovalor"],
                 descripcionvalores=serialized_value.validated_data["descripcionvalores"],
@@ -189,12 +189,26 @@ class JvaloresViewSet(BaseViewSet):
                     )
                 )
 
-                objectvalues_invalidator.update(status=False, is_complete=False)
-
                 principles_invalidated = [
                     objectvalue.idobjectivo.idindicador.idprinciosubdivision.idprincipio.codigoprincipio
                     for objectvalue in objectvalues_invalidator
                 ]
+
+                # Cleaning the principles completed in reports.
+                list_idobjectvalues_invalidated = (
+                    [objectvalue_invalidator.idobjetivevalue for objectvalue_invalidator in objectvalues_invalidator]
+                )
+
+                reports = Jreportes.objects.filter(objetivosvalores__in=list_idobjectvalues_invalidated, status=True)
+
+                for report in reports:
+                    list_of_principles = list(
+                        filter(lambda x: x not in principles_invalidated, report.principiosincluidos)
+                    )
+                    report.principiosincluidos = list_of_principles
+                    report.save()
+
+                objectvalues_invalidator.update(status=False, is_complete=False)
 
                 values_invalidated = (
                     Jvalores.objects
@@ -202,10 +216,6 @@ class JvaloresViewSet(BaseViewSet):
                         descripcionvalores=serialized_value.validated_data.get("descripcionvalores"), status=True)
                     .update(status=False, validezfin=timezone.localtime(timezone.now()))
                 )
-
-                # Cleaning the principles completed.
-                Jreportes.objects.filter(
-                    status=True).update(principiosincluidos=[])
 
             new_value = Jvalores.objects.create(**serialized_value.validated_data)
         value_response = self.get_serializer(new_value)
