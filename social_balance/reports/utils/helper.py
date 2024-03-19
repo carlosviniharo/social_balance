@@ -54,6 +54,10 @@ def create_report(principles_dict_list, objects_reports_dic_list):
     with ThreadPoolExecutor() as executor:
         executor.map(process_objects, objects_reports_dic_list)
 
+    for principle, values in report_docx_dic.items():
+        sorted_values = sorted(values["objects"], key=lambda x: x["codigoindicador"])
+        report_docx_dic[principle]["objects"] = sorted_values
+
     summary_dic = populate_table(objects_reports_dic_list)
 
     radar_plot = create_radar_plot(doc_social_balance, summary_dic)
