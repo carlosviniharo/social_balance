@@ -322,6 +322,7 @@ class JobjetivosValoresViewSet(BaseViewSet):
         data_objval = ResultAccomplishmentCalculator(data_objval).get_result_accomplishment()
 
         with transaction.atomic():
+            data_objval.data.pop('idusuario')
             objetivosValores, created = JobjetivosValores.objects.get_or_create(**data_objval)
             serialized_objval = self.get_serializer(objetivosValores)
 

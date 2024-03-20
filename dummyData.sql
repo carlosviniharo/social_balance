@@ -146,7 +146,8 @@ Values
   (1, '04', 'Creditos', True),
   (1, '05', 'Call center', True),
   (1, '06', 'Secretaria General', True),
-  (1, '07', 'Legal interno', True);
+  (1, '07', 'Legal interno', True),
+  (1, '08','Responsabilidad Social',true);
 
 /*jpaginas */
 INSERT INTO public.jpaginas (codigopagina,descripcionpagina,status) VALUES
@@ -208,6 +209,23 @@ VALUES
     NULL,
     NULL
   );
+
+-- Jroles
+INSERT INTO
+  jroles (
+    nombrerol,
+    descripcionrol,
+    status,
+    iddepartamento
+  )
+VALUES
+  (
+   'Responsable',
+	'',
+	true,
+	9
+    );
+
  -- Jprincipios
 INSERT INTO public.jprincipios(codigoprincipio,descripcionprincipio,status) VALUES
     ('Principio 1','Adhesión libre y voluntaria', true),
