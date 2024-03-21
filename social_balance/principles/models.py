@@ -101,7 +101,6 @@ class JobjetivosValores(models.Model):
         Jusuarios,
         models.DO_NOTHING,
         db_column="idusuario",
-        null=True,
     )
     resultado = ArrayField(models.CharField(max_length=255), blank=True, null=True)
     cumplimiento = models.BooleanField(null=True)
