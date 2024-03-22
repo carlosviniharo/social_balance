@@ -163,8 +163,7 @@ INSERT INTO public.jpaginas (codigopagina,descripcionpagina,status) VALUES
      ('history','Admin->History: Acceso al modulo de Historial de Reportes',true);
 
 /*usuarios*/
-INSERT INTO
-  jusuarios (
+INSERT INTO jusuarios (
     username,
     first_name,
     last_name,
@@ -185,9 +184,7 @@ INSERT INTO
     idgenero,
     idrol,
     idtipoidentificacion
-  )
-VALUES
-  (
+) VALUES (
     'Jakaysa',
     '',
     '',
@@ -208,7 +205,13 @@ VALUES
     NULL,
     NULL,
     NULL
-  );
+);
+
+INSERT INTO public.jusuarios (username,first_name,last_name,identificacion,ipmodificacion,email,telefono,celular,direccion,"password",is_active,is_staff,is_superuser,date_joined,last_login,ipcreacion,direccionmac,fechamodificacion,idgenero,idrol,idtipoidentificacion) VALUES
+('responsabilidadsocial@pilahuintio.ec','Tamy','Tulcanazo Cabascango','1003397047',NULL,'responsabilidadsocial@pilahuintio.ec','2999040','0963639823','Otavalo','pbkdf2_sha256$720000$i34Tw69SFUGFtMIUlOMyXr$ZFILZsl7G7x6E2ML960uOjlsSds96Sih2DLfQP5lL8g=',true,true,false,'2024-02-29 17:32:27.022795-05','2024-03-21 12:01:50.914971-05','44.199.191.194','02:00:16:ac:42:02','2024-03-21 12:01:50.915299-05',2,1,1);
+
+
+
 
 -- Jroles
 INSERT INTO
@@ -220,7 +223,7 @@ INSERT INTO
   )
 VALUES
   (
-   'Responsable',
+    'Responsable',
 	'',
 	true,
 	9
