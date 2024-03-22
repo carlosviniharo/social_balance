@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.models import Q, F
 from django.utils import timezone
@@ -319,13 +320,16 @@ class JobjetivosValoresViewSet(BaseViewSet):
         objectivesvalues_serializer.is_valid(raise_exception=True)
         data_objval = objectivesvalues_serializer.validated_data
 
-        data_objval = ResultAccomplishmentCalculator(data_objval).get_result_accomplishment()
+        data_objval_accomp = ResultAccomplishmentCalculator(data_objval).get_result_accomplishment()
 
         with transaction.atomic():
-            objetivosValores, created = JobjetivosValores.objects.get_or_create(**data_objval)
-            serialized_objval = self.get_serializer(objetivosValores)
+            object_get = JobjetivosValores.objects.filter(
+                idobjectivo=data_objval_accomp['idobjectivo'],
+                status=True
+            )
 
-            if not created:
+            if object_get.exists():
+                serialized_objval = self.get_serializer(object_get, many=True)
                 # If the object already exists, handle it as a repeated record
                 return Response(
                     {
@@ -335,6 +339,9 @@ class JobjetivosValoresViewSet(BaseViewSet):
                     status=status.HTTP_409_CONFLICT
                 )
             else:
+
+                objetivosValores = JobjetivosValores.objects.create(**data_objval_accomp)
+                serialized_objval = self.get_serializer(objetivosValores)
                 idobjectivo = objetivosValores.idobjectivo
 
                 (
@@ -344,13 +351,13 @@ class JobjetivosValoresViewSet(BaseViewSet):
                     .update(status=False, fechamodificacion=timezone.localtime(timezone.now()))
                  )
 
-        return Response(
-            {
-                "message": "success",
-                "data": serialized_objval.data
-            },
-            status=status.HTTP_201_CREATED
-        )
+                return Response(
+                    {
+                        "message": "success",
+                        "data": serialized_objval.data
+                    },
+                    status=status.HTTP_201_CREATED
+                )
 
 
 # Read services for Jobjetivos

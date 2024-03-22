@@ -8,6 +8,7 @@ node_modules/
 dist/
 migrations/
 postgres-data/
+static/
 # Compiled Java class files
 *.class
 
