@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.models import Q, F
 from django.utils import timezone
@@ -172,7 +173,7 @@ class JvaloresViewSet(BaseViewSet):
         serialized_value = self.get_serializer(data=request.data)
         serialized_value.is_valid(raise_exception=True)
         values_invalidated = 0
-        with ((transaction.atomic())):
+        with transaction.atomic():
             old_value = Jvalores.objects.filter(
                 tipovalor=serialized_value.validated_data["tipovalor"],
                 descripcionvalores=serialized_value.validated_data["descripcionvalores"],
@@ -189,12 +190,26 @@ class JvaloresViewSet(BaseViewSet):
                     )
                 )
 
-                objectvalues_invalidator.update(status=False, is_complete=False)
-
                 principles_invalidated = [
                     objectvalue.idobjectivo.idindicador.idprinciosubdivision.idprincipio.codigoprincipio
                     for objectvalue in objectvalues_invalidator
                 ]
+
+                # Cleaning the principles completed in reports.
+                list_idobjectvalues_invalidated = (
+                    [objectvalue_invalidator.idobjetivevalue for objectvalue_invalidator in objectvalues_invalidator]
+                )
+
+                reports = Jreportes.objects.filter(objetivosvalores__in=list_idobjectvalues_invalidated, status=True)
+
+                for report in reports:
+                    list_of_principles = list(
+                        filter(lambda x: x not in principles_invalidated, report.principiosincluidos)
+                    )
+                    report.principiosincluidos = list_of_principles
+                    report.save()
+
+                objectvalues_invalidator.update(status=False, is_complete=False)
 
                 values_invalidated = (
                     Jvalores.objects
@@ -202,10 +217,6 @@ class JvaloresViewSet(BaseViewSet):
                         descripcionvalores=serialized_value.validated_data.get("descripcionvalores"), status=True)
                     .update(status=False, validezfin=timezone.localtime(timezone.now()))
                 )
-
-                # Cleaning the principles completed.
-                Jreportes.objects.filter(
-                    status=True).update(principiosincluidos=[])
 
             new_value = Jvalores.objects.create(**serialized_value.validated_data)
         value_response = self.get_serializer(new_value)
@@ -309,13 +320,16 @@ class JobjetivosValoresViewSet(BaseViewSet):
         objectivesvalues_serializer.is_valid(raise_exception=True)
         data_objval = objectivesvalues_serializer.validated_data
 
-        data_objval = ResultAccomplishmentCalculator(data_objval).get_result_accomplishment()
+        data_objval_accomp = ResultAccomplishmentCalculator(data_objval).get_result_accomplishment()
 
         with transaction.atomic():
-            objetivosValores, created = JobjetivosValores.objects.get_or_create(**data_objval)
-            serialized_objval = self.get_serializer(objetivosValores)
+            object_get = JobjetivosValores.objects.filter(
+                idobjectivo=data_objval_accomp['idobjectivo'],
+                status=True
+            )
 
-            if not created:
+            if object_get.exists():
+                serialized_objval = self.get_serializer(object_get, many=True)
                 # If the object already exists, handle it as a repeated record
                 return Response(
                     {
@@ -325,6 +339,9 @@ class JobjetivosValoresViewSet(BaseViewSet):
                     status=status.HTTP_409_CONFLICT
                 )
             else:
+
+                objetivosValores = JobjetivosValores.objects.create(**data_objval_accomp)
+                serialized_objval = self.get_serializer(objetivosValores)
                 idobjectivo = objetivosValores.idobjectivo
 
                 (
@@ -334,13 +351,13 @@ class JobjetivosValoresViewSet(BaseViewSet):
                     .update(status=False, fechamodificacion=timezone.localtime(timezone.now()))
                  )
 
-        return Response(
-            {
-                "message": "success",
-                "data": serialized_objval.data
-            },
-            status=status.HTTP_201_CREATED
-        )
+                return Response(
+                    {
+                        "message": "success",
+                        "data": serialized_objval.data
+                    },
+                    status=status.HTTP_201_CREATED
+                )
 
 
 # Read services for Jobjetivos

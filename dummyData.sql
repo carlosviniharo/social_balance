@@ -146,7 +146,8 @@ Values
   (1, '04', 'Creditos', True),
   (1, '05', 'Call center', True),
   (1, '06', 'Secretaria General', True),
-  (1, '07', 'Legal interno', True);
+  (1, '07', 'Legal interno', True),
+  (1, '08','Responsabilidad Social',true);
 
 /*jpaginas */
 INSERT INTO public.jpaginas (codigopagina,descripcionpagina,status) VALUES
@@ -162,8 +163,7 @@ INSERT INTO public.jpaginas (codigopagina,descripcionpagina,status) VALUES
      ('history','Admin->History: Acceso al modulo de Historial de Reportes',true);
 
 /*usuarios*/
-INSERT INTO
-  jusuarios (
+INSERT INTO jusuarios (
     username,
     first_name,
     last_name,
@@ -184,15 +184,13 @@ INSERT INTO
     idgenero,
     idrol,
     idtipoidentificacion
-  )
-VALUES
-  (
-    'Carlos',
+) VALUES (
+    'Jakaysa',
     '',
     '',
     '',
     NULL,
-    'jakay@admin.com',
+    'jakaysa@admin.com',
     NULL,
     '',
     'pbkdf2_sha256$720000$LXQHPmsvmI8EB3awC9bAhJ$6DHkSm5L2FLKtPS/fFjQEEkVRXGnxYYjLhlNXMKHrLk=',
@@ -207,7 +205,30 @@ VALUES
     NULL,
     NULL,
     NULL
-  );
+);
+
+INSERT INTO public.jusuarios (username,first_name,last_name,identificacion,ipmodificacion,email,telefono,celular,direccion,"password",is_active,is_staff,is_superuser,date_joined,last_login,ipcreacion,direccionmac,fechamodificacion,idgenero,idrol,idtipoidentificacion) VALUES
+('responsabilidadsocial@pilahuintio.ec','Tamy','Tulcanazo Cabascango','1003397047',NULL,'responsabilidadsocial@pilahuintio.ec','2999040','0963639823','Otavalo','pbkdf2_sha256$720000$i34Tw69SFUGFtMIUlOMyXr$ZFILZsl7G7x6E2ML960uOjlsSds96Sih2DLfQP5lL8g=',true,true,false,'2024-02-29 17:32:27.022795-05','2024-03-21 12:01:50.914971-05','44.199.191.194','02:00:16:ac:42:02','2024-03-21 12:01:50.915299-05',2,1,1);
+
+
+
+
+-- Jroles
+INSERT INTO
+  jroles (
+    nombrerol,
+    descripcionrol,
+    status,
+    iddepartamento
+  )
+VALUES
+  (
+    'Responsable',
+	'',
+	true,
+	9
+    );
+
  -- Jprincipios
 INSERT INTO public.jprincipios(codigoprincipio,descripcionprincipio,status) VALUES
     ('Principio 1','Adhesión libre y voluntaria', true),
@@ -389,7 +410,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  'Promedio de ahorros',
  'División',
  'Promedio',
- ARRAY['Saldo elemento 21', 'Número de socios activos al corte'],
+ ARRAY['Total ahorros (cta. 21)', 'Número de socios activos al corte'],
  ARRAY['dolares', 'socios'],
  ARRAY[]::text[],
  ARRAY[]::text[],
@@ -486,7 +507,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  'Monto promedio de microcrédito',
  'División',
  'Promedio',
- ARRAY['Saldo cuenta 1404+1412+1420+1428+ 1436+1444+1452+1460+ 1468', 'Número de socios que mantienen créditos vigentes del segmento microcrédito al corte'],
+ ARRAY['Monto total otorgado de microcrédito (cta. 1404+1412+1420+1428+ 1436+1444+1452+1460+1468)', 'Número de socios que mantienen créditos vigentes del segmento microcrédito al corte'],
  ARRAY['dolares', 'socios'],
  ARRAY[]::text[],
  ARRAY[]::text[],
@@ -971,7 +992,7 @@ INSERT INTO public.jindicadores(codigoindicador,descripcionindicador,operacion, 
  ('P512', 'Porcentajes de personas empleados y socios capacitados en temas sobre código de ética, principios y valores, misión y visión de la entidad dirigidos a funcionarios, socios y órganos de control de la entidad', 'División', 'Porcentaje',
  ARRAY['Número de socios, representantes y empleados capacitados en el año', 'Número de socios, representantes y empleados al corte'],
  ARRAY['personas', 'personas'],
- ARRAY['Número de socios, representantes y empleados no capacitados en el año','Porcentajes de socios, representantes y empleados no capacitados sobre principios y valores'],
+ ARRAY['Número de socios, representantes y empleados no capacitados en el año','Porcentajes de personas empleados y socios no capacitados en temas sobre código de ética, principios y valores, misión y visión de la entidad dirigidos a funcionarios, socios y órganos de control de la entidad'],
  ARRAY['personas', 'porcentaje'],
  true, 45),
 

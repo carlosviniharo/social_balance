@@ -1,13 +1,32 @@
-# Wait for the Database to be ready
-while ! nc -z db 5432; do
-    sleep 1
-done
+#!/bin/bash
 
-# Initialize Django
-python manage.py makemigrations
-python manage.py migrate
-python manage.py collectstatic --noinput
+# Function to wait for PostgreSQL to be ready
+wait_for_postgresql() {
+    while ! nc -z db 5432; do
+        echo "Waiting for PostgreSQL to be ready..."
+        sleep 2
+    done
+}
+
+# Function to initialize Django.
+# Function to initialize Django.
+initialize_django() {
+    python manage.py makemigrations
+    python manage.py migrate
+    python manage.py collectstatic --noinput
+}
+
+# Wait for the Database to be ready.
+#wait_for_postgresql
+
+# Initialize Django.
+initialize_django
+
+# Permissions for temp files in the docker
+chmod 703 /var/www/html
 
 # Start Django
-#apache2ctl -D FOREGROUND
-python manage.py runserver 0.0.0.0:8000
+## Uncomment the appropriate line based on your preference.
+apache2ctl -D FOREGROUND
+# OR
+#python manage.py runserver 0.0.0.0:8001.
