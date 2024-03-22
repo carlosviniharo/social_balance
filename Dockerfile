@@ -49,10 +49,10 @@ WORKDIR /var/www/html
 # Copy your project files
 COPY social_balance  .
 
-## Copy Apache configuration
-#COPY site-config.conf /etc/apache2/sites-available/000-default.conf
+# Copy Apache configuration
+COPY site-config.conf /etc/apache2/sites-available/000-default.conf
 
-# Expose ports and start Apache
-EXPOSE 8000
-#EXPOSE 80 3500
-#CMD ["apache2ctl", "-D", "FOREGROUND"]
+## Expose ports and start Apache
+#EXPOSE 8000
+EXPOSE 80 3500
+CMD ["apache2ctl", "-D", "FOREGROUND"]
