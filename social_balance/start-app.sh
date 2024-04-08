@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Function to wait for PostgreSQL to be ready
+# Function to wait for PostgreSQL to be ready.
 wait_for_postgresql() {
     while ! nc -z db 5432; do
         echo "Waiting for PostgreSQL to be ready..."
@@ -8,7 +8,6 @@ wait_for_postgresql() {
     done
 }
 
-# Function to initialize Django.
 # Function to initialize Django.
 initialize_django() {
     python manage.py makemigrations

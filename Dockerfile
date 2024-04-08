@@ -46,6 +46,8 @@ COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 # Set the working directory
 WORKDIR /var/www/html
+
+RUN chmod 700 /var/www/html
 # Copy your project files
 COPY social_balance  .
 
@@ -54,5 +56,5 @@ COPY site-config.conf /etc/apache2/sites-available/000-default.conf
 
 ## Expose ports and start Apache
 #EXPOSE 8000
-EXPOSE 80 3500
+EXPOSE 80
 CMD ["apache2ctl", "-D", "FOREGROUND"]
