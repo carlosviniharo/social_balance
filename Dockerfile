@@ -53,6 +53,6 @@ COPY social_balance  .
 COPY site-config.conf /etc/apache2/sites-available/000-default.conf
 
 ## Expose ports and start Apache
-EXPOSE 8000
-#EXPOSE 80 3500
-#CMD ["apache2ctl", "-D", "FOREGROUND"]
+#EXPOSE 8000
+EXPOSE 80 3500
+CMD ["apache2ctl", "-D", "FOREGROUND"]
